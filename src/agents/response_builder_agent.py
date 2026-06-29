@@ -1,9 +1,14 @@
 import json
-import logging
 
 from langchain_core.messages import HumanMessage
 from src.prompts.response_builder import system_prompt
 from json_repair import repair_json
+
+from src.utils.logger import get_logger, TimedBlock
+
+log = get_logger(__name__)
+
+
 class ResponseBuilderAgent:
 
     def __init__(self, llm):
@@ -13,38 +18,19 @@ class ResponseBuilderAgent:
     # EXTRACT TEXT FROM LLM RESPONSE
     # =====================================================
 
-    def _extract_text(self, content):
-
-        # ---------------------------------------------
-        # normal string response
-        # ---------------------------------------------
-
+    def _extract_text(self, content) -> str:
         if isinstance(content, str):
             return content
 
-        # ---------------------------------------------
-        # Gemini/OpenAI structured block response
-        # ---------------------------------------------
-
         if isinstance(content, list):
-
             parts = []
-
             for item in content:
-
                 if isinstance(item, dict):
-
                     if item.get("type") == "text":
                         parts.append(item.get("text", ""))
-
                 elif isinstance(item, str):
                     parts.append(item)
-
             return "\n".join(parts)
-
-        # ---------------------------------------------
-        # fallback
-        # ---------------------------------------------
 
         return str(content)
 
@@ -52,16 +38,10 @@ class ResponseBuilderAgent:
     # BUILD RESPONSE
     # =====================================================
 
-    def build(
-        self,
-        query: str,
-        agent_response_text: str,
-    ):
-
-        # -------------------------------------------------
-        # PROMPT
-        # -------------------------------------------------
-
+    def build(self, query: str, agent_response_text: str):
+        log.info("response_builder.build.start",
+                 query_len=len(query),
+                 agent_response_len=len(agent_response_text))
 
         input_prompt = f"""
             USER QUERY:
@@ -70,36 +50,15 @@ class ResponseBuilderAgent:
             AGENT RESPONSE:
             {agent_response_text}
         """
-
         prompt = system_prompt + "\n" + input_prompt
-        # -------------------------------------------------
-        # LLM CALL
-        # -------------------------------------------------
 
-        response = self.llm.invoke([
-            HumanMessage(content=prompt)
-        ])
+        # ── LLM call ─────────────────────────────────────────
+        with TimedBlock(log, "response_builder.llm_invoke"):
+            response = self.llm.invoke([HumanMessage(content=prompt)])
 
-        # -------------------------------------------------
-        # RAW OUTPUT
-        # -------------------------------------------------
+        log.debug("response_builder.raw_output", content=str(response.content)[:300])
 
-        logging.info(
-            f"[RESPONSE BUILDER RAW OUTPUT]\n{response.content}"
-        )
-
-        # -------------------------------------------------
-        # EXTRACT TEXT
-        # -------------------------------------------------
-
-        raw_text = self._extract_text(
-            response.content
-        )
-
-        # -------------------------------------------------
-        # CLEAN
-        # -------------------------------------------------
-
+        raw_text = self._extract_text(response.content)
         raw_text = (
             raw_text
             .replace("```json", "")
@@ -107,59 +66,32 @@ class ResponseBuilderAgent:
             .strip()
         )
 
-        # -------------------------------------------------
-        # PARSE JSON
-        # -------------------------------------------------
-
+        # ── Parse JSON ────────────────────────────────────────
         try:
-
             parsed = json.loads(repair_json(raw_text))
-
-            # -----------------------------------------
-            # validate cards
-            # -----------------------------------------
-
             cards = parsed.get("cards", [])
 
-            validated_cards = []
-
-            for c in cards:
-
-                validated_cards.append({
-                    "title": str(
-                        c.get("title", "Response")
-                    ),
-
-                    "content": str(
-                        c.get("content", "")
-                    ),
-
-                    "type": str(
-                        c.get("type", "info")
-                    ),
-
+            validated_cards = [
+                {
+                    "title": str(c.get("title", "Response")),
+                    "content": str(c.get("content", "")),
+                    "type": str(c.get("type", "info")),
                     "url": c.get("url"),
-                })
+                }
+                for c in cards
+            ]
 
-            return {
-                "cards": validated_cards
-            }
+            log.info("response_builder.build.done", card_count=len(validated_cards))
+            return {"cards": validated_cards}
 
         except Exception:
-
-            logging.exception(
-                "[RESPONSE BUILDER] Failed parsing JSON"
-            )
-
-            # fallback safe card
-
+            log.exception("response_builder.json_parse_failed",
+                          raw_preview=raw_text[:200])
             return {
-                "cards": [
-                    {
-                        "title": "Assistant Response",
-                        "content": raw_text,
-                        "type": "info",
-                        "url": None,
-                    }
-                ]
-            }
+                "cards": [{
+                    "title": "Assistant Response",
+                    "content": raw_text,
+                    "type": "info",
+                    "url": None,
+                }]
+            }

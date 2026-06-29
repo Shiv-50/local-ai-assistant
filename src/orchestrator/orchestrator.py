@@ -1,6 +1,10 @@
-import logging
 import asyncio
-from langchain_core.messages import HumanMessage
+
+from src.utils.logger import get_logger, TimedBlock
+from src.utils.timeout import TIMEOUTS, async_with_timeout
+
+log = get_logger(__name__)
+
 
 class SimpleRouterOrchestrator:
     """
@@ -9,55 +13,100 @@ class SimpleRouterOrchestrator:
     and invokes them using LangGraph's native tool-calling loop.
     """
 
+    # Keywords that force the browser agent.
+    # IMPROVEMENT: replace with an LLM-based intent classifier so novel
+    # phrasings ("visit the page", "check that site") are also caught.
+    BROWSER_KEYWORDS = [
+        "website", "browser", "url", "http", "www",
+        "open page", "navigate", "login", "github.com",
+    ]
+
     def __init__(self, general_agent, browser_agent):
         self.general_agent = general_agent
         self.browser_agent = browser_agent
 
-    def invoke(self, state: dict):
-        query = state.get("user_goal", "")
-        history = state.get("conversation_history", [])
-        
-        logging.info(f"[ROUTER] User Query: {query}")
-        
-        # Simple keyword based routing
-        browser_keywords = ["website", "browser", "url", "http", "www", "open page", "navigate", "login", "github.com"]
-        
-        is_browser = any(kw in query.lower() for kw in browser_keywords)
-        
-        agent = self.browser_agent if is_browser else self.general_agent
+    # ─────────────────────────────────────────────────────────
+    # ROUTING
+    # ─────────────────────────────────────────────────────────
+
+    def _select_agent(self, query: str):
+        is_browser = any(kw in query.lower() for kw in self.BROWSER_KEYWORDS)
         agent_type = "BROWSER" if is_browser else "GENERAL"
-        
-        logging.info(f"[ROUTER] Selected Agent: {agent_type}")
-        
-        # Construct message list for LangGraph ReAct agent
+        agent = self.browser_agent if is_browser else self.general_agent
+        log.info("router.selected", agent_type=agent_type, query_snippet=query[:80])
+        return agent, agent_type
+
+    # ─────────────────────────────────────────────────────────
+    # HISTORY BUILDER
+    # ─────────────────────────────────────────────────────────
+
+    @staticmethod
+    def _build_messages(history: list, query: str) -> list:
         messages = []
         for msg in history:
             role = msg.get("role", "user")
             content = msg.get("content", "")
-            if role == "user":
-                messages.append(("human", content))
-            else:
-                messages.append(("ai", content))
-                
-        # Ensure the last message is a HumanMessage
+            messages.append(("human" if role == "user" else "ai", content))
+
+        # Ensure the tail is a human turn
         if not messages or messages[-1][0] != "human":
             messages.append(("human", query))
-            
+
+        return messages
+
+    # ─────────────────────────────────────────────────────────
+    # INVOKE  (sync entry point called from the UI thread)
+    # ─────────────────────────────────────────────────────────
+
+    def invoke(self, state: dict) -> dict:
+        query   = state.get("user_goal", "")
+        history = state.get("conversation_history", [])
+
+        log.info("orchestrator.invoke.start", query_len=len(query))
+
+        agent, agent_type = self._select_agent(query)
+        messages = self._build_messages(history, query)
+
         try:
-            # Invoke the ReAct agent asynchronously to support async MCP tools
-            result_state = asyncio.run(agent.ainvoke({"messages": messages}))
-            
-            # The last message is the agent's final text output
+            with TimedBlock(log, "agent.ainvoke", agent_type=agent_type):
+                result_state = asyncio.run(
+                    self._invoke_with_timeout(agent, messages, agent_type)
+                )
+
             final_message = result_state["messages"][-1].content
-            
-            logging.info(f"[ROUTER] Agent finished with final message length: {len(final_message)}")
-            
+            log.info("orchestrator.invoke.done",
+                     agent_type=agent_type,
+                     response_len=len(final_message))
+
+            return {"response": final_message}
+
+        except asyncio.TimeoutError:
+            # Already logged inside async_with_timeout
             return {
-                "response": final_message
+                "response": (
+                    f"The {agent_type.lower()} agent timed out after "
+                    f"{TIMEOUTS.MCP_TOOL}s. Please try again."
+                )
             }
-            
-        except Exception as e:
-            logging.exception("[ROUTER] Agent execution failed")
+
+        except Exception:
+            log.exception("orchestrator.invoke.error", agent_type=agent_type)
             return {
-                "response": f"System encountered an error during execution: {str(e)}"
-            }
+                "response": "System encountered an error during execution. "
+                            "Check assistant.log for details."
+            }
+
+    # ─────────────────────────────────────────────────────────
+    # ASYNC HELPER
+    # ─────────────────────────────────────────────────────────
+
+    async def _invoke_with_timeout(self, agent, messages: list, agent_type: str):
+        timeout = (
+            TIMEOUTS.MCP_TOOL if agent_type == "BROWSER"
+            else TIMEOUTS.LLM_INFERENCE
+        )
+        return await async_with_timeout(
+            agent.ainvoke({"messages": messages}),
+            timeout=timeout,
+            operation=f"{agent_type}_agent.ainvoke",
+        )

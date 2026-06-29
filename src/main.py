@@ -1,6 +1,5 @@
 import sys
 import json
-import logging
 import threading
 
 from PyQt6.QtWidgets import QApplication
@@ -17,13 +16,13 @@ from src.llm.llm_manager import llm_manager
 import asyncio
 from src.core.mcp_manager import mcp_manager
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)s | %(message)s"
-)
-logging.getLogger("httpx").setLevel(logging.WARNING)
-logging.getLogger("httpcore").setLevel(logging.WARNING)
-logging.getLogger("urllib3").setLevel(logging.WARNING)
+# ── logging must be set up before any other import logs ──────────────────────
+from src.utils.logger import setup_logging, get_logger
+
+setup_logging(level="INFO", log_file="assistant.log")
+log = get_logger(__name__)
+
+from src.utils.timeout import TIMEOUTS, run_with_timeout
 
 
 # =========================================================
@@ -31,6 +30,7 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 # =========================================================
 
 def build_models():
+    log.info("build_models.start")
     # Only preload the main model we need
     llm_manager.preload_router("qwen2.5:7b")
 
@@ -39,16 +39,20 @@ def build_models():
             model_name="qwen2.5:7b",
             temperature=0.2,
             num_predict=1024,
+            # NOTE: timeout is applied per-call inside llm_manager; see TIMEOUTS.LLM_INFERENCE
         ),
         "response_builder": llm_manager.get_model(
             model_family="google",
             model_name="gemini-3.1-flash-lite",
             temperature=0.2,
             num_predict=2048,
+            timeout=TIMEOUTS.REMOTE_LLM,
         ),
     }
 
+    log.info("build_models.done", models=list(models.keys()))
     return models
+
 
 # =========================================================
 # BUILD SYSTEM
@@ -60,12 +64,12 @@ def build_system():
     # ---------------------------------
     # REACT AGENTS
     # ---------------------------------
-    
+
     general_agent = create_general_agent(
         llm=models["agent"],
         system_prompt=general_prompt
     )
-    
+
     browser_tools = mcp_manager.tools if mcp_manager.tools else []
     browser_agent = create_browser_agent(
         llm=models["agent"],
@@ -76,7 +80,7 @@ def build_system():
     # ---------------------------------
     # ORCHESTRATOR & RESPONSE BUILDER
     # ---------------------------------
-    
+
     orchestrator = SimpleRouterOrchestrator(
         general_agent=general_agent,
         browser_agent=browser_agent
@@ -86,6 +90,7 @@ def build_system():
         llm=models["response_builder"]
     )
 
+    log.info("build_system.done")
     return orchestrator, response_builder
 
 
@@ -110,10 +115,11 @@ class AppController:
     # MAIN USER QUERY HANDLER
     # =====================================================
 
-    def handle_user_input(self, text):
+    def handle_user_input(self, text: str):
         def run():
+            log.info("user_input.received", text_len=len(text))
+
             try:
-                logging.info(f"USER: {text}")
                 self.overlay.update_state("thinking")
 
                 self.conversation_history.append({
@@ -126,15 +132,50 @@ class AppController:
                     "conversation_history": list(self.conversation_history),
                 }
 
-                # Invoke Router -> ReAct Agent
-                result = self.orchestrator.invoke(state)
-                agent_response_text = result.get("response", "")
+                # ── Orchestrator call with hard timeout ──────────────
+                try:
+                    result = run_with_timeout(
+                        self.orchestrator.invoke,
+                        state,
+                        timeout=TIMEOUTS.ORCHESTRATOR,
+                        operation="orchestrator.invoke",
+                    )
+                except TimeoutError as te:
+                    log.error("orchestrator.timeout", timeout_s=TIMEOUTS.ORCHESTRATOR)
+                    self.overlay.update_state("error")
+                    self.overlay.populate_cards_external([{
+                        "title": "Timeout",
+                        "content": (
+                            f"The request took too long to complete "
+                            f"(>{TIMEOUTS.ORCHESTRATOR}s). "
+                            "Try a simpler query or check if Ollama is running."
+                        ),
+                        "type": "error",
+                    }])
+                    return
 
-                # Build UI Cards
-                final_response = self.response_builder.build(
-                    query=text,
-                    agent_response_text=agent_response_text
-                )
+                agent_response_text = result.get("response", "")
+                log.info("orchestrator.response", response_len=len(agent_response_text))
+
+                # ── Response builder call with hard timeout ──────────
+                try:
+                    final_response = run_with_timeout(
+                        self.response_builder.build,
+                        text,
+                        agent_response_text,
+                        timeout=TIMEOUTS.REMOTE_LLM,
+                        operation="response_builder.build",
+                    )
+                except TimeoutError:
+                    log.warning("response_builder.timeout – falling back to plain card")
+                    final_response = {
+                        "cards": [{
+                            "title": "Assistant",
+                            "content": agent_response_text,
+                            "type": "info",
+                            "url": None,
+                        }]
+                    }
 
                 cards = self._to_cards(final_response)
 
@@ -146,22 +187,24 @@ class AppController:
                     "content": assistant_text,
                 })
 
+                # Keep history bounded
                 if len(self.conversation_history) > 20:
                     self.conversation_history = self.conversation_history[-20:]
 
                 self.overlay.populate_cards_external(cards)
                 self.overlay.update_state("ready")
+                log.info("user_input.handled", cards=len(cards))
 
-            except Exception as e:
-                logging.exception(e)
+            except Exception:
+                log.exception("user_input.unhandled_error")
                 self.overlay.update_state("error")
                 self.overlay.populate_cards_external([{
                     "title": "System Error",
-                    "content": str(e),
+                    "content": "An unexpected error occurred. Check assistant.log for details.",
                     "type": "error",
                 }])
 
-        threading.Thread(target=run, daemon=True).start()
+        threading.Thread(target=run, daemon=True, name="handle_user_input").start()
 
     # =====================================================
     # BACKEND → UI CARD FORMAT
@@ -183,22 +226,23 @@ class AppController:
         return [{"title": "Result", "content": str(result), "type": "info"}]
 
     def cancel(self):
-        logging.info("Cancel requested")
+        log.info("cancel.requested")
         self.overlay.update_state("ready")
 
     def shutdown(self):
-        logging.info("Shutting down...")
+        log.info("shutdown.start")
         self.running = False
         try:
             mcp_manager.shutdown()
         except Exception:
-            logging.exception("MCP shutdown failed")
+            log.exception("mcp.shutdown_failed")
 
         llm_manager.unload_all()
         self.overlay.close()
         app = QApplication.instance()
         if app:
             app.quit()
+        log.info("shutdown.complete")
 
 
 # =========================================================
@@ -206,6 +250,7 @@ class AppController:
 # =========================================================
 
 def main():
+    log.info("app.starting")
     mcp_manager.start_loop()
     mcp_manager.run_async(mcp_manager.initialize())
 
@@ -219,6 +264,7 @@ def main():
     )
 
     overlay.show()
+    log.info("app.ready")
     sys.exit(app.exec())
 
 
