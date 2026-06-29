@@ -8,37 +8,90 @@ Usage:
 """
 
 import logging
+import logging.handlers
 import time
 import json
 import sys
-from pathlib import Path
+
 
 # ─────────────────────────────────────────────
 # JSON formatter  (machine-readable log lines)
 # ─────────────────────────────────────────────
 
 class JsonFormatter(logging.Formatter):
-    """Emit one JSON object per log line for easy parsing / shipping."""
+    """Emit one JSON object per log line."""
+
+    _SKIP = frozenset({
+        "msg", "args", "levelname", "levelno", "pathname", "filename",
+        "module", "exc_info", "exc_text", "stack_info", "lineno",
+        "funcName", "created", "msecs", "relativeCreated", "thread",
+        "threadName", "processName", "process", "name", "message",
+        "taskName",
+    })
 
     def format(self, record: logging.LogRecord) -> str:
         payload = {
-            "ts": self.formatTime(record, datefmt="%Y-%m-%dT%H:%M:%S"),
-            "level": record.levelname,
+            "ts":     self.formatTime(record, datefmt="%Y-%m-%dT%H:%M:%S"),
+            "level":  record.levelname,
             "logger": record.name,
-            "msg": record.getMessage(),
+            "msg":    record.getMessage(),
         }
         if record.exc_info:
             payload["exc"] = self.formatException(record.exc_info)
-        # Any extra kwargs passed to log.info(..., key=val) land in record.__dict__
         for k, v in record.__dict__.items():
-            if k not in {
-                "msg", "args", "levelname", "levelno", "pathname", "filename",
-                "module", "exc_info", "exc_text", "stack_info", "lineno",
-                "funcName", "created", "msecs", "relativeCreated", "thread",
-                "threadName", "processName", "process", "name", "message",
-            }:
+            if k not in self._SKIP:
                 payload[k] = v
         return json.dumps(payload, default=str)
+
+
+# ─────────────────────────────────────────────
+# KwargsLogger — wraps a Logger so callers can
+# pass arbitrary keyword args without boilerplate
+# ─────────────────────────────────────────────
+
+class KwargsLogger:
+    """Thin wrapper that folds **kwargs into extra={} automatically.
+
+    Usage:
+        log = get_logger(__name__)
+        log.info("done", elapsed_ms=42, model="qwen")
+    """
+
+    def __init__(self, logger: logging.Logger):
+        self._logger = logger
+
+    def _log(self, level: int, msg: str, *args, **kwargs):
+        exc_info  = kwargs.pop("exc_info", False)
+        stack_info= kwargs.pop("stack_info", False)
+        extra     = kwargs.pop("extra", {})
+        extra.update(kwargs)          # remaining kwargs become log fields
+        self._logger.log(
+            level, msg, *args,
+            exc_info=exc_info,
+            stack_info=stack_info,
+            extra=extra,
+            stacklevel=2,
+        )
+
+    def debug(self, msg, *args, **kwargs):
+        self._log(logging.DEBUG, msg, *args, **kwargs)
+
+    def info(self, msg, *args, **kwargs):
+        self._log(logging.INFO, msg, *args, **kwargs)
+
+    def warning(self, msg, *args, **kwargs):
+        self._log(logging.WARNING, msg, *args, **kwargs)
+
+    def error(self, msg, *args, **kwargs):
+        self._log(logging.ERROR, msg, *args, **kwargs)
+
+    def exception(self, msg, *args, **kwargs):
+        kwargs.setdefault("exc_info", True)
+        self._log(logging.ERROR, msg, *args, **kwargs)
+
+    # pass-through for anything else (handlers, level checks, …)
+    def __getattr__(self, name):
+        return getattr(self._logger, name)
 
 
 # ─────────────────────────────────────────────
@@ -54,9 +107,9 @@ class TimedBlock:
             result = llm.invoke(messages)
     """
 
-    def __init__(self, logger: logging.Logger, operation: str, **extra):
-        self._log = logger
-        self._op = operation
+    def __init__(self, logger: KwargsLogger, operation: str, **extra):
+        self._log   = logger
+        self._op    = operation
         self._extra = extra
         self._start: float = 0.0
 
@@ -89,9 +142,9 @@ class TimedBlock:
 # Factory
 # ─────────────────────────────────────────────
 
-def get_logger(name: str) -> logging.Logger:
-    """Return a child logger under the 'assistant' hierarchy."""
-    return logging.getLogger(f"assistant.{name}")
+def get_logger(name: str) -> KwargsLogger:
+    """Return a KwargsLogger child under the 'assistant' hierarchy."""
+    return KwargsLogger(logging.getLogger(f"assistant.{name}"))
 
 
 # ─────────────────────────────────────────────
@@ -103,13 +156,7 @@ def setup_logging(
     log_file: str = "assistant.log",
     json_console: bool = False,
 ) -> None:
-    """Configure root + assistant loggers.
-
-    Args:
-        level:        Root log level string, e.g. "DEBUG" or "INFO".
-        log_file:     Path for the rotating file handler.
-        json_console: If True the console also emits JSON; handy for Docker.
-    """
+    """Configure root + assistant loggers."""
     numeric_level = getattr(logging, level.upper(), logging.INFO)
 
     # ── console handler ──────────────────────────────────────
@@ -119,24 +166,25 @@ def setup_logging(
         console.setFormatter(JsonFormatter())
     else:
         console.setFormatter(
-            logging.Formatter("%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
-                              datefmt="%H:%M:%S")
+            logging.Formatter(
+                "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
+                datefmt="%H:%M:%S",
+            )
         )
 
     # ── rotating file handler (JSON, always) ─────────────────
-    from logging.handlers import RotatingFileHandler
-    file_handler = RotatingFileHandler(
+    file_handler = logging.handlers.RotatingFileHandler(
         log_file,
-        maxBytes=5 * 1024 * 1024,   # 5 MB per file
+        maxBytes=5 * 1024 * 1024,
         backupCount=3,
         encoding="utf-8",
     )
-    file_handler.setLevel(logging.DEBUG)   # capture everything in the file
+    file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(JsonFormatter())
 
     # ── root logger ───────────────────────────────────────────
     root = logging.getLogger()
-    root.setLevel(logging.DEBUG)           # handlers filter independently
+    root.setLevel(logging.DEBUG)
     root.handlers.clear()
     root.addHandler(console)
     root.addHandler(file_handler)
@@ -146,7 +194,5 @@ def setup_logging(
         logging.getLogger(noisy).setLevel(logging.WARNING)
 
     logging.getLogger("assistant").info(
-        "Logging initialised",
-        log_file=log_file,
-        level=level,
+        f"Logging initialised | level={level} | log_file={log_file}"
     )

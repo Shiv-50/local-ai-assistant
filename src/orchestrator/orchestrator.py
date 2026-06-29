@@ -1,21 +1,19 @@
 import asyncio
 
 from src.utils.logger import get_logger, TimedBlock
-from src.utils.timeout import TIMEOUTS, async_with_timeout
+from src.utils.timeout import TIMEOUTS
+from src.core.mcp_manager import mcp_manager
 
 log = get_logger(__name__)
 
 
 class SimpleRouterOrchestrator:
     """
-    Replaces the complex AgentGraphBuilder.
-    A simple router that selects between general desktop and browser ReAct agents,
-    and invokes them using LangGraph's native tool-calling loop.
+    Routes queries to the correct ReAct agent and invokes it on the
+    shared persistent event loop (mcp_manager.loop) so that httpx /
+    anyio async resources are never closed from the wrong loop.
     """
 
-    # Keywords that force the browser agent.
-    # IMPROVEMENT: replace with an LLM-based intent classifier so novel
-    # phrasings ("visit the page", "check that site") are also caught.
     BROWSER_KEYWORDS = [
         "website", "browser", "url", "http", "www",
         "open page", "navigate", "login", "github.com",
@@ -48,14 +46,13 @@ class SimpleRouterOrchestrator:
             content = msg.get("content", "")
             messages.append(("human" if role == "user" else "ai", content))
 
-        # Ensure the tail is a human turn
         if not messages or messages[-1][0] != "human":
             messages.append(("human", query))
 
         return messages
 
     # ─────────────────────────────────────────────────────────
-    # INVOKE  (sync entry point called from the UI thread)
+    # INVOKE  (called from a plain background thread in main.py)
     # ─────────────────────────────────────────────────────────
 
     def invoke(self, state: dict) -> dict:
@@ -67,11 +64,22 @@ class SimpleRouterOrchestrator:
         agent, agent_type = self._select_agent(query)
         messages = self._build_messages(history, query)
 
+        timeout = (
+            TIMEOUTS.MCP_TOOL      if agent_type == "BROWSER"
+            else TIMEOUTS.LLM_INFERENCE
+        )
+
         try:
             with TimedBlock(log, "agent.ainvoke", agent_type=agent_type):
-                result_state = asyncio.run(
-                    self._invoke_with_timeout(agent, messages, agent_type)
+                # ── KEY FIX ──────────────────────────────────────────
+                # Submit to the already-running loop instead of asyncio.run().
+                # This keeps httpx/anyio connections on a single live loop,
+                # preventing "Event loop is closed" on cleanup.
+                future = asyncio.run_coroutine_threadsafe(
+                    agent.ainvoke({"messages": messages}),
+                    mcp_manager.loop,
                 )
+                result_state = future.result(timeout=timeout)
 
             final_message = result_state["messages"][-1].content
             log.info("orchestrator.invoke.done",
@@ -80,33 +88,18 @@ class SimpleRouterOrchestrator:
 
             return {"response": final_message}
 
-        except asyncio.TimeoutError:
-            # Already logged inside async_with_timeout
+        except TimeoutError:
+            log.error("orchestrator.agent_timeout",
+                      agent_type=agent_type, timeout_s=timeout)
             return {
                 "response": (
-                    f"The {agent_type.lower()} agent timed out after "
-                    f"{TIMEOUTS.MCP_TOOL}s. Please try again."
+                    f"The {agent_type.lower()} agent timed out after {timeout}s. "
+                    "Please try again."
                 )
             }
 
         except Exception:
             log.exception("orchestrator.invoke.error", agent_type=agent_type)
             return {
-                "response": "System encountered an error during execution. "
-                            "Check assistant.log for details."
+                "response": "An error occurred. Check assistant.log for details."
             }
-
-    # ─────────────────────────────────────────────────────────
-    # ASYNC HELPER
-    # ─────────────────────────────────────────────────────────
-
-    async def _invoke_with_timeout(self, agent, messages: list, agent_type: str):
-        timeout = (
-            TIMEOUTS.MCP_TOOL if agent_type == "BROWSER"
-            else TIMEOUTS.LLM_INFERENCE
-        )
-        return await async_with_timeout(
-            agent.ainvoke({"messages": messages}),
-            timeout=timeout,
-            operation=f"{agent_type}_agent.ainvoke",
-        )
