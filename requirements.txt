@@ -1,0 +1,13 @@
+PyQt6
+pynput
+keyboard
+mss
+SpeechRecognition
+pyaudio
+pyautogui
+google-generativeai
+requests
+pytesseract
+Pillow
+python-dotenv
+playwright
