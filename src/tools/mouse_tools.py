@@ -10,7 +10,11 @@ from langchain.tools import tool
 # CLICK
 # =========================================================
 
-@tool(description="Click the mouse at screen coordinates")
+@tool(description=(
+    "Click the mouse at verified screen coordinates. Use only after "
+    "analyze_screen_with_vision, get_active_window, or another tool has "
+    "confirmed the target coordinates. Prefer keyboard navigation first."
+))
 def mouse_click(
     x: int,
     y: int,

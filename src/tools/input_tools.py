@@ -2,6 +2,7 @@ import pyautogui
 import keyboard as kb
 import pyperclip
 import logging
+import time
 
 from src.tools.base import safe_tool
 
@@ -20,11 +21,10 @@ def type_text(
 
     if window_title:
         try:
-            import pygetwindow as gw
-            windows = gw.getWindowsWithTitle(window_title)
-            if windows:
-                windows[0].activate()
-                logging.info(f"[TYPE TEXT] Activated window: {window_title}")
+            from src.tools.system_tools import focus_window
+            focus_result = focus_window.func(window_title)
+            logging.info(f"[TYPE TEXT] Focus result: {focus_result}")
+            time.sleep(0.2)
         except Exception as e:
             logging.warning(f"[TYPE TEXT] Failed to focus window '{window_title}': {e}")
 
@@ -49,6 +49,7 @@ def type_text(
 
 @safe_tool("Press Hotkey")
 def press_hotkey(
+    keys: str,
 ):
 
     logging.info(
@@ -66,6 +67,7 @@ def press_hotkey(
 
 @safe_tool("Press Key")
 def press_key(
+    key: str,
 ):
 
     logging.info(
@@ -102,6 +104,7 @@ def get_clipboard():
 
 @safe_tool("Set Clipboard")
 def set_clipboard(
+    text: str,
 ):
 
     logging.info(

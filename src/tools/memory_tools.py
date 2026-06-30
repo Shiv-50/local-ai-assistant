@@ -11,6 +11,7 @@ from src.tools.base import safe_tool
 @safe_tool("Retrieve Memory")
 def retrieve_memory(
     query: str,
+    top_k: int = 5,
 ):
     """
     Semantic memory retrieval using FAISS/vector search.

@@ -1,4 +1,7 @@
 import asyncio
+import concurrent.futures
+
+from langgraph.errors import GraphRecursionError
 
 from src.utils.logger import get_logger, TimedBlock
 from src.utils.timeout import TIMEOUTS
@@ -76,7 +79,10 @@ class SimpleRouterOrchestrator:
                 # This keeps httpx/anyio connections on a single live loop,
                 # preventing "Event loop is closed" on cleanup.
                 future = asyncio.run_coroutine_threadsafe(
-                    agent.ainvoke({"messages": messages}),
+                    agent.ainvoke(
+                        {"messages": messages},
+                        config={"recursion_limit": 10},
+                    ),
                     mcp_manager.loop,
                 )
                 result_state = future.result(timeout=timeout)
@@ -88,7 +94,17 @@ class SimpleRouterOrchestrator:
 
             return {"response": final_message}
 
-        except TimeoutError:
+        except GraphRecursionError:
+            log.warning("orchestrator.recursion_limit", agent_type=agent_type)
+            return {
+                "response": (
+                    "I stopped because the desktop agent repeated too many "
+                    "steps. Please try again with a more specific target."
+                )
+            }
+
+        except concurrent.futures.TimeoutError:
+            future.cancel()
             log.error("orchestrator.agent_timeout",
                       agent_type=agent_type, timeout_s=timeout)
             return {

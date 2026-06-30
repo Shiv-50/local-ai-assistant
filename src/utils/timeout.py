@@ -8,8 +8,9 @@ Provides:
 """
 
 import asyncio
-import concurrent.futures
 import logging
+import queue
+import threading
 from typing import Callable, TypeVar
 
 # Use a plain stdlib logger here to avoid a circular import
@@ -49,14 +50,37 @@ def run_with_timeout(
     operation: str = "operation",
     **kwargs,
 ) -> T:
-    """Run *fn* in a thread pool; raise TimeoutError if it takes too long."""
-    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
-        future = executor.submit(fn, *args, **kwargs)
+    """Run *fn* in a worker thread and return when the deadline is reached.
+
+    Python cannot forcibly stop a running thread. On timeout this abandons the
+    worker and lets the caller recover immediately; the callable itself should
+    still use cooperative timeouts where possible.
+    """
+    result_queue: queue.Queue[tuple[str, object]] = queue.Queue(maxsize=1)
+
+    def worker():
         try:
-            return future.result(timeout=timeout)
-        except concurrent.futures.TimeoutError:
-            _log.error(f"timeout | operation={operation} | timeout_s={timeout}")
-            raise TimeoutError(f"{operation} timed out after {timeout}s") from None
+            result_queue.put(("result", fn(*args, **kwargs)))
+        except BaseException as exc:
+            result_queue.put(("error", exc))
+
+    thread = threading.Thread(
+        target=worker,
+        daemon=True,
+        name=f"timeout-{operation}",
+    )
+    thread.start()
+
+    try:
+        kind, value = result_queue.get(timeout=timeout)
+    except queue.Empty:
+        _log.error(f"timeout | operation={operation} | timeout_s={timeout}")
+        raise TimeoutError(f"{operation} timed out after {timeout}s") from None
+
+    if kind == "error":
+        raise value
+
+    return value
 
 
 # ─────────────────────────────────────────────

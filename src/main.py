@@ -67,7 +67,8 @@ def build_system():
 
     general_agent = create_general_agent(
         llm=models["agent"],
-        system_prompt=general_prompt
+        system_prompt=general_prompt,
+        search_tools=mcp_manager.search_tools,
     )
 
     browser_tools = mcp_manager.tools if mcp_manager.tools else []
