@@ -219,3 +219,7 @@ __marimo__/
 
 .playwright-mcp/
 browser_data/
+
+#image screenshots
+.png
+.jpg
