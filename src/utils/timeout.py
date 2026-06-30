@@ -8,15 +8,16 @@ Provides:
 """
 
 import asyncio
+import concurrent.futures
 import logging
-import queue
-import threading
 from typing import Callable, TypeVar
 
 # Use a plain stdlib logger here to avoid a circular import
-# (logger.py → timeout.py would be fine, but timeout.py → logger.py is not).
+# (logger.py -> timeout.py would be fine, but timeout.py -> logger.py is not).
 # All log calls use plain string formatting so no KwargsLogger is needed.
 _log = logging.getLogger("assistant.timeout")
+
+EXECUTOR = concurrent.futures.ThreadPoolExecutor(max_workers=4)
 
 T = TypeVar("T")
 
@@ -56,31 +57,15 @@ def run_with_timeout(
     worker and lets the caller recover immediately; the callable itself should
     still use cooperative timeouts where possible.
     """
-    result_queue: queue.Queue[tuple[str, object]] = queue.Queue(maxsize=1)
-
-    def worker():
-        try:
-            result_queue.put(("result", fn(*args, **kwargs)))
-        except BaseException as exc:
-            result_queue.put(("error", exc))
-
-    thread = threading.Thread(
-        target=worker,
-        daemon=True,
-        name=f"timeout-{operation}",
-    )
-    thread.start()
+    future = EXECUTOR.submit(fn, *args, **kwargs)
 
     try:
-        kind, value = result_queue.get(timeout=timeout)
-    except queue.Empty:
+        return future.result(timeout=timeout)
+    except concurrent.futures.TimeoutError:
         _log.error(f"timeout | operation={operation} | timeout_s={timeout}")
         raise TimeoutError(f"{operation} timed out after {timeout}s") from None
-
-    if kind == "error":
-        raise value
-
-    return value
+    except BaseException:
+        raise
 
 
 # ─────────────────────────────────────────────

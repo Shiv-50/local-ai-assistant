@@ -6,6 +6,7 @@ from functools import wraps
 import json
 
 from langchain.tools import tool
+from src.utils.completion_evaluator import normalize_tool_result
 
 def safe_tool(name: str):
 
@@ -27,10 +28,12 @@ def safe_tool(name: str):
                     f"[TOOL RESULT TYPE] {type(result)}"
                 )
 
-                # Convert dict/list to json string
-                if isinstance(result, (dict, list)):
-                    return json.dumps(result, indent=2)
-                    
+                if isinstance(result, dict):
+                    return normalize_tool_result(func.__name__, result)
+
+                if isinstance(result, list):
+                    return result
+
                 return str(result)
 
             except Exception as e:

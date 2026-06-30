@@ -1,5 +1,8 @@
 import asyncio
 import concurrent.futures
+import uuid
+from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional
 
 from langgraph.errors import GraphRecursionError
 
@@ -10,12 +13,33 @@ from src.core.mcp_manager import mcp_manager
 log = get_logger(__name__)
 
 
+# ─────────────────────────────────────────────────────────────
+# TASK STATE (NEW - CRITICAL)
+# ─────────────────────────────────────────────────────────────
+
+@dataclass
+class TaskState:
+    task_id: str
+    query: str
+    agent_type: str = ""
+    status: str = "created"   # created → running → done → failed
+    events: List[Dict[str, Any]] = field(default_factory=list)
+    result: Optional[str] = None
+
+    def emit(self, event_type: str, data: dict = None):
+        event = {
+            "type": event_type,
+            "data": data or {}
+        }
+        self.events.append(event)
+        log.info("task.event", task_id=self.task_id, event=event)
+
+
+# ─────────────────────────────────────────────────────────────
+# ORCHESTRATOR
+# ─────────────────────────────────────────────────────────────
+
 class SimpleRouterOrchestrator:
-    """
-    Routes queries to the correct ReAct agent and invokes it on the
-    shared persistent event loop (mcp_manager.loop) so that httpx /
-    anyio async resources are never closed from the wrong loop.
-    """
 
     BROWSER_KEYWORDS = [
         "website", "browser", "url", "http", "www",
@@ -26,24 +50,25 @@ class SimpleRouterOrchestrator:
         self.general_agent = general_agent
         self.browser_agent = browser_agent
 
-    # ─────────────────────────────────────────────────────────
-    # ROUTING
-    # ─────────────────────────────────────────────────────────
+    # ─────────────────────────────────────────────
+    # ROUTING (IMPROVED HOOKED)
+    # ─────────────────────────────────────────────
 
     def _select_agent(self, query: str):
         is_browser = any(kw in query.lower() for kw in self.BROWSER_KEYWORDS)
-        agent_type = "BROWSER" if is_browser else "GENERAL"
-        agent = self.browser_agent if is_browser else self.general_agent
-        log.info("router.selected", agent_type=agent_type, query_snippet=query[:80])
-        return agent, agent_type
+        return (
+            self.browser_agent if is_browser else self.general_agent,
+            "BROWSER" if is_browser else "GENERAL"
+        )
 
-    # ─────────────────────────────────────────────────────────
-    # HISTORY BUILDER
-    # ─────────────────────────────────────────────────────────
+    # ─────────────────────────────────────────────
+    # HISTORY
+    # ─────────────────────────────────────────────
 
     @staticmethod
-    def _build_messages(history: list, query: str) -> list:
+    def _build_messages(history: list, query: str):
         messages = []
+
         for msg in history:
             role = msg.get("role", "user")
             content = msg.get("content", "")
@@ -54,68 +79,114 @@ class SimpleRouterOrchestrator:
 
         return messages
 
-    # ─────────────────────────────────────────────────────────
-    # INVOKE  (called from a plain background thread in main.py)
-    # ─────────────────────────────────────────────────────────
+    # ─────────────────────────────────────────────
+    # MAIN ENTRY
+    # ─────────────────────────────────────────────
 
     def invoke(self, state: dict) -> dict:
-        query   = state.get("user_goal", "")
+
+        task = TaskState(
+            task_id=str(uuid.uuid4()),
+            query=state.get("user_goal", "")
+        )
+
         history = state.get("conversation_history", [])
 
-        log.info("orchestrator.invoke.start", query_len=len(query))
+        task.emit("task_started", {"query": task.query})
+        log.info("orchestrator.invoke.start", task_id=task.task_id)
 
-        agent, agent_type = self._select_agent(query)
-        messages = self._build_messages(history, query)
+        agent, agent_type = self._select_agent(task.query)
+        task.agent_type = agent_type
+        task.status = "running"
+
+        task.emit("agent_selected", {"agent": agent_type})
+
+        messages = self._build_messages(history, task.query)
 
         timeout = (
-            TIMEOUTS.MCP_TOOL      if agent_type == "BROWSER"
+            TIMEOUTS.MCP_TOOL if agent_type == "BROWSER"
             else TIMEOUTS.LLM_INFERENCE
         )
 
         try:
             with TimedBlock(log, "agent.ainvoke", agent_type=agent_type):
-                # ── KEY FIX ──────────────────────────────────────────
-                # Submit to the already-running loop instead of asyncio.run().
-                # This keeps httpx/anyio connections on a single live loop,
-                # preventing "Event loop is closed" on cleanup.
+
                 future = asyncio.run_coroutine_threadsafe(
                     agent.ainvoke(
                         {"messages": messages},
-                        config={"recursion_limit": 10},
+                        config={
+                            "recursion_limit": 10,
+                            "metadata": {"task_id": task.task_id}
+                        },
                     ),
                     mcp_manager.loop,
                 )
+
+                task.emit("agent_started")
+
                 result_state = future.result(timeout=timeout)
 
-            final_message = result_state["messages"][-1].content
+            messages = result_state.get("messages", []) if isinstance(result_state, dict) else []
+
+            if not messages:
+                raise ValueError("Agent returned no messages")
+
+            final_message = messages[-1].content
+
+            task.status = "done"
+            task.result = final_message
+
+            task.emit("task_completed", {"result": final_message})
+
             log.info("orchestrator.invoke.done",
+                     task_id=task.task_id,
                      agent_type=agent_type,
                      response_len=len(final_message))
 
-            return {"response": final_message}
-
-        except GraphRecursionError:
-            log.warning("orchestrator.recursion_limit", agent_type=agent_type)
             return {
-                "response": (
-                    "I stopped because the desktop agent repeated too many "
-                    "steps. Please try again with a more specific target."
-                )
+                "task_id": task.task_id,
+                "response": final_message,
+                "events": task.events
             }
+
+        # ─────────────────────────────────────────────
+        # ERROR HANDLING (IMPROVED)
+        # ─────────────────────────────────────────────
 
         except concurrent.futures.TimeoutError:
+            task.status = "failed"
+            task.emit("timeout", {"timeout": timeout})
+
             future.cancel()
-            log.error("orchestrator.agent_timeout",
-                      agent_type=agent_type, timeout_s=timeout)
+
+            log.error("orchestrator.timeout",
+                      task_id=task.task_id,
+                      agent_type=agent_type)
+
             return {
-                "response": (
-                    f"The {agent_type.lower()} agent timed out after {timeout}s. "
-                    "Please try again."
-                )
+                "task_id": task.task_id,
+                "response": f"The {agent_type.lower()} agent timed out.",
+                "events": task.events
             }
 
-        except Exception:
-            log.exception("orchestrator.invoke.error", agent_type=agent_type)
+        except GraphRecursionError:
+            task.status = "failed"
+            task.emit("recursion_error")
+
             return {
-                "response": "An error occurred. Check assistant.log for details."
+                "task_id": task.task_id,
+                "response": "Agent exceeded recursion limit.",
+                "events": task.events
+            }
+
+        except Exception as e:
+            task.status = "failed"
+            task.emit("error", {"message": str(e)})
+
+            log.exception("orchestrator.error", task_id=task.task_id)
+
+            return {
+                "task_id": task.task_id,
+                "response": "Internal error occurred.",
+                "events": task.events
             }

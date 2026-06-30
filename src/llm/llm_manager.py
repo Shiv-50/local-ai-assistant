@@ -28,13 +28,13 @@ class LLMManager:
     - Prevents VRAM explosion
     """
 
-    OLLAMA_BASE = "http://127.0.0.1:11434"
+    OLLAMA_BASE = os.getenv("OLLAMA_BASE", "http://127.0.0.1:11434")
 
     def __init__(self):
-        self._models: dict = {}
+        self._models: dict[str, object] = {}
         self._active_model: str | None = None
         self._lock = Lock()
-        self._preloaded_models: set = set()
+        self._preloaded_models: set[str] = set()
 
     # =====================================================
     # CREATE MODEL
@@ -156,7 +156,7 @@ class LLMManager:
     # =====================================================
 
     def preload_router(self, model_name: str):
-        if model_name not in self._models:
+        if not any(k.startswith(f"ollama|{model_name}|") for k in self._models):
             log.info("model.preload_router", model_name=model_name)
             self.get_model(
                 model_name=model_name,
@@ -170,7 +170,7 @@ class LLMManager:
 
     def unload_all(self):
         log.info("model.unload_all.start")
-        loaded_models = set(k.split("_")[0] for k in self._models.keys())
+        loaded_models = {k.split("|", 2)[1] for k in self._models.keys() if "|" in k}
         for model_name in loaded_models:
             self._unload(model_name)
         self._models.clear()
