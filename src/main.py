@@ -1,8 +1,11 @@
+import os
 import sys
 import json
 import threading
 from concurrent.futures import Future, ThreadPoolExecutor
 from typing import Optional
+
+os.environ.setdefault("QT_LOGGING_RULES", "qt.qpa.*=false")
 
 from PyQt6.QtWidgets import QApplication
 from src.ui.overlay import create_app
@@ -25,6 +28,7 @@ setup_logging(level="INFO", log_file="assistant.log")
 log = get_logger(__name__)
 
 from src.utils.timeout import TIMEOUTS, run_with_timeout
+from src.memory_store import record_failed_attempt, record_user_preference, record_feedback, search_memory
 
 
 # =========================================================
@@ -123,6 +127,7 @@ class AppController:
         overlay.user_input_signal.connect(self.handle_user_input)
         overlay.cancel_signal.connect(self.cancel)
         overlay.shutdown_signal.connect(self.shutdown)
+        overlay.feedback_signal.connect(self.handle_feedback)
 
     # =====================================================
     # MAIN USER QUERY HANDLER
@@ -145,6 +150,12 @@ class AppController:
     def _process_user_input(self, text: str):
         log.info("user_input.received", text_len=len(text))
 
+        if text.strip().lower().startswith("remember") or "prefer" in text.lower():
+            record_user_preference(
+                content=text,
+                metadata_fields={"source": "conversation"},
+            )
+
         try:
             self.conversation_history.append({
                 "role": "user",
@@ -165,6 +176,14 @@ class AppController:
                 )
             except TimeoutError:
                 log.error("orchestrator.timeout", timeout_s=TIMEOUTS.ORCHESTRATOR)
+                record_failed_attempt(
+                    content="Orchestrator timed out while processing the user query.",
+                    metadata_fields={
+                        "query": text,
+                        "timeout_seconds": TIMEOUTS.ORCHESTRATOR,
+                    },
+                    source="system",
+                )
                 self._display_error(
                     "Timeout",
                     f"The request took too long to complete (>{TIMEOUTS.ORCHESTRATOR}s). Try a simpler query or check if Ollama is running.",
@@ -188,6 +207,15 @@ class AppController:
                 )
             except TimeoutError:
                 log.warning("response_builder.timeout – falling back to plain card")
+                record_failed_attempt(
+                    content="Response builder timed out while formatting the assistant response.",
+                    metadata_fields={
+                        "query": text,
+                        "agent_response_preview": agent_response_text[:300],
+                        "timeout_seconds": TIMEOUTS.REMOTE_LLM,
+                    },
+                    source="system",
+                )
                 final_response = {
                     "cards": [{
                         "title": "Assistant",
@@ -216,6 +244,15 @@ class AppController:
             self.overlay.populate_cards_external(cards)
             self.overlay.update_state("ready")
             log.info("user_input.handled", cards=len(cards))
+
+            record_feedback(
+                content=assistant_text,
+                tags=["assistant_response"],
+                metadata_fields={
+                    "query": text,
+                    "agent_result": agent_response_text[:300],
+                },
+            )
 
         except Exception:
             log.exception("user_input.unhandled_error")
@@ -249,11 +286,42 @@ class AppController:
 
         if isinstance(result, dict):
             if "cards" in result:
-                return result["cards"]
-            if "response" in result:
-                return [{"title": "Assistant", "content": result["response"], "type": "info"}]
+                cards = result["cards"]
+            elif "response" in result:
+                cards = [{"title": "Assistant", "content": result["response"], "type": "info"}]
+            else:
+                cards = [{"title": "Result", "content": str(result), "type": "info"}]
+        else:
+            cards = [{"title": "Result", "content": str(result), "type": "info"}]
 
-        return [{"title": "Result", "content": str(result), "type": "info"}]
+        for card in cards:
+            if card.get("type") in {"info", "warning", "error"}:
+                card["feedback_payload"] = {
+                    "content": card.get("content", ""),
+                    "query": self.conversation_history[-1]["content"] if self.conversation_history else "",
+                    "card_title": card.get("title", "Assistant"),
+                    "card_type": card.get("type", "info"),
+                }
+
+        return cards
+
+    def handle_feedback(self, payload: dict):
+        if not isinstance(payload, dict):
+            return
+
+        feedback_text = payload.get("content", "")
+        if not feedback_text:
+            return
+
+        record_failed_attempt(
+            content=f"User marked assistant response as failed: {feedback_text}",
+            metadata_fields={
+                "query": payload.get("query"),
+                "card_title": payload.get("card_title"),
+                "card_type": payload.get("card_type"),
+            },
+            source="user_feedback",
+        )
 
     def cancel(self):
         log.info("cancel.requested")
@@ -295,7 +363,11 @@ class AppController:
 def main():
     log.info("app.starting")
     mcp_manager.start_loop()
-    mcp_manager.run_async(mcp_manager.initialize())
+    try:
+        mcp_manager.run_async(mcp_manager.initialize())
+    except Exception as e:
+        log.exception("mcp.initialize.failed", error=str(e))
+        log.warning("MCP initialization failed; continuing without MCP tools.")
 
     app, overlay = create_app()
     orchestrator, response_builder = build_system()

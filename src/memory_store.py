@@ -150,18 +150,68 @@ def should_store_memory(text: str):
     )
 
 # =========================================================
+# MEMORY HELPERS
+# =========================================================
+
+DEFAULT_MEMORY_CATEGORY = "generic"
+
+ALLOWED_MEMORY_CATEGORIES = {
+    "generic",
+    "user_preference",
+    "user_query",
+    "assistant_response",
+    "failed_attempt",
+    "feedback",
+    "task_summary",
+}
+
+
+def _normalize_category(category):
+    if not isinstance(category, str):
+        return DEFAULT_MEMORY_CATEGORY
+
+    category = category.strip().lower()
+    if category in ALLOWED_MEMORY_CATEGORIES:
+        return category
+
+    return DEFAULT_MEMORY_CATEGORY
+
+
+def _build_memory_entry(
+    role: str,
+    content: str,
+    category: str = DEFAULT_MEMORY_CATEGORY,
+    tags=None,
+    metadata_fields=None,
+    source: str | None = None,
+):
+    return {
+        "role": role,
+        "content": content,
+        "category": _normalize_category(category),
+        "tags": list(tags) if isinstance(tags, (list, tuple)) else [],
+        "metadata": metadata_fields if isinstance(metadata_fields, dict) else {},
+        "source": source or "system",
+        "timestamp": time.time(),
+    }
+
+# =========================================================
 # INTERNAL MEMORY WRITE
 # =========================================================
 
 def _add_memory_internal(
     role: str,
     content: str,
+    category: str = DEFAULT_MEMORY_CATEGORY,
+    tags=None,
+    metadata_fields=None,
+    source: str | None = None,
 ):
 
     global pending_writes
 
     logging.info(
-        f"[_add_memory_internal] Start | role={role}"
+        f"[_add_memory_internal] Start | role={role} | category={category}"
     )
 
     if not should_store_memory(content):
@@ -186,11 +236,16 @@ def _add_memory_internal(
             "[_add_memory_internal] Updating metadata"
         )
 
-        metadata.append({
-            "role": role,
-            "content": content,
-            "timestamp": time.time(),
-        })
+        metadata.append(
+            _build_memory_entry(
+                role,
+                content,
+                category=category,
+                tags=tags,
+                metadata_fields=metadata_fields,
+                source=source,
+            )
+        )
 
         pending_writes += 1
 
@@ -234,11 +289,16 @@ def _add_memory_internal(
 def add_memory(
     role: str,
     content: str,
+    category: str = DEFAULT_MEMORY_CATEGORY,
+    tags=None,
+    metadata_fields=None,
+    source: str | None = None,
 ):
 
     logging.info(
         f"[add_memory] Called | "
         f"role={repr(role)} | "
+        f"category={repr(category)} | "
         f"content_type={type(content)}"
     )
 
@@ -269,6 +329,10 @@ def add_memory(
     queue_item = (
         role,
         content,
+        category,
+        tags,
+        metadata_fields,
+        source,
     )
 
     logging.info(
@@ -282,6 +346,54 @@ def add_memory(
         "[add_memory] Queue insert complete"
     )
 
+
+def record_user_preference(
+    content: str,
+    tags=None,
+    metadata_fields=None,
+    source: str | None = None,
+):
+    add_memory(
+        role="user",
+        content=content,
+        category="user_preference",
+        tags=tags,
+        metadata_fields=metadata_fields,
+        source=source or "user",
+    )
+
+
+def record_failed_attempt(
+    content: str,
+    tags=None,
+    metadata_fields=None,
+    source: str | None = None,
+):
+    add_memory(
+        role="assistant",
+        content=content,
+        category="failed_attempt",
+        tags=tags,
+        metadata_fields=metadata_fields,
+        source=source or "user",
+    )
+
+
+def record_feedback(
+    content: str,
+    tags=None,
+    metadata_fields=None,
+    source: str | None = None,
+):
+    add_memory(
+        role="user",
+        content=content,
+        category="feedback",
+        tags=tags,
+        metadata_fields=metadata_fields,
+        source=source or "user",
+    )
+
 # =========================================================
 # SEARCH MEMORY
 # =========================================================
@@ -289,10 +401,12 @@ def add_memory(
 def search_memory(
     query: str,
     top_k: int = 5,
+    categories=None,
+    tags=None,
 ):
 
     logging.info(
-        f"[search_memory] Query={query}"
+        f"[search_memory] Query={query} | categories={categories} | tags={tags}"
     )
 
     if len(metadata) == 0:
@@ -317,6 +431,16 @@ def search_memory(
         )
 
     results = []
+    filter_categories = {
+        _normalize_category(c)
+        for c in (categories or [])
+        if isinstance(c, str)
+    }
+
+    filter_tags = set(
+        t for t in (tags or [])
+        if isinstance(t, str)
+    )
 
     for idx in indices[0]:
 
@@ -326,9 +450,17 @@ def search_memory(
         if idx >= len(metadata):
             continue
 
-        results.append(
-            metadata[idx]
-        )
+        item = metadata[idx]
+
+        if filter_categories and item.get("category") not in filter_categories:
+            continue
+
+        if filter_tags:
+            item_tags = set(item.get("tags", []))
+            if not item_tags.intersection(filter_tags):
+                continue
+
+        results.append(item)
 
     logging.info(
         f"[search_memory] Retrieved {len(results)} memories"
@@ -372,7 +504,7 @@ def memory_worker():
 
                 continue
 
-            if len(item) != 2:
+            if len(item) != 6:
 
                 logging.error(
                     f"[MemoryWorker] Invalid tuple length: "
@@ -381,17 +513,22 @@ def memory_worker():
 
                 continue
 
-            role, content = item
+            role, content, category, tags, metadata_fields, source = item
 
             logging.info(
                 f"[MemoryWorker] Processing | "
                 f"role={role} | "
+                f"category={category} | "
                 f"content_len={len(content)}"
             )
 
             _add_memory_internal(
                 role,
                 content,
+                category=category,
+                tags=tags,
+                metadata_fields=metadata_fields,
+                source=source,
             )
 
             logging.info(

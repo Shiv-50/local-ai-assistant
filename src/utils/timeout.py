@@ -10,16 +10,26 @@ Provides:
 import asyncio
 import concurrent.futures
 import logging
+import threading
 from typing import Callable, TypeVar
 
 # Use a plain stdlib logger here to avoid a circular import
-# (logger.py -> timeout.py would be fine, but timeout.py -> logger.py is not).
+# (logger.py -> timeout.py would be fine, but timeout.py -> logger.py would be not).
 # All log calls use plain string formatting so no KwargsLogger is needed.
 _log = logging.getLogger("assistant.timeout")
 
-EXECUTOR = concurrent.futures.ThreadPoolExecutor(max_workers=4)
+_EXECUTOR_LOCK = threading.Lock()
+_EXECUTOR: concurrent.futures.ThreadPoolExecutor | None = None
 
 T = TypeVar("T")
+
+
+def _get_executor() -> concurrent.futures.ThreadPoolExecutor:
+    global _EXECUTOR
+    with _EXECUTOR_LOCK:
+        if _EXECUTOR is None or getattr(_EXECUTOR, "_shutdown", False):
+            _EXECUTOR = concurrent.futures.ThreadPoolExecutor(max_workers=4)
+        return _EXECUTOR
 
 
 # ─────────────────────────────────────────────
@@ -57,7 +67,8 @@ def run_with_timeout(
     worker and lets the caller recover immediately; the callable itself should
     still use cooperative timeouts where possible.
     """
-    future = EXECUTOR.submit(fn, *args, **kwargs)
+    executor = _get_executor()
+    future = executor.submit(fn, *args, **kwargs)
 
     try:
         return future.result(timeout=timeout)

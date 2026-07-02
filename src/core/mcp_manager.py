@@ -1,6 +1,7 @@
 # src/core/mcp_manager.py
 
 import asyncio
+import os
 import threading
 
 from langchain_mcp_adapters.client import MultiServerMCPClient
@@ -45,6 +46,8 @@ def _build_server_config() -> dict:
             "args": ["duckduckgo-mcp-server"],
         },
     }
+
+MCP_DISABLED = os.getenv("DISABLE_MCP", "0").lower() in ("1", "true", "yes")
 
 
 class MCPManager:
@@ -111,6 +114,17 @@ class MCPManager:
 
         log.info("mcp.initialize.start")
 
+        if MCP_DISABLED:
+            log.warning("mcp.initialize.disabled", reason="DISABLE_MCP enabled")
+            self.tools = []
+            self.search_tools = []
+            self.initialized = True
+            self._playwright_ready = asyncio.Event()
+            self._search_ready = asyncio.Event()
+            self._playwright_ready.set()
+            self._search_ready.set()
+            return
+
         server_config = _build_server_config()
         self.client = MultiServerMCPClient(server_config)
         self._shutdown_event = asyncio.Event()
@@ -154,14 +168,25 @@ class MCPManager:
                             self.search_tools = await load_mcp_tools(self._search_session)
                         self._search_ready.set()
                         await self._shutdown_event.wait()
-                except Exception:
-                    log.exception("mcp.initialize.search_failed")
+                except Exception as exc:
+                    error_text = str(exc)
+                    if isinstance(exc, OSError):
+                        log.warning("mcp.initialize.search_blocked", error=error_text)
+                    else:
+                        log.exception("mcp.initialize.search_failed")
                     self.search_tools = []
                     self._search_ready.set()
                     await self._shutdown_event.wait()
+        except OSError as e:
+            log.exception("mcp.initialize.blocked", error=str(e))
+            self.tools = []
+            self.search_tools = []
+            self._playwright_ready.set()
+            self._search_ready.set()
         except Exception:
             log.exception("mcp.initialize.playwright_failed")
             self.tools = []
+            self.search_tools = []
             self._playwright_ready.set()
             self._search_ready.set()
 

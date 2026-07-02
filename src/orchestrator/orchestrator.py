@@ -9,6 +9,7 @@ from langgraph.errors import GraphRecursionError
 from src.utils.logger import get_logger, TimedBlock
 from src.utils.timeout import TIMEOUTS
 from src.core.mcp_manager import mcp_manager
+from src.memory_store import search_memory
 
 log = get_logger(__name__)
 
@@ -78,6 +79,31 @@ class SimpleRouterOrchestrator:
             messages.append(("human", query))
 
         return messages
+    def _build_memory_context(self, query: str) -> str:
+        memories = search_memory(
+            query=query,
+            top_k=5,
+            categories=["user_preference", "failed_attempt", "feedback"],
+        )
+
+        if not memories:
+            return ""
+
+        lines = [
+            "Relevant user preferences and prior assistant failures for this request:",
+        ]
+
+        for memory in memories:
+            category = memory.get("category", "generic")
+            content = memory.get("content", "").strip()
+            if content:
+                lines.append(f"- [{category}] {content}")
+
+        lines.append(
+            "Use these details to personalize the assistant response and avoid repeating prior mistakes."
+        )
+
+        return "\n".join(lines)
 
     # ─────────────────────────────────────────────
     # MAIN ENTRY
@@ -101,7 +127,11 @@ class SimpleRouterOrchestrator:
 
         task.emit("agent_selected", {"agent": agent_type})
 
+        memory_context = self._build_memory_context(task.query)
         messages = self._build_messages(history, task.query)
+
+        if memory_context:
+            messages.insert(0, ("human", memory_context))
 
         timeout = (
             TIMEOUTS.MCP_TOOL if agent_type == "BROWSER"

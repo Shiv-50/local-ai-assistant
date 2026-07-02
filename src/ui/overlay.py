@@ -125,9 +125,15 @@ class TopicCard(QFrame):
         url=None,
         media=None,
         card_type="info",
+        feedback_callback=None,
+        feedback_payload=None,
         parent=None
     ):
         super().__init__(parent)
+
+        self.feedback_callback = feedback_callback
+        self.feedback_payload = feedback_payload
+        self.feedback_marked = False
 
         self.expanded = False
         self.worker = None
@@ -283,37 +289,62 @@ class TopicCard(QFrame):
             self.worker.start()
 
         # -------------------------------------------------
-        # SOURCE BUTTON
+        # SOURCE + FEEDBACK BUTTONS
         # -------------------------------------------------
 
-        if url:
+        if url or self.feedback_callback:
 
             footer = QHBoxLayout()
 
-            self.link_btn = QPushButton("🔗 Source")
-            self.link_btn.setCursor(
-                Qt.CursorShape.PointingHandCursor
-            )
-            self.link_btn.setFixedHeight(28)
-            self.link_btn.setStyleSheet("""
-                QPushButton {
-                    background-color: #EFF6FF;
-                    border: 1px solid #BFDBFE;
-                    border-radius: 8px;
-                    color: #2563EB;
-                    padding: 0 12px;
-                    font-size: 11px;
-                    font-weight: 600;
-                }
-                QPushButton:hover {
-                    background-color: #DBEAFE;
-                }
-            """)
-            self.link_btn.clicked.connect(
-                lambda: webbrowser.open(url)
-            )
+            if url:
 
-            footer.addWidget(self.link_btn)
+                self.link_btn = QPushButton("🔗 Source")
+                self.link_btn.setCursor(
+                    Qt.CursorShape.PointingHandCursor
+                )
+                self.link_btn.setFixedHeight(28)
+                self.link_btn.setStyleSheet("""
+                    QPushButton {
+                        background-color: #EFF6FF;
+                        border: 1px solid #BFDBFE;
+                        border-radius: 8px;
+                        color: #2563EB;
+                        padding: 0 12px;
+                        font-size: 11px;
+                        font-weight: 600;
+                    }
+                    QPushButton:hover {
+                        background-color: #DBEAFE;
+                    }
+                """)
+                self.link_btn.clicked.connect(
+                    lambda: webbrowser.open(url)
+                )
+                footer.addWidget(self.link_btn)
+
+            if self.feedback_callback:
+                self.feedback_btn = QPushButton("Mark Failed")
+                self.feedback_btn.setCursor(
+                    Qt.CursorShape.PointingHandCursor
+                )
+                self.feedback_btn.setFixedHeight(28)
+                self.feedback_btn.setStyleSheet("""
+                    QPushButton {
+                        background-color: #FEE2E2;
+                        border: 1px solid #FECACA;
+                        border-radius: 8px;
+                        color: #B91C1C;
+                        padding: 0 12px;
+                        font-size: 11px;
+                        font-weight: 600;
+                    }
+                    QPushButton:hover {
+                        background-color: #FECACA;
+                    }
+                """)
+                self.feedback_btn.clicked.connect(self._on_feedback_clicked)
+                footer.addWidget(self.feedback_btn)
+
             footer.addStretch()
             self.main_layout.addLayout(footer)
 
@@ -369,6 +400,19 @@ class TopicCard(QFrame):
     # EXPAND / COLLAPSE
     # -------------------------------------------------
 
+    def _on_feedback_clicked(self):
+        if self.feedback_marked:
+            return
+
+        if self.feedback_callback and self.feedback_payload is not None:
+            try:
+                self.feedback_callback(self.feedback_payload)
+                self.feedback_btn.setText("Marked Failed")
+                self.feedback_btn.setEnabled(False)
+                self.feedback_marked = True
+            except Exception:
+                pass
+
     def toggle_expand(self):
         self.expanded = not self.expanded
 
@@ -398,6 +442,7 @@ class OverlayWindow(QWidget):
     append_chat_signal    = pyqtSignal(str, str)
     move_signal           = pyqtSignal(int, int)
     user_input_signal     = pyqtSignal(str)
+    feedback_signal       = pyqtSignal(dict)
     cancel_signal         = pyqtSignal()
     shutdown_signal       = pyqtSignal()
 
@@ -700,11 +745,13 @@ class OverlayWindow(QWidget):
 
         for c in cards:
             card = TopicCard(
-                title     = c.get("title",   "Response"),
-                content   = c.get("content", ""),
-                url       = c.get("url"),
-                media     = c.get("media"),
-                card_type = c.get("type",    "info"),
+                title            = c.get("title",   "Response"),
+                content          = c.get("content", ""),
+                url              = c.get("url"),
+                media            = c.get("media"),
+                card_type        = c.get("type",    "info"),
+                feedback_callback= self.feedback_signal.emit if c.get("feedback_payload") else None,
+                feedback_payload= c.get("feedback_payload"),
             )
             self.scroll_layout.addWidget(card)
             self.topic_cards.append(card)
