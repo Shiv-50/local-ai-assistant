@@ -173,6 +173,7 @@ class AppController:
                     state,
                     timeout=TIMEOUTS.ORCHESTRATOR,
                     operation="orchestrator.invoke",
+                    on_step=self._on_agent_step,
                 )
             except TimeoutError:
                 log.error("orchestrator.timeout", timeout_s=TIMEOUTS.ORCHESTRATOR)
@@ -196,6 +197,25 @@ class AppController:
 
             agent_response_text = result.get("response", "")
             log.info("orchestrator.response", response_len=len(agent_response_text))
+
+            if not result.get("grounded", True):
+                # The orchestrator already intercepted a fabricated
+                # success claim. Don't hand this to another LLM to
+                # paraphrase — that risks losing the caveat. Show it
+                # to the user verbatim, as a warning, and record it
+                # so future runs can be steered away from repeating it.
+                record_failed_attempt(
+                    content="Agent claimed a completed action without calling any tool.",
+                    metadata_fields={"query": text},
+                    source="system",
+                )
+                cards = [{
+                    "title": "No action was actually taken",
+                    "content": agent_response_text,
+                    "type": "warning",
+                }]
+                self._finish_turn(text, cards, agent_response_text)
+                return
 
             try:
                 final_response = run_with_timeout(
@@ -230,29 +250,7 @@ class AppController:
                 return
 
             cards = self._to_cards(final_response)
-            assistant_text = " | ".join(
-                c.get("content", "") for c in cards if c.get("content")
-            )
-            self.conversation_history.append({
-                "role": "assistant",
-                "content": assistant_text,
-            })
-
-            if len(self.conversation_history) > 20:
-                self.conversation_history = self.conversation_history[-20:]
-
-            self.overlay.populate_cards_external(cards)
-            self.overlay.update_state("ready")
-            log.info("user_input.handled", cards=len(cards))
-
-            record_feedback(
-                content=assistant_text,
-                tags=["assistant_response"],
-                metadata_fields={
-                    "query": text,
-                    "agent_result": agent_response_text[:300],
-                },
-            )
+            self._finish_turn(text, cards, agent_response_text)
 
         except Exception:
             log.exception("user_input.unhandled_error")
@@ -264,6 +262,61 @@ class AppController:
         finally:
             with self._lock:
                 self.current_future = None
+
+    def _finish_turn(self, text: str, cards: list, agent_response_text: str):
+        """Shared tail: record history, show cards, log feedback. Used by
+        both the normal (grounded) path and the ungrounded-claim path."""
+        assistant_text = " | ".join(
+            c.get("content", "") for c in cards if c.get("content")
+        )
+        self.conversation_history.append({
+            "role": "assistant",
+            "content": assistant_text,
+        })
+
+        if len(self.conversation_history) > 20:
+            self.conversation_history = self.conversation_history[-20:]
+
+        self.overlay.populate_cards_external(cards)
+        self.overlay.update_state("ready")
+        log.info("user_input.handled", cards=len(cards))
+
+        record_feedback(
+            content=assistant_text,
+            tags=["assistant_response"],
+            metadata_fields={
+                "query": text,
+                "agent_result": agent_response_text[:300],
+            },
+        )
+
+    # =====================================================
+    # LIVE STEP DISPLAY
+    # =====================================================
+    #
+    # Called (from the mcp event-loop thread) once per step the
+    # orchestrator has actually confirmed is happening — either a
+    # tool call the agent just decided to make, or the result that
+    # came back. Never called for narration alone, so what's shown
+    # here can't outrun what the agent is really doing.
+
+    def _on_agent_step(self, event: dict):
+        event_type = event.get("type")
+
+        if event_type == "step_started":
+            tool = event.get("tool", "tool")
+            thought = (event.get("thought") or "").strip()
+            label = f"→ {thought}" if thought else f"→ Running {tool}…"
+            self.overlay.update_step(label)
+
+        elif event_type == "step_result":
+            tool = event.get("tool", "tool")
+            result = (event.get("result") or "").strip()
+            label = f"✓ {tool} done" + (f": {result}" if result else "")
+            self.overlay.update_step(label)
+
+        elif event_type == "finalizing":
+            self.overlay.update_step("Preparing the final response…")
 
     def _display_error(self, title: str, message: str):
         self.overlay.update_state("error")

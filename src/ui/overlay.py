@@ -445,6 +445,7 @@ class OverlayWindow(QWidget):
     feedback_signal       = pyqtSignal(dict)
     cancel_signal         = pyqtSignal()
     shutdown_signal       = pyqtSignal()
+    step_signal           = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
@@ -458,6 +459,7 @@ class OverlayWindow(QWidget):
         self.populate_cards_signal.connect(self.populate_cards)
         self.append_chat_signal.connect(self.append_chat_message)
         self.move_signal.connect(self._move_to_cursor)
+        self.step_signal.connect(self._update_step_display)
 
     # -------------------------------------------------
     # UI
@@ -580,6 +582,22 @@ class OverlayWindow(QWidget):
 
         panel_layout.addLayout(header)
 
+        # LIVE STEP INDICATOR
+        # Shows the current step the agent is actually executing
+        # right now (a real tool call / its result), updated live
+        # as the run streams in. Hidden when there's nothing to show.
+        self.step_label = QLabel("")
+        self.step_label.setWordWrap(True)
+        self.step_label.setStyleSheet("""
+            color: #6B7280;
+            font-size: 11px;
+            font-style: italic;
+            background: transparent;
+            padding: 0 2px;
+        """)
+        self.step_label.hide()
+        panel_layout.addWidget(self.step_label)
+
         # SCROLL AREA
         self.scroll = QScrollArea()
         self.scroll.setWidgetResizable(True)
@@ -687,6 +705,11 @@ class OverlayWindow(QWidget):
     def update_state(self, state, text=""):
         self.update_signal.emit(state, text)
 
+    def update_step(self, text: str):
+        """Thread-safe: show the current step the agent is actually
+        taking right now. Call with an empty string to clear it."""
+        self.step_signal.emit(text or "")
+
     def populate_cards_external(self, cards):
         """Thread-safe: always use this, never call populate_cards() directly."""
         self.populate_cards_signal.emit(cards)
@@ -724,7 +747,19 @@ class OverlayWindow(QWidget):
     # POPULATE CARDS  (main thread only — called via signal)
     # -------------------------------------------------
 
+    def _update_step_display(self, text: str):
+        text = (text or "").strip()
+        if text:
+            self.step_label.setText(text)
+            self.step_label.show()
+        else:
+            self.step_label.clear()
+            self.step_label.hide()
+
     def populate_cards(self, cards):
+        # A final answer is in — the live step feed is no longer
+        # current, so clear it.
+        self._update_step_display("")
 
         # Stop workers first, THEN schedule widget deletion.
         for card in self.topic_cards:
@@ -799,6 +834,11 @@ class OverlayWindow(QWidget):
             self.cancel_btn.hide()
         else:
             self.cancel_btn.show()
+
+        if state in ("ready", "error"):
+            self._update_step_display("")
+        elif state == "thinking" and text:
+            self._update_step_display(text)
 
         self.show()
 

@@ -11310,3 +11310,240 @@ Assistant: [Web Search Summary] Here's a summary of the key points from the vari
 {"ts": "2026-07-02T14:28:16", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "14:28:16"}
 {"ts": "2026-07-02T14:28:16", "level": "INFO", "logger": "assistant.__main__", "msg": "shutdown.complete", "asctime": "14:28:16"}
 {"ts": "2026-07-02T14:28:16", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-02T14:52:42", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "14:52:42"}
+{"ts": "2026-07-02T14:52:42", "level": "INFO", "logger": "assistant.__main__", "msg": "app.starting", "asctime": "14:52:42"}
+{"ts": "2026-07-02T14:52:42", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-02T14:52:42", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "14:52:42"}
+{"ts": "2026-07-02T14:52:42", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "14:52:42"}
+{"ts": "2026-07-02T14:52:44", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-02T14:52:44", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 11.3, "server": "playwright", "asctime": "14:52:44"}
+{"ts": "2026-07-02T14:52:44", "level": "WARNING", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.search_blocked", "error": "[WinError 2] The system cannot find the file specified", "asctime": "14:52:44"}
+{"ts": "2026-07-02T14:52:44", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 0, "asctime": "14:52:44"}
+{"ts": "2026-07-02T14:52:45", "level": "INFO", "logger": "assistant.__main__", "msg": "build_models.start", "asctime": "14:52:45"}
+{"ts": "2026-07-02T14:52:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5-coder:7b", "asctime": "14:52:45"}
+{"ts": "2026-07-02T14:52:45", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5-coder:7b"}
+{"ts": "2026-07-02T14:52:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5-coder:7b", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "14:52:45"}
+{"ts": "2026-07-02T14:52:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 22.9, "model_name": "qwen2.5-coder:7b", "asctime": "14:52:45"}
+{"ts": "2026-07-02T14:52:45", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5-coder:7b"}
+{"ts": "2026-07-02T14:52:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5-coder:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "14:52:45"}
+{"ts": "2026-07-02T14:52:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 28.8, "model_name": "qwen2.5-coder:7b", "asctime": "14:52:45"}
+{"ts": "2026-07-02T14:52:45", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-02T14:52:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "14:52:45"}
+{"ts": "2026-07-02T14:52:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 28.1, "model_name": "qwen2.5:7b", "asctime": "14:52:45"}
+{"ts": "2026-07-02T14:52:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.evict_active", "evicting": "qwen2.5:7b", "loading": "gemini-3.1-flash-lite", "asctime": "14:52:45"}
+{"ts": "2026-07-02T14:52:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b", "asctime": "14:52:45"}
+{"ts": "2026-07-02T14:52:45", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "gemini-3.1-flash-lite"}
+{"ts": "2026-07-02T14:52:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "google", "model_name": "gemini-3.1-flash-lite", "temperature": 0.2, "timeout": 30, "num_predict": 2048, "asctime": "14:52:45"}
+{"ts": "2026-07-02T14:52:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 37.0, "model_name": "gemini-3.1-flash-lite", "asctime": "14:52:45"}
+{"ts": "2026-07-02T14:52:45", "level": "INFO", "logger": "assistant.__main__", "msg": "build_models.done", "models": ["core_agent", "agent", "response_builder"], "asctime": "14:52:45"}
+{"ts": "2026-07-02T14:52:45", "level": "INFO", "logger": "assistant.__main__", "msg": "build_system.done", "asctime": "14:52:45"}
+{"ts": "2026-07-02T14:52:45", "level": "INFO", "logger": "assistant.__main__", "msg": "app.ready", "asctime": "14:52:45"}
+{"ts": "2026-07-02T14:52:52", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 17, "asctime": "14:52:52"}
+{"ts": "2026-07-02T14:52:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "bb1b35bc-8b8e-4357-b5e8-2e824191b1f3", "event": {"type": "task_started", "data": {"query": "latest stock news"}}, "asctime": "14:52:52"}
+{"ts": "2026-07-02T14:52:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "orchestrator.invoke.start", "task_id": "bb1b35bc-8b8e-4357-b5e8-2e824191b1f3", "asctime": "14:52:52"}
+{"ts": "2026-07-02T14:52:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "bb1b35bc-8b8e-4357-b5e8-2e824191b1f3", "event": {"type": "agent_selected", "data": {"agent": "GENERAL"}}, "asctime": "14:52:52"}
+{"ts": "2026-07-02T14:52:52", "level": "INFO", "logger": "root", "msg": "[search_memory] Query=latest stock news | categories=['user_preference', 'failed_attempt', 'feedback'] | tags=None", "asctime": "14:52:52"}
+{"ts": "2026-07-02T14:52:52", "level": "INFO", "logger": "root", "msg": "[search_memory] No memories stored", "asctime": "14:52:52"}
+{"ts": "2026-07-02T14:52:52", "level": "DEBUG", "logger": "assistant.src.orchestrator.orchestrator", "msg": "start", "operation": "agent.astream", "agent_type": "GENERAL"}
+{"ts": "2026-07-02T14:52:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "bb1b35bc-8b8e-4357-b5e8-2e824191b1f3", "event": {"type": "agent_started", "data": {}}, "asctime": "14:52:52"}
+{"ts": "2026-07-02T14:53:00", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "bb1b35bc-8b8e-4357-b5e8-2e824191b1f3", "event": {"type": "finalizing", "data": {}}, "asctime": "14:53:00"}
+{"ts": "2026-07-02T14:53:00", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "done", "operation": "agent.astream", "elapsed_ms": 8260.7, "agent_type": "GENERAL", "asctime": "14:53:00"}
+{"ts": "2026-07-02T14:53:00", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "bb1b35bc-8b8e-4357-b5e8-2e824191b1f3", "event": {"type": "task_completed", "data": {"result": "launch_application {\"app_name\": \"Microsoft Edge\"}"}}, "asctime": "14:53:00"}
+{"ts": "2026-07-02T14:53:00", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "orchestrator.invoke.done", "task_id": "bb1b35bc-8b8e-4357-b5e8-2e824191b1f3", "agent_type": "GENERAL", "response_len": 49, "asctime": "14:53:00"}
+{"ts": "2026-07-02T14:53:00", "level": "INFO", "logger": "assistant.__main__", "msg": "orchestrator.response", "response_len": 49, "asctime": "14:53:00"}
+{"ts": "2026-07-02T14:53:00", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 17, "agent_response_len": 49, "asctime": "14:53:00"}
+{"ts": "2026-07-02T14:53:00", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-02T14:53:00", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "14:53:00"}
+{"ts": "2026-07-02T14:53:01", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 1244.4, "asctime": "14:53:01"}
+{"ts": "2026-07-02T14:53:01", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Application Launched\",\\n      \"content\": \"Microsoft Edge has been opened successfully. You can now browse the latest stock market news directly in your browser.\",\\n      \"type\": \"success\",\\n      \"url\": null\\n    }\\n  ]\\n}', 'extras'"}
+{"ts": "2026-07-02T14:53:01", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "14:53:01"}
+{"ts": "2026-07-02T14:53:01", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.handled", "cards": 1, "asctime": "14:53:01"}
+{"ts": "2026-07-02T14:53:01", "level": "INFO", "logger": "root", "msg": "[add_memory] Called | role='user' | category='feedback' | content_type=<class 'str'>", "asctime": "14:53:01"}
+{"ts": "2026-07-02T14:53:01", "level": "INFO", "logger": "root", "msg": "[add_memory] Queueing item: ('user', 'Microsoft Edge has been opened successfully. You can now browse the latest stock market news directly in your browser.', 'feedback', ['assistant_response'], {'query': 'latest stock news', 'agent_result': 'launch_application {\"app_name\": \"Microsoft Edge\"}'}, 'user')", "asctime": "14:53:01"}
+{"ts": "2026-07-02T14:53:01", "level": "INFO", "logger": "root", "msg": "[add_memory] Queue insert complete", "asctime": "14:53:01"}
+{"ts": "2026-07-02T14:53:01", "level": "INFO", "logger": "root", "msg": "[MemoryWorker] Raw item | type=<class 'tuple'> | value=('user', 'Microsoft Edge has been opened successfully. You can now browse the latest stock market news directly in your browser.', 'feedback', ['assistant_response'], {'query': 'latest stock news', 'agent_result': 'launch_application {\"app_name\": \"Microsoft Edge\"}'}, 'user')", "asctime": "14:53:01"}
+{"ts": "2026-07-02T14:53:01", "level": "INFO", "logger": "root", "msg": "[MemoryWorker] Processing | role=user | category=feedback | content_len=118", "asctime": "14:53:01"}
+{"ts": "2026-07-02T14:53:01", "level": "INFO", "logger": "root", "msg": "[_add_memory_internal] Start | role=user | category=feedback", "asctime": "14:53:01"}
+{"ts": "2026-07-02T14:53:01", "level": "INFO", "logger": "root", "msg": "[Embedding] Request | text_len=118", "asctime": "14:53:01"}
+{"ts": "2026-07-02T14:53:01", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-02T14:53:01", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-02T14:53:01", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-02T14:53:01", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-02T14:53:01", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-02T14:53:01", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-02T14:53:01", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-02T14:53:01", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-02T14:53:01", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-02T14:53:02", "level": "INFO", "logger": "root", "msg": "[Embedding] Response dimension=3072", "asctime": "14:53:02"}
+{"ts": "2026-07-02T14:53:02", "level": "INFO", "logger": "root", "msg": "[Embedding] Final shape=(1, 3072)", "asctime": "14:53:02"}
+{"ts": "2026-07-02T14:53:02", "level": "INFO", "logger": "root", "msg": "[_add_memory_internal] Adding embedding to FAISS", "asctime": "14:53:02"}
+{"ts": "2026-07-02T14:53:02", "level": "INFO", "logger": "root", "msg": "[_add_memory_internal] Updating metadata", "asctime": "14:53:02"}
+{"ts": "2026-07-02T14:53:02", "level": "INFO", "logger": "root", "msg": "[_add_memory_internal] pending_writes=1", "asctime": "14:53:02"}
+{"ts": "2026-07-02T14:53:02", "level": "INFO", "logger": "root", "msg": "[MemoryWorker] Memory stored", "asctime": "14:53:02"}
+{"ts": "2026-07-02T14:53:02", "level": "INFO", "logger": "root", "msg": "[MemoryWorker] Waiting for queue item...", "asctime": "14:53:02"}
+{"ts": "2026-07-02T14:53:36", "level": "INFO", "logger": "assistant.__main__", "msg": "shutdown.start", "asctime": "14:53:36"}
+{"ts": "2026-07-02T14:53:36", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "14:53:36"}
+{"ts": "2026-07-02T14:53:36", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "14:53:36"}
+{"ts": "2026-07-02T14:53:36", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "14:53:36"}
+{"ts": "2026-07-02T14:53:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "14:53:36"}
+{"ts": "2026-07-02T14:53:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "14:53:36"}
+{"ts": "2026-07-02T14:53:36", "level": "INFO", "logger": "assistant.__main__", "msg": "shutdown.complete", "asctime": "14:53:36"}
+{"ts": "2026-07-02T14:53:36", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-02T14:53:43", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "14:53:43"}
+{"ts": "2026-07-02T14:53:43", "level": "INFO", "logger": "assistant.__main__", "msg": "app.starting", "asctime": "14:53:43"}
+{"ts": "2026-07-02T14:53:43", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-02T14:53:43", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "14:53:43"}
+{"ts": "2026-07-02T14:53:43", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "14:53:43"}
+{"ts": "2026-07-02T14:53:44", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-02T14:53:45", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 18.7, "server": "playwright", "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:45", "level": "WARNING", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.search_blocked", "error": "[WinError 2] The system cannot find the file specified", "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:45", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 0, "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:45", "level": "INFO", "logger": "assistant.__main__", "msg": "build_models.start", "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5-coder:7b", "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:45", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5-coder:7b"}
+{"ts": "2026-07-02T14:53:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5-coder:7b", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 25.0, "model_name": "qwen2.5-coder:7b", "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:45", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5-coder:7b"}
+{"ts": "2026-07-02T14:53:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5-coder:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 24.1, "model_name": "qwen2.5-coder:7b", "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:45", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-02T14:53:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 24.5, "model_name": "qwen2.5:7b", "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.evict_active", "evicting": "qwen2.5:7b", "loading": "gemini-3.1-flash-lite", "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b", "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:45", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "gemini-3.1-flash-lite"}
+{"ts": "2026-07-02T14:53:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "google", "model_name": "gemini-3.1-flash-lite", "temperature": 0.2, "timeout": 30, "num_predict": 2048, "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:45", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 39.5, "model_name": "gemini-3.1-flash-lite", "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:45", "level": "INFO", "logger": "assistant.__main__", "msg": "build_models.done", "models": ["core_agent", "agent", "response_builder"], "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:45", "level": "INFO", "logger": "assistant.__main__", "msg": "build_system.done", "asctime": "14:53:45"}
+{"ts": "2026-07-02T14:53:46", "level": "INFO", "logger": "assistant.__main__", "msg": "app.ready", "asctime": "14:53:46"}
+{"ts": "2026-07-02T14:53:50", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 14, "asctime": "14:53:50"}
+{"ts": "2026-07-02T14:53:50", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "caf93096-5ee4-456a-929d-f7a47f8eb4f8", "event": {"type": "task_started", "data": {"query": "open pinterest"}}, "asctime": "14:53:50"}
+{"ts": "2026-07-02T14:53:50", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "orchestrator.invoke.start", "task_id": "caf93096-5ee4-456a-929d-f7a47f8eb4f8", "asctime": "14:53:50"}
+{"ts": "2026-07-02T14:53:50", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "caf93096-5ee4-456a-929d-f7a47f8eb4f8", "event": {"type": "agent_selected", "data": {"agent": "GENERAL"}}, "asctime": "14:53:50"}
+{"ts": "2026-07-02T14:53:50", "level": "INFO", "logger": "root", "msg": "[search_memory] Query=open pinterest | categories=['user_preference', 'failed_attempt', 'feedback'] | tags=None", "asctime": "14:53:50"}
+{"ts": "2026-07-02T14:53:50", "level": "INFO", "logger": "root", "msg": "[search_memory] No memories stored", "asctime": "14:53:50"}
+{"ts": "2026-07-02T14:53:50", "level": "DEBUG", "logger": "assistant.src.orchestrator.orchestrator", "msg": "start", "operation": "agent.astream", "agent_type": "GENERAL"}
+{"ts": "2026-07-02T14:53:50", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "caf93096-5ee4-456a-929d-f7a47f8eb4f8", "event": {"type": "agent_started", "data": {}}, "asctime": "14:53:50"}
+{"ts": "2026-07-02T14:53:57", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "caf93096-5ee4-456a-929d-f7a47f8eb4f8", "event": {"type": "finalizing", "data": {}}, "asctime": "14:53:57"}
+{"ts": "2026-07-02T14:53:57", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "done", "operation": "agent.astream", "elapsed_ms": 7478.0, "agent_type": "GENERAL", "asctime": "14:53:57"}
+{"ts": "2026-07-02T14:53:57", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "caf93096-5ee4-456a-929d-f7a47f8eb4f8", "event": {"type": "task_completed", "data": {"result": "launch_application(\"Pinterest\")"}}, "asctime": "14:53:57"}
+{"ts": "2026-07-02T14:53:57", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "orchestrator.invoke.done", "task_id": "caf93096-5ee4-456a-929d-f7a47f8eb4f8", "agent_type": "GENERAL", "response_len": 31, "asctime": "14:53:57"}
+{"ts": "2026-07-02T14:53:57", "level": "INFO", "logger": "assistant.__main__", "msg": "orchestrator.response", "response_len": 31, "asctime": "14:53:57"}
+{"ts": "2026-07-02T14:53:57", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 14, "agent_response_len": 31, "asctime": "14:53:57"}
+{"ts": "2026-07-02T14:53:57", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-02T14:53:57", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "14:53:57"}
+{"ts": "2026-07-02T14:54:00", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 3325.6, "asctime": "14:54:00"}
+{"ts": "2026-07-02T14:54:00", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Application Launched\",\\n      \"content\": \"Pinterest has been successfully opened on your desktop.\",\\n      \"type\": \"success\",\\n      \"url\": null\\n    }\\n  ]\\n}', 'extras': {'signature': 'EjQKMgEMOdbHo955bngzoOJ2bqAwYkCubOt2peR/ifLAn8"}
+{"ts": "2026-07-02T14:54:00", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "14:54:00"}
+{"ts": "2026-07-02T14:54:00", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.handled", "cards": 1, "asctime": "14:54:00"}
+{"ts": "2026-07-02T14:54:00", "level": "INFO", "logger": "root", "msg": "[add_memory] Called | role='user' | category='feedback' | content_type=<class 'str'>", "asctime": "14:54:00"}
+{"ts": "2026-07-02T14:54:00", "level": "INFO", "logger": "root", "msg": "[add_memory] Queueing item: ('user', 'Pinterest has been successfully opened on your desktop.', 'feedback', ['assistant_response'], {'query': 'open pinterest', 'agent_result': 'launch_application(\"Pinterest\")'}, 'user')", "asctime": "14:54:00"}
+{"ts": "2026-07-02T14:54:00", "level": "INFO", "logger": "root", "msg": "[add_memory] Queue insert complete", "asctime": "14:54:00"}
+{"ts": "2026-07-02T14:54:00", "level": "INFO", "logger": "root", "msg": "[MemoryWorker] Raw item | type=<class 'tuple'> | value=('user', 'Pinterest has been successfully opened on your desktop.', 'feedback', ['assistant_response'], {'query': 'open pinterest', 'agent_result': 'launch_application(\"Pinterest\")'}, 'user')", "asctime": "14:54:00"}
+{"ts": "2026-07-02T14:54:00", "level": "INFO", "logger": "root", "msg": "[MemoryWorker] Processing | role=user | category=feedback | content_len=55", "asctime": "14:54:00"}
+{"ts": "2026-07-02T14:54:00", "level": "INFO", "logger": "root", "msg": "[_add_memory_internal] Start | role=user | category=feedback", "asctime": "14:54:00"}
+{"ts": "2026-07-02T14:54:00", "level": "INFO", "logger": "root", "msg": "[Embedding] Request | text_len=55", "asctime": "14:54:00"}
+{"ts": "2026-07-02T14:54:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-02T14:54:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-02T14:54:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-02T14:54:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-02T14:54:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-02T14:54:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-02T14:54:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-02T14:54:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-02T14:54:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-02T14:54:01", "level": "INFO", "logger": "root", "msg": "[Embedding] Response dimension=3072", "asctime": "14:54:01"}
+{"ts": "2026-07-02T14:54:01", "level": "INFO", "logger": "root", "msg": "[Embedding] Final shape=(1, 3072)", "asctime": "14:54:01"}
+{"ts": "2026-07-02T14:54:01", "level": "INFO", "logger": "root", "msg": "[_add_memory_internal] Adding embedding to FAISS", "asctime": "14:54:01"}
+{"ts": "2026-07-02T14:54:01", "level": "INFO", "logger": "root", "msg": "[_add_memory_internal] Updating metadata", "asctime": "14:54:01"}
+{"ts": "2026-07-02T14:54:01", "level": "INFO", "logger": "root", "msg": "[_add_memory_internal] pending_writes=1", "asctime": "14:54:01"}
+{"ts": "2026-07-02T14:54:01", "level": "INFO", "logger": "root", "msg": "[MemoryWorker] Memory stored", "asctime": "14:54:01"}
+{"ts": "2026-07-02T14:54:01", "level": "INFO", "logger": "root", "msg": "[MemoryWorker] Waiting for queue item...", "asctime": "14:54:01"}
+{"ts": "2026-07-02T14:54:12", "level": "INFO", "logger": "assistant.__main__", "msg": "shutdown.start", "asctime": "14:54:12"}
+{"ts": "2026-07-02T14:54:12", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "14:54:12"}
+{"ts": "2026-07-02T14:54:12", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "14:54:12"}
+{"ts": "2026-07-02T14:54:12", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "14:54:12"}
+{"ts": "2026-07-02T14:54:12", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "14:54:12"}
+{"ts": "2026-07-02T14:54:12", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "14:54:12"}
+{"ts": "2026-07-02T14:54:12", "level": "INFO", "logger": "assistant.__main__", "msg": "shutdown.complete", "asctime": "14:54:12"}
+{"ts": "2026-07-02T14:54:12", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-02T15:09:24", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "15:09:24"}
+{"ts": "2026-07-02T15:09:24", "level": "INFO", "logger": "assistant.__main__", "msg": "app.starting", "asctime": "15:09:24"}
+{"ts": "2026-07-02T15:09:24", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-02T15:09:24", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "15:09:24"}
+{"ts": "2026-07-02T15:09:24", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "15:09:24"}
+{"ts": "2026-07-02T15:09:28", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-02T15:09:28", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 11.2, "server": "playwright", "asctime": "15:09:28"}
+{"ts": "2026-07-02T15:09:28", "level": "WARNING", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.search_blocked", "error": "[WinError 2] The system cannot find the file specified", "asctime": "15:09:28"}
+{"ts": "2026-07-02T15:09:28", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 0, "asctime": "15:09:28"}
+{"ts": "2026-07-02T15:09:29", "level": "INFO", "logger": "assistant.__main__", "msg": "build_models.start", "asctime": "15:09:29"}
+{"ts": "2026-07-02T15:09:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5-coder:7b", "asctime": "15:09:29"}
+{"ts": "2026-07-02T15:09:29", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5-coder:7b"}
+{"ts": "2026-07-02T15:09:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5-coder:7b", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "15:09:29"}
+{"ts": "2026-07-02T15:09:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 21.2, "model_name": "qwen2.5-coder:7b", "asctime": "15:09:29"}
+{"ts": "2026-07-02T15:09:29", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5-coder:7b"}
+{"ts": "2026-07-02T15:09:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5-coder:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "15:09:29"}
+{"ts": "2026-07-02T15:09:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 22.3, "model_name": "qwen2.5-coder:7b", "asctime": "15:09:29"}
+{"ts": "2026-07-02T15:09:29", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-02T15:09:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "15:09:29"}
+{"ts": "2026-07-02T15:09:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 26.7, "model_name": "qwen2.5:7b", "asctime": "15:09:29"}
+{"ts": "2026-07-02T15:09:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.evict_active", "evicting": "qwen2.5:7b", "loading": "gemini-3.1-flash-lite", "asctime": "15:09:29"}
+{"ts": "2026-07-02T15:09:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b", "asctime": "15:09:29"}
+{"ts": "2026-07-02T15:09:29", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "gemini-3.1-flash-lite"}
+{"ts": "2026-07-02T15:09:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "google", "model_name": "gemini-3.1-flash-lite", "temperature": 0.2, "timeout": 30, "num_predict": 2048, "asctime": "15:09:29"}
+{"ts": "2026-07-02T15:09:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 45.8, "model_name": "gemini-3.1-flash-lite", "asctime": "15:09:29"}
+{"ts": "2026-07-02T15:09:29", "level": "INFO", "logger": "assistant.__main__", "msg": "build_models.done", "models": ["core_agent", "agent", "response_builder"], "asctime": "15:09:29"}
+{"ts": "2026-07-02T15:09:29", "level": "INFO", "logger": "assistant.__main__", "msg": "build_system.done", "asctime": "15:09:29"}
+{"ts": "2026-07-02T15:09:29", "level": "INFO", "logger": "assistant.__main__", "msg": "app.ready", "asctime": "15:09:29"}
+{"ts": "2026-07-02T15:09:35", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 14, "asctime": "15:09:35"}
+{"ts": "2026-07-02T15:09:35", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "2c6cdeb0-32b5-45c9-80e2-7e03d8e41e7c", "event": {"type": "task_started", "data": {"query": "open pinterest"}}, "asctime": "15:09:35"}
+{"ts": "2026-07-02T15:09:35", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "orchestrator.invoke.start", "task_id": "2c6cdeb0-32b5-45c9-80e2-7e03d8e41e7c", "asctime": "15:09:35"}
+{"ts": "2026-07-02T15:09:35", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "2c6cdeb0-32b5-45c9-80e2-7e03d8e41e7c", "event": {"type": "agent_selected", "data": {"agent": "GENERAL"}}, "asctime": "15:09:35"}
+{"ts": "2026-07-02T15:09:35", "level": "INFO", "logger": "root", "msg": "[search_memory] Query=open pinterest | categories=['user_preference', 'failed_attempt', 'feedback'] | tags=None", "asctime": "15:09:35"}
+{"ts": "2026-07-02T15:09:35", "level": "INFO", "logger": "root", "msg": "[search_memory] No memories stored", "asctime": "15:09:35"}
+{"ts": "2026-07-02T15:09:35", "level": "DEBUG", "logger": "assistant.src.orchestrator.orchestrator", "msg": "start", "operation": "agent.astream", "agent_type": "GENERAL"}
+{"ts": "2026-07-02T15:09:35", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "2c6cdeb0-32b5-45c9-80e2-7e03d8e41e7c", "event": {"type": "agent_started", "data": {}}, "asctime": "15:09:35"}
+{"ts": "2026-07-02T15:09:43", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "2c6cdeb0-32b5-45c9-80e2-7e03d8e41e7c", "event": {"type": "finalizing", "data": {}}, "asctime": "15:09:43"}
+{"ts": "2026-07-02T15:09:43", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "done", "operation": "agent.astream", "elapsed_ms": 7935.6, "agent_type": "GENERAL", "asctime": "15:09:43"}
+{"ts": "2026-07-02T15:09:43", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "2c6cdeb0-32b5-45c9-80e2-7e03d8e41e7c", "event": {"type": "task_completed", "data": {"result": "launch_application {\"app_name\": \"Pinterest\"}"}}, "asctime": "15:09:43"}
+{"ts": "2026-07-02T15:09:43", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "orchestrator.invoke.done", "task_id": "2c6cdeb0-32b5-45c9-80e2-7e03d8e41e7c", "agent_type": "GENERAL", "response_len": 44, "grounded": true, "tool_calls_made": 0, "asctime": "15:09:43"}
+{"ts": "2026-07-02T15:09:43", "level": "INFO", "logger": "assistant.__main__", "msg": "orchestrator.response", "response_len": 44, "asctime": "15:09:43"}
+{"ts": "2026-07-02T15:09:43", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 14, "agent_response_len": 44, "asctime": "15:09:43"}
+{"ts": "2026-07-02T15:09:43", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-02T15:09:43", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "15:09:43"}
+{"ts": "2026-07-02T15:09:45", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 2258.1, "asctime": "15:09:45"}
+{"ts": "2026-07-02T15:09:45", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Application Launched\",\\n      \"content\": \"Pinterest has been successfully opened.\",\\n      \"type\": \"success\",\\n      \"url\": null\\n    }\\n  ]\\n}', 'extras': {'signature': 'EjQKMgEMOdbHndkAP97e4IlJKsZDehOOu6MgBeXoqTABaIQc8qVj0Hx2VE3Y5R"}
+{"ts": "2026-07-02T15:09:45", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "15:09:45"}
+{"ts": "2026-07-02T15:09:45", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.handled", "cards": 1, "asctime": "15:09:45"}
+{"ts": "2026-07-02T15:09:45", "level": "INFO", "logger": "root", "msg": "[add_memory] Called | role='user' | category='feedback' | content_type=<class 'str'>", "asctime": "15:09:45"}
+{"ts": "2026-07-02T15:09:45", "level": "INFO", "logger": "root", "msg": "[add_memory] Queueing item: ('user', 'Pinterest has been successfully opened.', 'feedback', ['assistant_response'], {'query': 'open pinterest', 'agent_result': 'launch_application {\"app_name\": \"Pinterest\"}'}, 'user')", "asctime": "15:09:45"}
+{"ts": "2026-07-02T15:09:45", "level": "INFO", "logger": "root", "msg": "[add_memory] Queue insert complete", "asctime": "15:09:45"}
+{"ts": "2026-07-02T15:09:45", "level": "INFO", "logger": "root", "msg": "[MemoryWorker] Raw item | type=<class 'tuple'> | value=('user', 'Pinterest has been successfully opened.', 'feedback', ['assistant_response'], {'query': 'open pinterest', 'agent_result': 'launch_application {\"app_name\": \"Pinterest\"}'}, 'user')", "asctime": "15:09:45"}
+{"ts": "2026-07-02T15:09:45", "level": "INFO", "logger": "root", "msg": "[MemoryWorker] Processing | role=user | category=feedback | content_len=39", "asctime": "15:09:45"}
+{"ts": "2026-07-02T15:09:45", "level": "INFO", "logger": "root", "msg": "[_add_memory_internal] Start | role=user | category=feedback", "asctime": "15:09:45"}
+{"ts": "2026-07-02T15:09:45", "level": "INFO", "logger": "root", "msg": "[Embedding] Request | text_len=39", "asctime": "15:09:45"}
+{"ts": "2026-07-02T15:09:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-02T15:09:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-02T15:09:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-02T15:09:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-02T15:09:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-02T15:09:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-02T15:09:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-02T15:09:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-02T15:09:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-02T15:09:46", "level": "INFO", "logger": "root", "msg": "[Embedding] Response dimension=3072", "asctime": "15:09:46"}
+{"ts": "2026-07-02T15:09:46", "level": "INFO", "logger": "root", "msg": "[Embedding] Final shape=(1, 3072)", "asctime": "15:09:46"}
+{"ts": "2026-07-02T15:09:46", "level": "INFO", "logger": "root", "msg": "[_add_memory_internal] Adding embedding to FAISS", "asctime": "15:09:46"}
+{"ts": "2026-07-02T15:09:46", "level": "INFO", "logger": "root", "msg": "[_add_memory_internal] Updating metadata", "asctime": "15:09:46"}
+{"ts": "2026-07-02T15:09:46", "level": "INFO", "logger": "root", "msg": "[_add_memory_internal] pending_writes=1", "asctime": "15:09:46"}
+{"ts": "2026-07-02T15:09:46", "level": "INFO", "logger": "root", "msg": "[MemoryWorker] Memory stored", "asctime": "15:09:46"}
+{"ts": "2026-07-02T15:09:46", "level": "INFO", "logger": "root", "msg": "[MemoryWorker] Waiting for queue item...", "asctime": "15:09:46"}
+{"ts": "2026-07-02T15:10:09", "level": "INFO", "logger": "assistant.__main__", "msg": "shutdown.start", "asctime": "15:10:09"}
+{"ts": "2026-07-02T15:10:09", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "15:10:09"}
+{"ts": "2026-07-02T15:10:09", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "15:10:09"}
+{"ts": "2026-07-02T15:10:09", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "15:10:09"}
+{"ts": "2026-07-02T15:10:09", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "15:10:09"}
+{"ts": "2026-07-02T15:10:09", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "15:10:09"}
+{"ts": "2026-07-02T15:10:09", "level": "INFO", "logger": "assistant.__main__", "msg": "shutdown.complete", "asctime": "15:10:09"}
+{"ts": "2026-07-02T15:10:09", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
