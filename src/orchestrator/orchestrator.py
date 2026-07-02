@@ -24,11 +24,15 @@ log = get_logger(__name__)
 # The step feed only ever reports a step for a tool call that
 # actually happened — which also means it's the source of truth for
 # whether the agent did anything at all. If the model's final text
-# asserts a completed action ("Pinterest has been successfully
-# opened...") but the run made zero tool calls, that claim is false
-# and must never reach the user as-is. This is a deterministic,
-# code-level backstop — prompt instructions alone are not reliable
-# enough to stop a local model from writing this kind of text.
+# either (a) asserts a completed action in prose ("Pinterest has
+# been successfully opened...") or (b) leaks what looks like a raw,
+# unparsed tool invocation ('launch_application {"app_name": ...}')
+# — the model attempting tool-call syntax as plain text instead of
+# a real structured tool call — but the run made zero real tool
+# calls, that response must never reach the user as-is. This is a
+# deterministic, code-level backstop — prompt instructions alone
+# are not reliable enough to stop a local model from doing either
+# of these.
 
 _ACTION_CLAIM_PATTERNS = [
     re.compile(r"\bsuccessfully\s+\w+ed\b", re.IGNORECASE),
@@ -42,11 +46,27 @@ _ACTION_CLAIM_PATTERNS = [
     re.compile(r"\btask\s+(is\s+)?complete[d]?\b", re.IGNORECASE),
 ]
 
+# Matches a whole message that is essentially "tool_name(...)" or
+# 'tool_name {"key": "value"}' — i.e. the model wrote out what a
+# tool call looks like instead of actually making one. This is what
+# happened in practice: qwen2.5:7b returned the literal text
+# `launch_application {"app_name": "Pinterest"}` as its answer, with
+# no structured tool_calls on the message at all.
+_RAW_TOOL_CALL_PATTERN = re.compile(
+    r"^\s*[a-zA-Z_][a-zA-Z0-9_]*\s*[\(\{].*[\)\}]\s*$", re.DOTALL
+)
+
 
 def _claims_completed_action(text: str) -> bool:
     if not text:
         return False
     return any(p.search(text) for p in _ACTION_CLAIM_PATTERNS)
+
+
+def _looks_like_unparsed_tool_call(text: str) -> bool:
+    if not text:
+        return False
+    return bool(_RAW_TOOL_CALL_PATTERN.match(text.strip()))
 
 
 # ─────────────────────────────────────────────────────────────
@@ -157,18 +177,21 @@ class SimpleRouterOrchestrator:
             return ""
 
         lines = [
-            "Relevant user preferences and prior assistant failures for this request:",
+            "[CONTEXT FROM PREVIOUS INTERACTIONS]",
+            "These are relevant user preferences and prior actions for this request:",
         ]
 
         for memory in memories:
             category = memory.get("category", "generic")
             content = memory.get("content", "").strip()
             if content:
-                lines.append(f"- [{category}] {content}")
+                lines.append(f"  • [{category}] {content}")
 
         lines.append(
-            "Use these details to personalize the assistant response and avoid repeating prior mistakes."
+            "\nUse this context to: (1) avoid repeating recent actions, (2) provide personalized responses, (3) understand what's already been done."
         )
+        lines.append("[/CONTEXT]")
+        lines.append("")
 
         return "\n".join(lines)
 
@@ -291,7 +314,10 @@ class SimpleRouterOrchestrator:
             final_message = messages[-1].content
 
             grounded = True
-            if tool_calls_made == 0 and _claims_completed_action(final_message):
+            if tool_calls_made == 0 and (
+                _claims_completed_action(final_message)
+                or _looks_like_unparsed_tool_call(final_message)
+            ):
                 grounded = False
                 task.emit("ungrounded_claim_blocked", {
                     "original_response": final_message,

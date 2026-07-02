@@ -204,7 +204,8 @@ class _GemmaState:
 def analyze_screen_with_vision(query: str):
     """
     Captures the screen and returns structured JSON with UI element coordinates.
-    Primary: Google Gemma. Fallback: local llama3.2-vision (Ollama).
+    Primary: local llama3.2-vision (Ollama) - fast and local.
+    Fallback: Google Gemma - slower but more capable.
     """
     img_path = "temp_screen.png"
 
@@ -216,21 +217,25 @@ def analyze_screen_with_vision(query: str):
         result = None
 
         # -------------------------
-        # PRIMARY: GEMMA
+        # PRIMARY: OLLAMA (FAST, LOCAL)
         # -------------------------
-        if not _GemmaState.failed:
+        try:
+            result = _query_ollama_vision(img_path, query)
+            logger.info("Vision analysis completed with local Ollama model (fast)")
+        except Exception as e:
+            logger.warning("Ollama vision failed: %s", e)
+
+        # -------------------------
+        # FALLBACK: GEMMA (SLOWER, API-BASED)
+        # -------------------------
+        if result is None and not _GemmaState.failed:
             try:
+                logger.info("Falling back to Google Gemma API for vision...")
                 result = _query_gemma_vision(img_path, query)
                 _GemmaState.record_success()
             except Exception as e:
-                logger.warning("Gemma vision failed: %s", e)
+                logger.warning("Gemma vision also failed: %s", e)
                 _GemmaState.record_failure()
-
-        # -------------------------
-        # FALLBACK: OLLAMA
-        # -------------------------
-        if result is None:
-            result = _query_ollama_vision(img_path, query)
 
         return json.dumps(result, indent=2)
 
