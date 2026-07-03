@@ -13806,3 +13806,975 @@ Assistant: [Web Search Summary] Here's a summary of the key points from the vari
 {"ts": "2026-07-03T12:40:43", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
 {"ts": "2026-07-03T12:40:43", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
 {"ts": "2026-07-03T12:40:43", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:08:42", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "13:08:42"}
+{"ts": "2026-07-03T13:08:43", "level": "DEBUG", "logger": "htmldate.validators", "msg": "minimum date setting: 1995-01-01 00:00:00"}
+{"ts": "2026-07-03T13:08:43", "level": "INFO", "logger": "assistant.__main__", "msg": "app.start", "asctime": "13:08:43"}
+{"ts": "2026-07-03T13:08:43", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-03T13:08:43", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "13:08:43"}
+{"ts": "2026-07-03T13:08:43", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "13:08:43"}
+{"ts": "2026-07-03T13:08:45", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-03T13:08:45", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 14.3, "server": "playwright", "asctime": "13:08:45"}
+{"ts": "2026-07-03T13:08:46", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "search"}
+{"ts": "2026-07-03T13:08:46", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 7.3, "server": "search", "asctime": "13:08:46"}
+{"ts": "2026-07-03T13:08:46", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 2, "asctime": "13:08:46"}
+{"ts": "2026-07-03T13:08:46", "level": "INFO", "logger": "assistant.__main__", "msg": "build_models.start", "asctime": "13:08:46"}
+{"ts": "2026-07-03T13:08:46", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5:7b", "asctime": "13:08:46"}
+{"ts": "2026-07-03T13:08:46", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T13:08:46", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "13:08:46"}
+{"ts": "2026-07-03T13:08:46", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 18.6, "model_name": "qwen2.5:7b", "asctime": "13:08:46"}
+{"ts": "2026-07-03T13:08:46", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-03T13:08:46", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b-instruct", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "13:08:46"}
+{"ts": "2026-07-03T13:08:46", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 23.4, "model_name": "qwen2.5:7b-instruct", "asctime": "13:08:46"}
+{"ts": "2026-07-03T13:08:46", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.evict_active", "evicting": "qwen2.5:7b-instruct", "loading": "qwen2.5:7b", "asctime": "13:08:46"}
+{"ts": "2026-07-03T13:08:47", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b-instruct", "asctime": "13:08:47"}
+{"ts": "2026-07-03T13:08:47", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T13:08:47", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "13:08:47"}
+{"ts": "2026-07-03T13:08:47", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 25.0, "model_name": "qwen2.5:7b", "asctime": "13:08:47"}
+{"ts": "2026-07-03T13:08:47", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "gemini-3.1-flash-lite"}
+{"ts": "2026-07-03T13:08:47", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "google", "model_name": "gemini-3.1-flash-lite", "temperature": 0.2, "timeout": 30, "num_predict": 2048, "asctime": "13:08:47"}
+{"ts": "2026-07-03T13:08:47", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 32.8, "model_name": "gemini-3.1-flash-lite", "asctime": "13:08:47"}
+{"ts": "2026-07-03T13:08:47", "level": "INFO", "logger": "assistant.__main__", "msg": "build_models.done", "models": ["core_agent", "agent", "response_builder"], "asctime": "13:08:47"}
+{"ts": "2026-07-03T13:08:47", "level": "INFO", "logger": "assistant.__main__", "msg": "build_system.done", "asctime": "13:08:47"}
+{"ts": "2026-07-03T13:08:55", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 14, "asctime": "13:08:55"}
+{"ts": "2026-07-03T13:08:55", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "1d0b7c3a-18a6-4cbd-a353-7be0c465dc8a", "event": "task_started", "asctime": "13:08:55"}
+{"ts": "2026-07-03T13:08:55", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "1d0b7c3a-18a6-4cbd-a353-7be0c465dc8a", "event": "agent_selected", "asctime": "13:08:55"}
+{"ts": "2026-07-03T13:08:55", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "1d0b7c3a-18a6-4cbd-a353-7be0c465dc8a", "event": "agent_started", "asctime": "13:08:55"}
+{"ts": "2026-07-03T13:09:05", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "1d0b7c3a-18a6-4cbd-a353-7be0c465dc8a", "event": "step_started", "asctime": "13:09:05"}
+{"ts": "2026-07-03T13:09:05", "level": "INFO", "logger": "root", "msg": "[TOOL START] launch_application", "asctime": "13:09:05"}
+{"ts": "2026-07-03T13:09:05", "level": "INFO", "logger": "root", "msg": "[LAUNCH APP] Pinterest", "asctime": "13:09:05"}
+{"ts": "2026-07-03T13:09:21", "level": "INFO", "logger": "root", "msg": "[TOOL RESULT TYPE] <class 'str'>", "asctime": "13:09:21"}
+{"ts": "2026-07-03T13:09:21", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "1d0b7c3a-18a6-4cbd-a353-7be0c465dc8a", "event": "step_result", "asctime": "13:09:21"}
+{"ts": "2026-07-03T13:09:26", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "1d0b7c3a-18a6-4cbd-a353-7be0c465dc8a", "event": "step_started", "asctime": "13:09:26"}
+{"ts": "2026-07-03T13:09:26", "level": "INFO", "logger": "root", "msg": "[TOOL START] search_installed_apps", "asctime": "13:09:26"}
+{"ts": "2026-07-03T13:09:30", "level": "INFO", "logger": "root", "msg": "[TOOL RESULT TYPE] <class 'str'>", "asctime": "13:09:30"}
+{"ts": "2026-07-03T13:09:30", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "1d0b7c3a-18a6-4cbd-a353-7be0c465dc8a", "event": "step_result", "asctime": "13:09:30"}
+{"ts": "2026-07-03T13:09:32", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "1d0b7c3a-18a6-4cbd-a353-7be0c465dc8a", "event": "finalizing", "asctime": "13:09:32"}
+{"ts": "2026-07-03T13:09:32", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "1d0b7c3a-18a6-4cbd-a353-7be0c465dc8a", "event": "task_completed", "asctime": "13:09:32"}
+{"ts": "2026-07-03T13:09:32", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 14, "agent_response_len": 170, "asctime": "13:09:32"}
+{"ts": "2026-07-03T13:09:32", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T13:09:32", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "13:09:32"}
+{"ts": "2026-07-03T13:09:34", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 1204.1, "asctime": "13:09:34"}
+{"ts": "2026-07-03T13:09:34", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Application Not Found\",\\n      \"content\": \"Pinterest is not currently installed on your system. Would you like me to assist you with the installation process or provide an alternative method to access the platform?\",\\n      \"type\": \""}
+{"ts": "2026-07-03T13:09:34", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "13:09:34"}
+{"ts": "2026-07-03T13:09:34", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:09:34", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:09:34", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:09:34", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:09:34", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:09:34", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:09:34", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:09:34", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:09:34", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:10:24", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 16, "asctime": "13:10:24"}
+{"ts": "2026-07-03T13:10:24", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "57fe7a1f-697b-45e1-bcd5-16a8afbd754d", "event": "task_started", "asctime": "13:10:24"}
+{"ts": "2026-07-03T13:10:24", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "57fe7a1f-697b-45e1-bcd5-16a8afbd754d", "event": "agent_selected", "asctime": "13:10:24"}
+{"ts": "2026-07-03T13:10:24", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "57fe7a1f-697b-45e1-bcd5-16a8afbd754d", "event": "agent_started", "asctime": "13:10:24"}
+{"ts": "2026-07-03T13:10:24", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "57fe7a1f-697b-45e1-bcd5-16a8afbd754d", "event": "finalizing", "asctime": "13:10:24"}
+{"ts": "2026-07-03T13:10:29", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "57fe7a1f-697b-45e1-bcd5-16a8afbd754d", "event": "step_started", "asctime": "13:10:29"}
+{"ts": "2026-07-03T13:10:32", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "57fe7a1f-697b-45e1-bcd5-16a8afbd754d", "event": "step_result", "asctime": "13:10:32"}
+{"ts": "2026-07-03T13:10:43", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "57fe7a1f-697b-45e1-bcd5-16a8afbd754d", "event": "finalizing", "asctime": "13:10:43"}
+{"ts": "2026-07-03T13:10:43", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "57fe7a1f-697b-45e1-bcd5-16a8afbd754d", "event": "task_completed", "asctime": "13:10:43"}
+{"ts": "2026-07-03T13:10:43", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 16, "agent_response_len": 292, "asctime": "13:10:43"}
+{"ts": "2026-07-03T13:10:43", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T13:10:43", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "13:10:43"}
+{"ts": "2026-07-03T13:10:44", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 933.8, "asctime": "13:10:44"}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Web Browser Opened\",\\n      \"content\": \"The web browser has been successfully launched and navigated to Pinterest.\",\\n      \"type\": \"success\",\\n      \"url\": \"https://www.pinterest.com/\"\\n    },\\n    {\\n      \"title\": \"Current Page In"}
+{"ts": "2026-07-03T13:10:44", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 2, "asctime": "13:10:44"}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:10:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:10:49", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 5, "asctime": "13:10:49"}
+{"ts": "2026-07-03T13:10:49", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "63ea5a62-cfb2-4d42-bab2-84455c0dedd1", "event": "task_started", "asctime": "13:10:49"}
+{"ts": "2026-07-03T13:10:49", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "63ea5a62-cfb2-4d42-bab2-84455c0dedd1", "event": "agent_selected", "asctime": "13:10:49"}
+{"ts": "2026-07-03T13:10:49", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "63ea5a62-cfb2-4d42-bab2-84455c0dedd1", "event": "finalizing", "asctime": "13:10:49"}
+{"ts": "2026-07-03T13:10:49", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "63ea5a62-cfb2-4d42-bab2-84455c0dedd1", "event": "agent_started", "asctime": "13:10:49"}
+{"ts": "2026-07-03T13:10:49", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "63ea5a62-cfb2-4d42-bab2-84455c0dedd1", "event": "finalizing", "asctime": "13:10:49"}
+{"ts": "2026-07-03T13:10:53", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "63ea5a62-cfb2-4d42-bab2-84455c0dedd1", "event": "step_started", "asctime": "13:10:53"}
+{"ts": "2026-07-03T13:10:54", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "63ea5a62-cfb2-4d42-bab2-84455c0dedd1", "event": "step_result", "asctime": "13:10:54"}
+{"ts": "2026-07-03T13:10:59", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "63ea5a62-cfb2-4d42-bab2-84455c0dedd1", "event": "finalizing", "asctime": "13:10:59"}
+{"ts": "2026-07-03T13:10:59", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "63ea5a62-cfb2-4d42-bab2-84455c0dedd1", "event": "task_completed", "asctime": "13:10:59"}
+{"ts": "2026-07-03T13:10:59", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 5, "agent_response_len": 199, "asctime": "13:10:59"}
+{"ts": "2026-07-03T13:10:59", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T13:10:59", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "13:10:59"}
+{"ts": "2026-07-03T13:11:00", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 1204.2, "asctime": "13:11:00"}
+{"ts": "2026-07-03T13:11:00", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Pinterest Login\",\\n      \"content\": \"The browser has successfully navigated to the Pinterest login page. Please enter your email or phone number and password to proceed with your login.\",\\n      \"type\": \"info\",\\n      \"url\": \"https:/"}
+{"ts": "2026-07-03T13:11:00", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "13:11:00"}
+{"ts": "2026-07-03T13:11:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:11:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:11:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:11:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:11:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:11:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:11:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:11:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:11:00", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:11:09", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 17, "asctime": "13:11:09"}
+{"ts": "2026-07-03T13:11:09", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "58e3473e-8792-4a64-8464-40d6b6422b8b", "event": "task_started", "asctime": "13:11:09"}
+{"ts": "2026-07-03T13:11:09", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "58e3473e-8792-4a64-8464-40d6b6422b8b", "event": "agent_selected", "asctime": "13:11:09"}
+{"ts": "2026-07-03T13:11:09", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "58e3473e-8792-4a64-8464-40d6b6422b8b", "event": "agent_started", "asctime": "13:11:09"}
+{"ts": "2026-07-03T13:11:09", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "58e3473e-8792-4a64-8464-40d6b6422b8b", "event": "finalizing", "asctime": "13:11:09"}
+{"ts": "2026-07-03T13:11:09", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "58e3473e-8792-4a64-8464-40d6b6422b8b", "event": "finalizing", "asctime": "13:11:09"}
+{"ts": "2026-07-03T13:11:09", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "58e3473e-8792-4a64-8464-40d6b6422b8b", "event": "finalizing", "asctime": "13:11:09"}
+{"ts": "2026-07-03T13:11:11", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "58e3473e-8792-4a64-8464-40d6b6422b8b", "event": "step_started", "asctime": "13:11:11"}
+{"ts": "2026-07-03T13:11:11", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "58e3473e-8792-4a64-8464-40d6b6422b8b", "event": "error", "asctime": "13:11:11"}
+{"ts": "2026-07-03T13:11:11", "level": "ERROR", "logger": "assistant.src.orchestrator.orchestrator", "msg": "orchestrator.error", "exc": "Traceback (most recent call last):\n  File \"C:\\Users\\shiva\\AI_assistant\\src\\orchestrator\\orchestrator.py\", line 233, in invoke\n    result = future.result(timeout=timeout)\n  File \"C:\\Users\\shiva\\miniconda3\\Lib\\concurrent\\futures\\_base.py\", line 456, in result\n    return self.__get_result()\n           ~~~~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\shiva\\miniconda3\\Lib\\concurrent\\futures\\_base.py\", line 401, in __get_result\n    raise self._exception\n  File \"C:\\Users\\shiva\\AI_assistant\\src\\orchestrator\\orchestrator.py\", line 137, in _stream_agent\n    async for chunk in agent.astream(\n    ...<28 lines>...\n        seen = len(msgs)\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langgraph\\pregel\\main.py\", line 3407, in astream\n    async for _ in runner.atick(\n    ...<16 lines>...\n            yield o\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langgraph\\pregel\\_runner.py\", line 396, in atick\n    await arun_with_retry(\n    ...<15 lines>...\n    )\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langgraph\\pregel\\_retry.py\", line 706, in arun_with_retry\n    return await task.proc.ainvoke(task.input, config)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langgraph\\_internal\\_runnable.py\", line 733, in ainvoke\n    input = await asyncio.create_task(\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^\n        step.ainvoke(input, config, **kwargs), context=context\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langgraph\\_internal\\_runnable.py\", line 501, in ainvoke\n    ret = await self.afunc(*args, **kwargs)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langgraph\\prebuilt\\tool_node.py\", line 858, in _afunc\n    outputs = await asyncio.gather(*coros)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langgraph\\prebuilt\\tool_node.py\", line 1193, in _arun_one\n    return await self._execute_tool_async(tool_request, input_type, config)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langgraph\\prebuilt\\tool_node.py\", line 1153, in _execute_tool_async\n    content = _handle_tool_error(e, flag=self._handle_tool_errors)\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langgraph\\prebuilt\\tool_node.py\", line 434, in _handle_tool_error\n    content = flag(e)  # type: ignore [assignment, call-arg]\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langgraph\\prebuilt\\tool_node.py\", line 391, in _default_handle_tool_errors\n    raise e\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langgraph\\prebuilt\\tool_node.py\", line 1105, in _execute_tool_async\n    response = await tool.ainvoke(call_args, config)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langchain_core\\tools\\structured.py\", line 70, in ainvoke\n    return await super().ainvoke(input, config, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langchain_core\\tools\\base.py\", line 652, in ainvoke\n    return await self.arun(tool_input, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langchain_core\\tools\\base.py\", line 1131, in arun\n    raise error_to_raise\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langchain_core\\tools\\base.py\", line 1097, in arun\n    response = await coro_with_context(coro, context)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langchain_core\\tools\\structured.py\", line 124, in _arun\n    return await self.coroutine(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langchain_mcp_adapters\\tools.py\", line 414, in call_tool\n    return _convert_call_tool_result(call_tool_result)\n  File \"C:\\Users\\shiva\\AI_assistant\\venv\\Lib\\site-packages\\langchain_mcp_adapters\\tools.py\", line 189, in _convert_call_tool_result\n    raise ToolException(error_msg)\nlangchain_core.tools.base.ToolException: ### Error\nError: \"Google sign-in button\" does not match any elements.\nDuring task with name 'tools' and id '6f77e8f6-cd01-433c-ed0f-40e741f0b8fe'", "asctime": "13:11:11"}
+{"ts": "2026-07-03T13:11:11", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 17, "agent_response_len": 15, "asctime": "13:11:11"}
+{"ts": "2026-07-03T13:11:11", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T13:11:11", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "13:11:11"}
+{"ts": "2026-07-03T13:11:12", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 933.3, "asctime": "13:11:12"}
+{"ts": "2026-07-03T13:11:12", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Authentication Error\",\\n      \"content\": \"We encountered an internal error while attempting to initiate the Google login process. Please try again or check your internet connection.\",\\n      \"type\": \"error\",\\n      \"url\": null\\n    }"}
+{"ts": "2026-07-03T13:11:12", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "13:11:12"}
+{"ts": "2026-07-03T13:11:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:11:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:11:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:11:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:11:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:11:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:11:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:11:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:11:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:11:29", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 8, "asctime": "13:11:29"}
+{"ts": "2026-07-03T13:11:29", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "93d439a0-e510-46e3-8d10-302c71679eba", "event": "task_started", "asctime": "13:11:29"}
+{"ts": "2026-07-03T13:11:29", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "93d439a0-e510-46e3-8d10-302c71679eba", "event": "agent_selected", "asctime": "13:11:29"}
+{"ts": "2026-07-03T13:11:30", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "93d439a0-e510-46e3-8d10-302c71679eba", "event": "agent_started", "asctime": "13:11:30"}
+{"ts": "2026-07-03T13:11:30", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "93d439a0-e510-46e3-8d10-302c71679eba", "event": "finalizing", "asctime": "13:11:30"}
+{"ts": "2026-07-03T13:11:30", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "93d439a0-e510-46e3-8d10-302c71679eba", "event": "finalizing", "asctime": "13:11:30"}
+{"ts": "2026-07-03T13:11:30", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "93d439a0-e510-46e3-8d10-302c71679eba", "event": "finalizing", "asctime": "13:11:30"}
+{"ts": "2026-07-03T13:11:34", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "93d439a0-e510-46e3-8d10-302c71679eba", "event": "finalizing", "asctime": "13:11:34"}
+{"ts": "2026-07-03T13:11:34", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "93d439a0-e510-46e3-8d10-302c71679eba", "event": "task_completed", "asctime": "13:11:34"}
+{"ts": "2026-07-03T13:11:34", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 8, "agent_response_len": 150, "asctime": "13:11:34"}
+{"ts": "2026-07-03T13:11:34", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T13:11:34", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "13:11:34"}
+{"ts": "2026-07-03T13:11:35", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 925.5, "asctime": "13:11:35"}
+{"ts": "2026-07-03T13:11:35", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Navigation Successful\",\\n      \"content\": \"You have successfully returned to the Pinterest homepage. The login screen is now active, and you can proceed by signing in with Google or your preferred authentication method.\",\\n      \"typ"}
+{"ts": "2026-07-03T13:11:35", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "13:11:35"}
+{"ts": "2026-07-03T13:11:35", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:11:35", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:11:35", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:11:35", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:11:35", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:11:35", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:11:35", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:11:35", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:11:35", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:11:52", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 17, "asctime": "13:11:52"}
+{"ts": "2026-07-03T13:11:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d47022fb-ff3f-4da5-818c-6d620400eba8", "event": "task_started", "asctime": "13:11:52"}
+{"ts": "2026-07-03T13:11:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d47022fb-ff3f-4da5-818c-6d620400eba8", "event": "agent_selected", "asctime": "13:11:52"}
+{"ts": "2026-07-03T13:11:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d47022fb-ff3f-4da5-818c-6d620400eba8", "event": "agent_started", "asctime": "13:11:52"}
+{"ts": "2026-07-03T13:11:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d47022fb-ff3f-4da5-818c-6d620400eba8", "event": "finalizing", "asctime": "13:11:52"}
+{"ts": "2026-07-03T13:11:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d47022fb-ff3f-4da5-818c-6d620400eba8", "event": "finalizing", "asctime": "13:11:52"}
+{"ts": "2026-07-03T13:11:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d47022fb-ff3f-4da5-818c-6d620400eba8", "event": "finalizing", "asctime": "13:11:52"}
+{"ts": "2026-07-03T13:11:56", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d47022fb-ff3f-4da5-818c-6d620400eba8", "event": "step_started", "asctime": "13:11:56"}
+{"ts": "2026-07-03T13:11:57", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d47022fb-ff3f-4da5-818c-6d620400eba8", "event": "step_result", "asctime": "13:11:57"}
+{"ts": "2026-07-03T13:12:05", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d47022fb-ff3f-4da5-818c-6d620400eba8", "event": "finalizing", "asctime": "13:12:05"}
+{"ts": "2026-07-03T13:12:05", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d47022fb-ff3f-4da5-818c-6d620400eba8", "event": "task_completed", "asctime": "13:12:05"}
+{"ts": "2026-07-03T13:12:05", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 17, "agent_response_len": 324, "asctime": "13:12:05"}
+{"ts": "2026-07-03T13:12:05", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T13:12:05", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "13:12:05"}
+{"ts": "2026-07-03T13:12:06", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 1030.1, "asctime": "13:12:06"}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Google Login Required\",\\n      \"content\": \"The browser has navigated to the Google login page for Pinterest. Please complete the sign-in process using your Google account to continue.\",\\n      \"type\": \"info\",\\n      \"url\": null\\n    "}
+{"ts": "2026-07-03T13:12:06", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 2, "asctime": "13:12:06"}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:12:06", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:12:52", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 12, "asctime": "13:12:52"}
+{"ts": "2026-07-03T13:12:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "f7a8baba-b888-4c6e-8dd2-e2ade0f3e831", "event": "task_started", "asctime": "13:12:52"}
+{"ts": "2026-07-03T13:12:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "f7a8baba-b888-4c6e-8dd2-e2ade0f3e831", "event": "agent_selected", "asctime": "13:12:52"}
+{"ts": "2026-07-03T13:12:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "f7a8baba-b888-4c6e-8dd2-e2ade0f3e831", "event": "agent_started", "asctime": "13:12:52"}
+{"ts": "2026-07-03T13:12:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "f7a8baba-b888-4c6e-8dd2-e2ade0f3e831", "event": "finalizing", "asctime": "13:12:52"}
+{"ts": "2026-07-03T13:12:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "f7a8baba-b888-4c6e-8dd2-e2ade0f3e831", "event": "finalizing", "asctime": "13:12:52"}
+{"ts": "2026-07-03T13:12:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "f7a8baba-b888-4c6e-8dd2-e2ade0f3e831", "event": "finalizing", "asctime": "13:12:52"}
+{"ts": "2026-07-03T13:12:56", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "f7a8baba-b888-4c6e-8dd2-e2ade0f3e831", "event": "step_started", "asctime": "13:12:56"}
+{"ts": "2026-07-03T13:12:56", "level": "INFO", "logger": "root", "msg": "[TOOL START] focus_window", "asctime": "13:12:56"}
+{"ts": "2026-07-03T13:12:56", "level": "INFO", "logger": "root", "msg": "[TOOL RESULT TYPE] <class 'str'>", "asctime": "13:12:56"}
+{"ts": "2026-07-03T13:12:56", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "f7a8baba-b888-4c6e-8dd2-e2ade0f3e831", "event": "step_result", "asctime": "13:12:56"}
+{"ts": "2026-07-03T13:13:01", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "f7a8baba-b888-4c6e-8dd2-e2ade0f3e831", "event": "step_started", "asctime": "13:13:01"}
+{"ts": "2026-07-03T13:13:01", "level": "INFO", "logger": "root", "msg": "[TOOL START] open_url_in_browser", "asctime": "13:13:01"}
+{"ts": "2026-07-03T13:13:01", "level": "INFO", "logger": "assistant.src.tools.web_tools", "msg": "open_url", "url": "https://www.pinterest.com/login/google/", "asctime": "13:13:01"}
+{"ts": "2026-07-03T13:13:01", "level": "INFO", "logger": "root", "msg": "[TOOL RESULT TYPE] <class 'str'>", "asctime": "13:13:01"}
+{"ts": "2026-07-03T13:13:01", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "f7a8baba-b888-4c6e-8dd2-e2ade0f3e831", "event": "step_result", "asctime": "13:13:01"}
+{"ts": "2026-07-03T13:13:12", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "f7a8baba-b888-4c6e-8dd2-e2ade0f3e831", "event": "finalizing", "asctime": "13:13:12"}
+{"ts": "2026-07-03T13:13:12", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "f7a8baba-b888-4c6e-8dd2-e2ade0f3e831", "event": "task_completed", "asctime": "13:13:12"}
+{"ts": "2026-07-03T13:13:12", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 12, "agent_response_len": 267, "asctime": "13:13:12"}
+{"ts": "2026-07-03T13:13:12", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T13:13:12", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "13:13:12"}
+{"ts": "2026-07-03T13:13:13", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 1352.3, "asctime": "13:13:13"}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Pinterest Login\",\\n      \"content\": \"The browser has been opened to the Google login page for Pinterest. Please complete the sign-in process using your Google account.\",\\n      \"type\": \"info\",\\n      \"url\": \"https://www.pinterest.com"}
+{"ts": "2026-07-03T13:13:13", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 2, "asctime": "13:13:13"}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:13:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:16:02", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 38, "asctime": "13:16:02"}
+{"ts": "2026-07-03T13:16:02", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4d7bf798-b58e-4510-87a2-1238b1f8e9ae", "event": "task_started", "asctime": "13:16:02"}
+{"ts": "2026-07-03T13:16:02", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4d7bf798-b58e-4510-87a2-1238b1f8e9ae", "event": "agent_selected", "asctime": "13:16:02"}
+{"ts": "2026-07-03T13:16:02", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4d7bf798-b58e-4510-87a2-1238b1f8e9ae", "event": "agent_started", "asctime": "13:16:02"}
+{"ts": "2026-07-03T13:16:02", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4d7bf798-b58e-4510-87a2-1238b1f8e9ae", "event": "finalizing", "asctime": "13:16:02"}
+{"ts": "2026-07-03T13:16:02", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4d7bf798-b58e-4510-87a2-1238b1f8e9ae", "event": "finalizing", "asctime": "13:16:02"}
+{"ts": "2026-07-03T13:16:02", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4d7bf798-b58e-4510-87a2-1238b1f8e9ae", "event": "finalizing", "asctime": "13:16:02"}
+{"ts": "2026-07-03T13:16:06", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4d7bf798-b58e-4510-87a2-1238b1f8e9ae", "event": "step_started", "asctime": "13:16:06"}
+{"ts": "2026-07-03T13:16:07", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4d7bf798-b58e-4510-87a2-1238b1f8e9ae", "event": "step_result", "asctime": "13:16:07"}
+{"ts": "2026-07-03T13:16:16", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4d7bf798-b58e-4510-87a2-1238b1f8e9ae", "event": "finalizing", "asctime": "13:16:16"}
+{"ts": "2026-07-03T13:16:16", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4d7bf798-b58e-4510-87a2-1238b1f8e9ae", "event": "task_completed", "asctime": "13:16:16"}
+{"ts": "2026-07-03T13:16:16", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 38, "agent_response_len": 606, "asctime": "13:16:16"}
+{"ts": "2026-07-03T13:16:16", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T13:16:16", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "13:16:16"}
+{"ts": "2026-07-03T13:16:17", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 1197.1, "asctime": "13:16:17"}
+{"ts": "2026-07-03T13:16:17", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Top Technology News Sources\",\\n      \"content\": \"Stay updated with the latest developments in the tech industry through these primary sources:\\\\n\\\\n- **Reuters**: Comprehensive global technology news coverage.\\\\n- **Google News (Tech"}
+{"ts": "2026-07-03T13:16:17", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "13:16:17"}
+{"ts": "2026-07-03T13:16:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:16:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:16:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:16:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:16:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:16:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:16:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:16:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:16:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:16:34", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 31, "asctime": "13:16:34"}
+{"ts": "2026-07-03T13:16:34", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "5a195f93-1685-43ac-b06e-05edc9529605", "event": "task_started", "asctime": "13:16:34"}
+{"ts": "2026-07-03T13:16:34", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "5a195f93-1685-43ac-b06e-05edc9529605", "event": "agent_selected", "asctime": "13:16:34"}
+{"ts": "2026-07-03T13:16:34", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "5a195f93-1685-43ac-b06e-05edc9529605", "event": "agent_started", "asctime": "13:16:34"}
+{"ts": "2026-07-03T13:16:34", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "5a195f93-1685-43ac-b06e-05edc9529605", "event": "finalizing", "asctime": "13:16:34"}
+{"ts": "2026-07-03T13:16:34", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "5a195f93-1685-43ac-b06e-05edc9529605", "event": "finalizing", "asctime": "13:16:34"}
+{"ts": "2026-07-03T13:16:34", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "5a195f93-1685-43ac-b06e-05edc9529605", "event": "finalizing", "asctime": "13:16:34"}
+{"ts": "2026-07-03T13:16:38", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "5a195f93-1685-43ac-b06e-05edc9529605", "event": "step_started", "asctime": "13:16:38"}
+{"ts": "2026-07-03T13:16:39", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "5a195f93-1685-43ac-b06e-05edc9529605", "event": "step_result", "asctime": "13:16:39"}
+{"ts": "2026-07-03T13:16:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "5a195f93-1685-43ac-b06e-05edc9529605", "event": "finalizing", "asctime": "13:16:52"}
+{"ts": "2026-07-03T13:16:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "5a195f93-1685-43ac-b06e-05edc9529605", "event": "task_completed", "asctime": "13:16:52"}
+{"ts": "2026-07-03T13:16:52", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 31, "agent_response_len": 908, "asctime": "13:16:52"}
+{"ts": "2026-07-03T13:16:52", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T13:16:52", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "13:16:52"}
+{"ts": "2026-07-03T13:16:53", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 1190.1, "asctime": "13:16:53"}
+{"ts": "2026-07-03T13:16:53", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Top Tech News Sources\",\\n      \"content\": \"Stay informed with these leading technology news outlets:\\\\n\\\\n- **Reuters Technology**: Global breaking news and international tech coverage.\\\\n- **Google News (Tech)**: A comprehensive agg"}
+{"ts": "2026-07-03T13:16:53", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "13:16:53"}
+{"ts": "2026-07-03T13:16:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:16:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:16:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:16:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:16:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:16:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:16:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:16:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:16:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:17:45", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "13:17:45"}
+{"ts": "2026-07-03T13:17:46", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "13:17:46"}
+{"ts": "2026-07-03T13:17:46", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "13:17:46"}
+{"ts": "2026-07-03T13:17:46", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "13:17:46"}
+{"ts": "2026-07-03T13:17:46", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "13:17:46"}
+{"ts": "2026-07-03T13:17:46", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-03T13:41:25", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "13:41:25"}
+{"ts": "2026-07-03T13:41:25", "level": "DEBUG", "logger": "htmldate.validators", "msg": "minimum date setting: 1995-01-01 00:00:00"}
+{"ts": "2026-07-03T13:41:26", "level": "INFO", "logger": "assistant.__main__", "msg": "app.start", "asctime": "13:41:26"}
+{"ts": "2026-07-03T13:41:26", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-03T13:41:26", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "13:41:26"}
+{"ts": "2026-07-03T13:41:26", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "13:41:26"}
+{"ts": "2026-07-03T13:41:27", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-03T13:41:27", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 13.3, "server": "playwright", "asctime": "13:41:27"}
+{"ts": "2026-07-03T13:41:29", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "search"}
+{"ts": "2026-07-03T13:41:29", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 9.3, "server": "search", "asctime": "13:41:29"}
+{"ts": "2026-07-03T13:41:29", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 2, "asctime": "13:41:29"}
+{"ts": "2026-07-03T13:41:29", "level": "INFO", "logger": "assistant.__main__", "msg": "build_models.start", "asctime": "13:41:29"}
+{"ts": "2026-07-03T13:41:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5:7b", "asctime": "13:41:29"}
+{"ts": "2026-07-03T13:41:29", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T13:41:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "13:41:29"}
+{"ts": "2026-07-03T13:41:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 19.2, "model_name": "qwen2.5:7b", "asctime": "13:41:29"}
+{"ts": "2026-07-03T13:41:29", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-03T13:41:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b-instruct", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "13:41:29"}
+{"ts": "2026-07-03T13:41:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 21.0, "model_name": "qwen2.5:7b-instruct", "asctime": "13:41:29"}
+{"ts": "2026-07-03T13:41:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.evict_active", "evicting": "qwen2.5:7b-instruct", "loading": "qwen2.5:7b", "asctime": "13:41:29"}
+{"ts": "2026-07-03T13:41:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b-instruct", "asctime": "13:41:29"}
+{"ts": "2026-07-03T13:41:29", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T13:41:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "13:41:29"}
+{"ts": "2026-07-03T13:41:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 23.4, "model_name": "qwen2.5:7b", "asctime": "13:41:29"}
+{"ts": "2026-07-03T13:41:29", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "gemini-3.1-flash-lite"}
+{"ts": "2026-07-03T13:41:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "google", "model_name": "gemini-3.1-flash-lite", "temperature": 0.2, "timeout": 30, "num_predict": 2048, "asctime": "13:41:29"}
+{"ts": "2026-07-03T13:41:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 31.1, "model_name": "gemini-3.1-flash-lite", "asctime": "13:41:29"}
+{"ts": "2026-07-03T13:41:29", "level": "INFO", "logger": "assistant.__main__", "msg": "build_models.done", "models": ["core_agent", "agent", "response_builder"], "asctime": "13:41:29"}
+{"ts": "2026-07-03T13:41:29", "level": "INFO", "logger": "assistant.__main__", "msg": "build_system.done", "asctime": "13:41:29"}
+{"ts": "2026-07-03T13:41:36", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 14, "asctime": "13:41:36"}
+{"ts": "2026-07-03T13:41:36", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "58adbe37-9cb9-42fe-ab9a-4c9de53b115d", "event": "task_started", "asctime": "13:41:36"}
+{"ts": "2026-07-03T13:41:36", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "58adbe37-9cb9-42fe-ab9a-4c9de53b115d", "event": "agent_selected", "asctime": "13:41:36"}
+{"ts": "2026-07-03T13:41:36", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "58adbe37-9cb9-42fe-ab9a-4c9de53b115d", "event": "agent_started", "asctime": "13:41:36"}
+{"ts": "2026-07-03T13:41:44", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "58adbe37-9cb9-42fe-ab9a-4c9de53b115d", "event": "finalizing", "asctime": "13:41:44"}
+{"ts": "2026-07-03T13:41:44", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "58adbe37-9cb9-42fe-ab9a-4c9de53b115d", "event": "task_completed", "asctime": "13:41:44"}
+{"ts": "2026-07-03T13:41:44", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 14, "agent_response_len": 44, "asctime": "13:41:44"}
+{"ts": "2026-07-03T13:41:44", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T13:41:44", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "13:41:44"}
+{"ts": "2026-07-03T13:41:45", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 852.3, "asctime": "13:41:45"}
+{"ts": "2026-07-03T13:41:45", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Application Launched\",\\n      \"content\": \"Pinterest has been successfully opened.\",\\n      \"type\": \"success\",\\n      \"url\": null\\n    }\\n  ]\\n}', 'extras': {'signature': 'EjQKMgEMOdbHCWIvuRuz8uNpbqIuZm8gCxm1JJVGI4QO+DViOcfxK6mETcM/uU"}
+{"ts": "2026-07-03T13:41:45", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "13:41:45"}
+{"ts": "2026-07-03T13:41:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:41:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:41:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:41:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:41:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:41:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:41:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:41:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:41:45", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:42:02", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 6, "asctime": "13:42:02"}
+{"ts": "2026-07-03T13:42:02", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "b1fab1a4-ffa4-4d97-aaab-63022c8947ac", "event": "task_started", "asctime": "13:42:02"}
+{"ts": "2026-07-03T13:42:02", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "b1fab1a4-ffa4-4d97-aaab-63022c8947ac", "event": "agent_selected", "asctime": "13:42:02"}
+{"ts": "2026-07-03T13:42:02", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "b1fab1a4-ffa4-4d97-aaab-63022c8947ac", "event": "agent_started", "asctime": "13:42:02"}
+{"ts": "2026-07-03T13:42:02", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "b1fab1a4-ffa4-4d97-aaab-63022c8947ac", "event": "finalizing", "asctime": "13:42:02"}
+{"ts": "2026-07-03T13:42:03", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "b1fab1a4-ffa4-4d97-aaab-63022c8947ac", "event": "finalizing", "asctime": "13:42:03"}
+{"ts": "2026-07-03T13:42:03", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "b1fab1a4-ffa4-4d97-aaab-63022c8947ac", "event": "task_completed", "asctime": "13:42:03"}
+{"ts": "2026-07-03T13:42:03", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 6, "agent_response_len": 34, "asctime": "13:42:03"}
+{"ts": "2026-07-03T13:42:03", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T13:42:03", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "13:42:03"}
+{"ts": "2026-07-03T13:42:03", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 823.6, "asctime": "13:42:03"}
+{"ts": "2026-07-03T13:42:03", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Application Status\",\\n      \"content\": \"Pinterest has been successfully launched and is currently active in the foreground.\",\\n      \"type\": \"success\",\\n      \"url\": null\\n    }\\n  ]\\n}', 'extras': {'signature': 'EjQKMgEMOdbHqg0870qZ"}
+{"ts": "2026-07-03T13:42:03", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "13:42:03"}
+{"ts": "2026-07-03T13:42:03", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:42:03", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:42:03", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:42:03", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:42:03", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:42:03", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:42:03", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:42:03", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:42:03", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:42:14", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 37, "asctime": "13:42:14"}
+{"ts": "2026-07-03T13:42:14", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "ac9f61d9-282d-4014-838b-963c3888aa91", "event": "task_started", "asctime": "13:42:14"}
+{"ts": "2026-07-03T13:42:14", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "ac9f61d9-282d-4014-838b-963c3888aa91", "event": "agent_selected", "asctime": "13:42:14"}
+{"ts": "2026-07-03T13:42:14", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "ac9f61d9-282d-4014-838b-963c3888aa91", "event": "agent_started", "asctime": "13:42:14"}
+{"ts": "2026-07-03T13:42:14", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "ac9f61d9-282d-4014-838b-963c3888aa91", "event": "finalizing", "asctime": "13:42:14"}
+{"ts": "2026-07-03T13:42:14", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "ac9f61d9-282d-4014-838b-963c3888aa91", "event": "finalizing", "asctime": "13:42:14"}
+{"ts": "2026-07-03T13:42:16", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "ac9f61d9-282d-4014-838b-963c3888aa91", "event": "finalizing", "asctime": "13:42:16"}
+{"ts": "2026-07-03T13:42:16", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "ac9f61d9-282d-4014-838b-963c3888aa91", "event": "task_completed", "asctime": "13:42:16"}
+{"ts": "2026-07-03T13:42:16", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 37, "agent_response_len": 78, "asctime": "13:42:16"}
+{"ts": "2026-07-03T13:42:16", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T13:42:16", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "13:42:16"}
+{"ts": "2026-07-03T13:42:17", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 1087.4, "asctime": "13:42:17"}
+{"ts": "2026-07-03T13:42:17", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Tool Execution Details\",\\n      \"content\": \"To ensure the Pinterest window was correctly accessed, I utilized the focus_window tool. This action brought the application into the foreground after it was opened.\",\\n      \"type\": \"info\""}
+{"ts": "2026-07-03T13:42:17", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "13:42:17"}
+{"ts": "2026-07-03T13:42:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:42:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:42:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:42:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:42:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:42:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:42:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:42:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:42:17", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:42:31", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "13:42:31"}
+{"ts": "2026-07-03T13:42:31", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "13:42:31"}
+{"ts": "2026-07-03T13:42:31", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "13:42:31"}
+{"ts": "2026-07-03T13:42:31", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "13:42:31"}
+{"ts": "2026-07-03T13:42:31", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "13:42:31"}
+{"ts": "2026-07-03T13:42:31", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-03T13:42:48", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "13:42:48"}
+{"ts": "2026-07-03T13:42:49", "level": "DEBUG", "logger": "htmldate.validators", "msg": "minimum date setting: 1995-01-01 00:00:00"}
+{"ts": "2026-07-03T13:42:49", "level": "INFO", "logger": "assistant.__main__", "msg": "app.start", "asctime": "13:42:49"}
+{"ts": "2026-07-03T13:42:49", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-03T13:42:49", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "13:42:49"}
+{"ts": "2026-07-03T13:42:49", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "13:42:49"}
+{"ts": "2026-07-03T13:42:51", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-03T13:42:51", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 15.2, "server": "playwright", "asctime": "13:42:51"}
+{"ts": "2026-07-03T13:42:52", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "search"}
+{"ts": "2026-07-03T13:42:52", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 13.2, "server": "search", "asctime": "13:42:52"}
+{"ts": "2026-07-03T13:42:52", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 2, "asctime": "13:42:52"}
+{"ts": "2026-07-03T13:42:52", "level": "INFO", "logger": "assistant.__main__", "msg": "build_models.start", "asctime": "13:42:52"}
+{"ts": "2026-07-03T13:42:52", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5:7b", "asctime": "13:42:52"}
+{"ts": "2026-07-03T13:42:52", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T13:42:52", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "13:42:52"}
+{"ts": "2026-07-03T13:42:52", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 29.9, "model_name": "qwen2.5:7b", "asctime": "13:42:52"}
+{"ts": "2026-07-03T13:42:52", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-03T13:42:52", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b-instruct", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "13:42:52"}
+{"ts": "2026-07-03T13:42:52", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 20.7, "model_name": "qwen2.5:7b-instruct", "asctime": "13:42:52"}
+{"ts": "2026-07-03T13:42:52", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.evict_active", "evicting": "qwen2.5:7b-instruct", "loading": "qwen2.5:7b", "asctime": "13:42:52"}
+{"ts": "2026-07-03T13:42:52", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b-instruct", "asctime": "13:42:52"}
+{"ts": "2026-07-03T13:42:52", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T13:42:52", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "13:42:52"}
+{"ts": "2026-07-03T13:42:52", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 35.4, "model_name": "qwen2.5:7b", "asctime": "13:42:52"}
+{"ts": "2026-07-03T13:42:52", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "gemini-3.1-flash-lite"}
+{"ts": "2026-07-03T13:42:52", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "google", "model_name": "gemini-3.1-flash-lite", "temperature": 0.2, "timeout": 30, "num_predict": 2048, "asctime": "13:42:52"}
+{"ts": "2026-07-03T13:42:52", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 42.8, "model_name": "gemini-3.1-flash-lite", "asctime": "13:42:52"}
+{"ts": "2026-07-03T13:42:52", "level": "INFO", "logger": "assistant.__main__", "msg": "build_models.done", "models": ["core_agent", "agent", "response_builder"], "asctime": "13:42:52"}
+{"ts": "2026-07-03T13:42:53", "level": "INFO", "logger": "assistant.__main__", "msg": "build_system.done", "asctime": "13:42:53"}
+{"ts": "2026-07-03T13:43:03", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 14, "asctime": "13:43:03"}
+{"ts": "2026-07-03T13:43:03", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "9beabc12-1926-4bcb-b776-fcc70f9e63a1", "event": "task_started", "asctime": "13:43:03"}
+{"ts": "2026-07-03T13:43:03", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "9beabc12-1926-4bcb-b776-fcc70f9e63a1", "event": "agent_selected", "asctime": "13:43:03"}
+{"ts": "2026-07-03T13:43:03", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "9beabc12-1926-4bcb-b776-fcc70f9e63a1", "event": "agent_started", "asctime": "13:43:03"}
+{"ts": "2026-07-03T13:43:12", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "9beabc12-1926-4bcb-b776-fcc70f9e63a1", "event": "step_started", "asctime": "13:43:12"}
+{"ts": "2026-07-03T13:43:12", "level": "INFO", "logger": "root", "msg": "[TOOL START] launch_application", "asctime": "13:43:12"}
+{"ts": "2026-07-03T13:43:12", "level": "INFO", "logger": "root", "msg": "[LAUNCH APP] Pinterest", "asctime": "13:43:12"}
+{"ts": "2026-07-03T13:43:26", "level": "INFO", "logger": "root", "msg": "[TOOL RESULT TYPE] <class 'str'>", "asctime": "13:43:26"}
+{"ts": "2026-07-03T13:43:26", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "9beabc12-1926-4bcb-b776-fcc70f9e63a1", "event": "step_result", "asctime": "13:43:26"}
+{"ts": "2026-07-03T13:43:31", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "9beabc12-1926-4bcb-b776-fcc70f9e63a1", "event": "step_started", "asctime": "13:43:31"}
+{"ts": "2026-07-03T13:43:31", "level": "INFO", "logger": "root", "msg": "[TOOL START] search_installed_apps", "asctime": "13:43:31"}
+{"ts": "2026-07-03T13:43:34", "level": "INFO", "logger": "root", "msg": "[TOOL RESULT TYPE] <class 'str'>", "asctime": "13:43:34"}
+{"ts": "2026-07-03T13:43:34", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "9beabc12-1926-4bcb-b776-fcc70f9e63a1", "event": "step_result", "asctime": "13:43:34"}
+{"ts": "2026-07-03T13:43:37", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "9beabc12-1926-4bcb-b776-fcc70f9e63a1", "event": "finalizing", "asctime": "13:43:37"}
+{"ts": "2026-07-03T13:43:37", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "9beabc12-1926-4bcb-b776-fcc70f9e63a1", "event": "task_completed", "asctime": "13:43:37"}
+{"ts": "2026-07-03T13:43:37", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 14, "agent_response_len": 136, "asctime": "13:43:37"}
+{"ts": "2026-07-03T13:43:37", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T13:43:37", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "13:43:37"}
+{"ts": "2026-07-03T13:43:38", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 1160.1, "asctime": "13:43:38"}
+{"ts": "2026-07-03T13:43:38", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Application Not Found\",\\n      \"content\": \"Pinterest is not currently installed on your system. Would you like me to guide you through the installation process?\",\\n      \"type\": \"warning\",\\n      \"url\": null\\n    }\\n  ]\\n}', 'extras'"}
+{"ts": "2026-07-03T13:43:38", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "13:43:38"}
+{"ts": "2026-07-03T13:43:38", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:43:38", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:43:38", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:43:38", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:43:38", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:43:38", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:43:38", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:43:38", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:43:38", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:43:49", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 22, "asctime": "13:43:49"}
+{"ts": "2026-07-03T13:43:49", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "fdf23536-0b2e-48df-a2b4-7c412dfd3765", "event": "task_started", "asctime": "13:43:49"}
+{"ts": "2026-07-03T13:43:49", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "fdf23536-0b2e-48df-a2b4-7c412dfd3765", "event": "agent_selected", "asctime": "13:43:49"}
+{"ts": "2026-07-03T13:43:49", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "fdf23536-0b2e-48df-a2b4-7c412dfd3765", "event": "agent_started", "asctime": "13:43:49"}
+{"ts": "2026-07-03T13:43:49", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "fdf23536-0b2e-48df-a2b4-7c412dfd3765", "event": "finalizing", "asctime": "13:43:49"}
+{"ts": "2026-07-03T13:43:54", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "fdf23536-0b2e-48df-a2b4-7c412dfd3765", "event": "step_started", "asctime": "13:43:54"}
+{"ts": "2026-07-03T13:43:58", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "fdf23536-0b2e-48df-a2b4-7c412dfd3765", "event": "step_result", "asctime": "13:43:58"}
+{"ts": "2026-07-03T13:44:10", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "fdf23536-0b2e-48df-a2b4-7c412dfd3765", "event": "finalizing", "asctime": "13:44:10"}
+{"ts": "2026-07-03T13:44:10", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "fdf23536-0b2e-48df-a2b4-7c412dfd3765", "event": "task_completed", "asctime": "13:44:10"}
+{"ts": "2026-07-03T13:44:10", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 22, "agent_response_len": 268, "asctime": "13:44:10"}
+{"ts": "2026-07-03T13:44:10", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T13:44:10", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "13:44:10"}
+{"ts": "2026-07-03T13:44:11", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 1021.7, "asctime": "13:44:11"}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Browser Navigation\",\\n      \"content\": \"The browser has been successfully opened and navigated to Pinterest.\",\\n      \"type\": \"success\",\\n      \"url\": \"https://www.pinterest.com/\"\\n    },\\n    {\\n      \"title\": \"Page Details\",\\n     "}
+{"ts": "2026-07-03T13:44:11", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 2, "asctime": "13:44:11"}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:44:11", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:44:14", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 17, "asctime": "13:44:14"}
+{"ts": "2026-07-03T13:44:14", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "b60e0d43-5b17-47b8-8ab7-176f62282460", "event": "task_started", "asctime": "13:44:14"}
+{"ts": "2026-07-03T13:44:14", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "b60e0d43-5b17-47b8-8ab7-176f62282460", "event": "agent_selected", "asctime": "13:44:14"}
+{"ts": "2026-07-03T13:44:14", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "b60e0d43-5b17-47b8-8ab7-176f62282460", "event": "agent_started", "asctime": "13:44:14"}
+{"ts": "2026-07-03T13:44:14", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "b60e0d43-5b17-47b8-8ab7-176f62282460", "event": "finalizing", "asctime": "13:44:14"}
+{"ts": "2026-07-03T13:44:14", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "b60e0d43-5b17-47b8-8ab7-176f62282460", "event": "finalizing", "asctime": "13:44:14"}
+{"ts": "2026-07-03T13:44:18", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "b60e0d43-5b17-47b8-8ab7-176f62282460", "event": "step_started", "asctime": "13:44:18"}
+{"ts": "2026-07-03T13:44:18", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "b60e0d43-5b17-47b8-8ab7-176f62282460", "event": "step_result", "asctime": "13:44:18"}
+{"ts": "2026-07-03T13:44:28", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "b60e0d43-5b17-47b8-8ab7-176f62282460", "event": "finalizing", "asctime": "13:44:28"}
+{"ts": "2026-07-03T13:44:28", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "b60e0d43-5b17-47b8-8ab7-176f62282460", "event": "task_completed", "asctime": "13:44:28"}
+{"ts": "2026-07-03T13:44:28", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 17, "agent_response_len": 253, "asctime": "13:44:28"}
+{"ts": "2026-07-03T13:44:28", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T13:44:28", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "13:44:28"}
+{"ts": "2026-07-03T13:44:29", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 970.1, "asctime": "13:44:29"}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Google Sign-In Initiated\",\\n      \"content\": \"The browser has successfully navigated to the Google sign-in page for Pinterest. Please locate the \\'Sign in with Google\\' button on your screen to proceed with the authentication process"}
+{"ts": "2026-07-03T13:44:29", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 2, "asctime": "13:44:29"}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T13:44:29", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T14:01:51", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 20, "asctime": "14:01:51"}
+{"ts": "2026-07-03T14:01:51", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4761774b-e129-46de-bc9f-813c4e19db28", "event": "task_started", "asctime": "14:01:51"}
+{"ts": "2026-07-03T14:01:51", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4761774b-e129-46de-bc9f-813c4e19db28", "event": "agent_selected", "asctime": "14:01:51"}
+{"ts": "2026-07-03T14:01:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4761774b-e129-46de-bc9f-813c4e19db28", "event": "agent_started", "asctime": "14:01:52"}
+{"ts": "2026-07-03T14:01:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4761774b-e129-46de-bc9f-813c4e19db28", "event": "finalizing", "asctime": "14:01:52"}
+{"ts": "2026-07-03T14:01:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4761774b-e129-46de-bc9f-813c4e19db28", "event": "finalizing", "asctime": "14:01:52"}
+{"ts": "2026-07-03T14:01:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4761774b-e129-46de-bc9f-813c4e19db28", "event": "finalizing", "asctime": "14:01:52"}
+{"ts": "2026-07-03T14:01:57", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4761774b-e129-46de-bc9f-813c4e19db28", "event": "finalizing", "asctime": "14:01:57"}
+{"ts": "2026-07-03T14:01:57", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "4761774b-e129-46de-bc9f-813c4e19db28", "event": "task_completed", "asctime": "14:01:57"}
+{"ts": "2026-07-03T14:01:57", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 20, "agent_response_len": 246, "asctime": "14:01:57"}
+{"ts": "2026-07-03T14:01:57", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T14:01:57", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "14:01:57"}
+{"ts": "2026-07-03T14:01:58", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 1025.4, "asctime": "14:01:58"}
+{"ts": "2026-07-03T14:01:58", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Google Sign-In Initiated\",\\n      \"content\": \"The \\'Sign in with Google\\' process has been triggered on the Pinterest login page. You should be redirected to the Google authentication screen shortly. If the page does not load automat"}
+{"ts": "2026-07-03T14:01:58", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "14:01:58"}
+{"ts": "2026-07-03T14:01:58", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T14:01:58", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T14:01:58", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T14:01:58", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T14:01:58", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T14:01:58", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T14:01:58", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T14:01:58", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T14:01:58", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T14:02:16", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 20, "asctime": "14:02:16"}
+{"ts": "2026-07-03T14:02:16", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "75600b54-8265-47d0-86c8-d81e233da799", "event": "task_started", "asctime": "14:02:16"}
+{"ts": "2026-07-03T14:02:16", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "75600b54-8265-47d0-86c8-d81e233da799", "event": "agent_selected", "asctime": "14:02:16"}
+{"ts": "2026-07-03T14:02:16", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "75600b54-8265-47d0-86c8-d81e233da799", "event": "agent_started", "asctime": "14:02:16"}
+{"ts": "2026-07-03T14:02:16", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "75600b54-8265-47d0-86c8-d81e233da799", "event": "finalizing", "asctime": "14:02:16"}
+{"ts": "2026-07-03T14:02:16", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "75600b54-8265-47d0-86c8-d81e233da799", "event": "finalizing", "asctime": "14:02:16"}
+{"ts": "2026-07-03T14:02:16", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "75600b54-8265-47d0-86c8-d81e233da799", "event": "finalizing", "asctime": "14:02:16"}
+{"ts": "2026-07-03T14:02:21", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "75600b54-8265-47d0-86c8-d81e233da799", "event": "step_started", "asctime": "14:02:21"}
+{"ts": "2026-07-03T14:02:21", "level": "INFO", "logger": "root", "msg": "[MOUSE CLICK] (500, 300) button=left clicks=1", "asctime": "14:02:21"}
+{"ts": "2026-07-03T14:02:21", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "75600b54-8265-47d0-86c8-d81e233da799", "event": "step_result", "asctime": "14:02:21"}
+{"ts": "2026-07-03T14:02:24", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "75600b54-8265-47d0-86c8-d81e233da799", "event": "finalizing", "asctime": "14:02:24"}
+{"ts": "2026-07-03T14:02:24", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "75600b54-8265-47d0-86c8-d81e233da799", "event": "task_completed", "asctime": "14:02:24"}
+{"ts": "2026-07-03T14:02:24", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 20, "agent_response_len": 211, "asctime": "14:02:24"}
+{"ts": "2026-07-03T14:02:24", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T14:02:24", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "14:02:24"}
+{"ts": "2026-07-03T14:02:25", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 960.5, "asctime": "14:02:25"}
+{"ts": "2026-07-03T14:02:25", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Action Successful\",\\n      \"content\": \"The \\'Sign in with Google\\' button has been clicked. You should now be redirected to the authentication page. If the page does not load, please let me know.\",\\n      \"type\": \"success\",\\n      \"u"}
+{"ts": "2026-07-03T14:02:25", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "14:02:25"}
+{"ts": "2026-07-03T14:02:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T14:02:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T14:02:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T14:02:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T14:02:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T14:02:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T14:02:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T14:02:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T14:02:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T14:02:48", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 26, "asctime": "14:02:48"}
+{"ts": "2026-07-03T14:02:48", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d117ace2-c119-42cb-a0ee-337412d9dc32", "event": "task_started", "asctime": "14:02:48"}
+{"ts": "2026-07-03T14:02:48", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d117ace2-c119-42cb-a0ee-337412d9dc32", "event": "agent_selected", "asctime": "14:02:48"}
+{"ts": "2026-07-03T14:02:48", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d117ace2-c119-42cb-a0ee-337412d9dc32", "event": "agent_started", "asctime": "14:02:48"}
+{"ts": "2026-07-03T14:02:48", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d117ace2-c119-42cb-a0ee-337412d9dc32", "event": "finalizing", "asctime": "14:02:48"}
+{"ts": "2026-07-03T14:02:48", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d117ace2-c119-42cb-a0ee-337412d9dc32", "event": "finalizing", "asctime": "14:02:48"}
+{"ts": "2026-07-03T14:02:48", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d117ace2-c119-42cb-a0ee-337412d9dc32", "event": "finalizing", "asctime": "14:02:48"}
+{"ts": "2026-07-03T14:02:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d117ace2-c119-42cb-a0ee-337412d9dc32", "event": "finalizing", "asctime": "14:02:52"}
+{"ts": "2026-07-03T14:02:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d117ace2-c119-42cb-a0ee-337412d9dc32", "event": "task_completed", "asctime": "14:02:52"}
+{"ts": "2026-07-03T14:02:52", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 26, "agent_response_len": 160, "asctime": "14:02:52"}
+{"ts": "2026-07-03T14:02:52", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T14:02:52", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "14:02:52"}
+{"ts": "2026-07-03T14:02:53", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 899.0, "asctime": "14:02:53"}
+{"ts": "2026-07-03T14:02:53", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Action Required\",\\n      \"content\": \"I was unable to click the button as requested. Please confirm the location of the \\'Sign in with Google\\' button on your screen so I can attempt the action again.\",\\n      \"type\": \"warning\",\\n    "}
+{"ts": "2026-07-03T14:02:53", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "14:02:53"}
+{"ts": "2026-07-03T14:02:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T14:02:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T14:02:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T14:02:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T14:02:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T14:02:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T14:02:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T14:02:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T14:02:53", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T14:03:07", "level": "INFO", "logger": "assistant.__main__", "msg": "user_input.received", "text_len": 21, "asctime": "14:03:07"}
+{"ts": "2026-07-03T14:03:07", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "6331108b-b980-40d7-8166-d78aaee4afce", "event": "task_started", "asctime": "14:03:07"}
+{"ts": "2026-07-03T14:03:07", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "6331108b-b980-40d7-8166-d78aaee4afce", "event": "agent_selected", "asctime": "14:03:07"}
+{"ts": "2026-07-03T14:03:07", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "6331108b-b980-40d7-8166-d78aaee4afce", "event": "agent_started", "asctime": "14:03:07"}
+{"ts": "2026-07-03T14:03:07", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "6331108b-b980-40d7-8166-d78aaee4afce", "event": "finalizing", "asctime": "14:03:07"}
+{"ts": "2026-07-03T14:03:07", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "6331108b-b980-40d7-8166-d78aaee4afce", "event": "finalizing", "asctime": "14:03:07"}
+{"ts": "2026-07-03T14:03:07", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "6331108b-b980-40d7-8166-d78aaee4afce", "event": "finalizing", "asctime": "14:03:07"}
+{"ts": "2026-07-03T14:03:12", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "6331108b-b980-40d7-8166-d78aaee4afce", "event": "finalizing", "asctime": "14:03:12"}
+{"ts": "2026-07-03T14:03:12", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "6331108b-b980-40d7-8166-d78aaee4afce", "event": "task_completed", "asctime": "14:03:12"}
+{"ts": "2026-07-03T14:03:12", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.start", "query_len": 21, "agent_response_len": 329, "asctime": "14:03:12"}
+{"ts": "2026-07-03T14:03:12", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "start", "operation": "response_builder.llm_invoke"}
+{"ts": "2026-07-03T14:03:12", "level": "INFO", "logger": "google_genai.models", "msg": "AFC is enabled with max remote calls: 10.", "asctime": "14:03:12"}
+{"ts": "2026-07-03T14:03:13", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "done", "operation": "response_builder.llm_invoke", "elapsed_ms": 881.1, "asctime": "14:03:13"}
+{"ts": "2026-07-03T14:03:13", "level": "DEBUG", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.raw_output", "content": "[{'type': 'text', 'text': '{\\n  \"cards\": [\\n    {\\n      \"title\": \"Locating Sign-in Element\",\\n      \"content\": \"The \\'Sign in with Google\\' button is usually found near the login options or in the top-right corner of the page. To assist you further, please describe its position relative to other sc"}
+{"ts": "2026-07-03T14:03:13", "level": "INFO", "logger": "assistant.src.agents.response_builder_agent", "msg": "response_builder.build.done", "card_count": 1, "asctime": "14:03:13"}
+{"ts": "2026-07-03T14:03:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T14:03:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T14:03:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T14:03:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T14:03:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T14:03:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T14:03:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T14:03:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T14:03:13", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T14:03:30", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "14:03:30"}
+{"ts": "2026-07-03T14:03:31", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "14:03:31"}
+{"ts": "2026-07-03T14:03:31", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "14:03:31"}
+{"ts": "2026-07-03T14:03:31", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "14:03:31"}
+{"ts": "2026-07-03T14:03:31", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "14:03:31"}
+{"ts": "2026-07-03T14:03:31", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-03T15:20:37", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "15:20:37"}
+{"ts": "2026-07-03T15:20:37", "level": "INFO", "logger": "assistant.__main__", "msg": "app.start", "asctime": "15:20:37"}
+{"ts": "2026-07-03T15:20:37", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-03T15:20:37", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "15:20:37"}
+{"ts": "2026-07-03T15:20:37", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "15:20:37"}
+{"ts": "2026-07-03T15:20:40", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-03T15:20:40", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 12.0, "server": "playwright", "asctime": "15:20:40"}
+{"ts": "2026-07-03T15:20:42", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "search"}
+{"ts": "2026-07-03T15:20:42", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 7.4, "server": "search", "asctime": "15:20:42"}
+{"ts": "2026-07-03T15:20:42", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 2, "asctime": "15:20:42"}
+{"ts": "2026-07-03T15:20:42", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5:7b", "asctime": "15:20:42"}
+{"ts": "2026-07-03T15:20:42", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T15:20:42", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "15:20:42"}
+{"ts": "2026-07-03T15:20:43", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 19.4, "model_name": "qwen2.5:7b", "asctime": "15:20:43"}
+{"ts": "2026-07-03T15:20:43", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-03T15:20:43", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b-instruct", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "15:20:43"}
+{"ts": "2026-07-03T15:20:43", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 25.3, "model_name": "qwen2.5:7b-instruct", "asctime": "15:20:43"}
+{"ts": "2026-07-03T15:20:43", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.evict_active", "evicting": "qwen2.5:7b-instruct", "loading": "qwen2.5:7b", "asctime": "15:20:43"}
+{"ts": "2026-07-03T15:20:43", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b-instruct", "asctime": "15:20:43"}
+{"ts": "2026-07-03T15:20:43", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T15:20:43", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "15:20:43"}
+{"ts": "2026-07-03T15:20:43", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 19.3, "model_name": "qwen2.5:7b", "asctime": "15:20:43"}
+{"ts": "2026-07-03T15:20:43", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "model.cache_hit", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T15:20:43", "level": "INFO", "logger": "assistant.__main__", "msg": "system.initialized", "asctime": "15:20:43"}
+{"ts": "2026-07-03T15:20:47", "level": "INFO", "logger": "assistant.__main__", "msg": "user.request", "text": "open pinterest", "asctime": "15:20:47"}
+{"ts": "2026-07-03T15:20:47", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "52fa9232-fb77-410d-962a-afb2945affbf", "event": "task_started", "asctime": "15:20:47"}
+{"ts": "2026-07-03T15:20:56", "level": "ERROR", "logger": "assistant.src.orchestrator.orchestrator", "msg": "router.parse.failed", "exc": "Traceback (most recent call last):\n  File \"C:\\Users\\shiva\\AI_assistant\\src\\orchestrator\\orchestrator.py\", line 99, in _parse_tasks\n    data = __import__(\"json\").loads(text)\n  File \"C:\\Users\\shiva\\miniconda3\\Lib\\json\\__init__.py\", line 352, in loads\n    return _default_decoder.decode(s)\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^\n  File \"C:\\Users\\shiva\\miniconda3\\Lib\\json\\decoder.py\", line 345, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\shiva\\miniconda3\\Lib\\json\\decoder.py\", line 361, in raw_decode\n    obj, end = self.scan_once(s, idx)\n               ~~~~~~~~~~~~~~^^^^^^^^\njson.decoder.JSONDecodeError: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)", "asctime": "15:20:56"}
+{"ts": "2026-07-03T15:20:56", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "52fa9232-fb77-410d-962a-afb2945affbf", "event": "tasks_created", "asctime": "15:20:56"}
+{"ts": "2026-07-03T15:20:56", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T15:20:56", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T15:20:56", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T15:20:56", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T15:20:56", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T15:20:56", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T15:20:56", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T15:20:56", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T15:20:56", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T15:21:01", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "15:21:01"}
+{"ts": "2026-07-03T15:21:01", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "15:21:01"}
+{"ts": "2026-07-03T15:21:01", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "15:21:01"}
+{"ts": "2026-07-03T15:21:01", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "15:21:01"}
+{"ts": "2026-07-03T15:21:01", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "15:21:01"}
+{"ts": "2026-07-03T15:24:14", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "15:24:14"}
+{"ts": "2026-07-03T15:24:14", "level": "INFO", "logger": "assistant.__main__", "msg": "app.start", "asctime": "15:24:14"}
+{"ts": "2026-07-03T15:24:14", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-03T15:24:14", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "15:24:14"}
+{"ts": "2026-07-03T15:24:14", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "15:24:14"}
+{"ts": "2026-07-03T15:24:16", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-03T15:24:16", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 12.0, "server": "playwright", "asctime": "15:24:16"}
+{"ts": "2026-07-03T15:24:17", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "search"}
+{"ts": "2026-07-03T15:24:17", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 8.2, "server": "search", "asctime": "15:24:17"}
+{"ts": "2026-07-03T15:24:17", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 2, "asctime": "15:24:17"}
+{"ts": "2026-07-03T15:24:18", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5:7b", "asctime": "15:24:18"}
+{"ts": "2026-07-03T15:24:18", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T15:24:18", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "15:24:18"}
+{"ts": "2026-07-03T15:24:18", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 20.8, "model_name": "qwen2.5:7b", "asctime": "15:24:18"}
+{"ts": "2026-07-03T15:24:18", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-03T15:24:18", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b-instruct", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "15:24:18"}
+{"ts": "2026-07-03T15:24:18", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 23.9, "model_name": "qwen2.5:7b-instruct", "asctime": "15:24:18"}
+{"ts": "2026-07-03T15:24:18", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.evict_active", "evicting": "qwen2.5:7b-instruct", "loading": "qwen2.5:7b", "asctime": "15:24:18"}
+{"ts": "2026-07-03T15:24:18", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b-instruct", "asctime": "15:24:18"}
+{"ts": "2026-07-03T15:24:18", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T15:24:18", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "15:24:18"}
+{"ts": "2026-07-03T15:24:18", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 21.2, "model_name": "qwen2.5:7b", "asctime": "15:24:18"}
+{"ts": "2026-07-03T15:24:18", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "model.cache_hit", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T15:24:18", "level": "INFO", "logger": "assistant.__main__", "msg": "system.initialized", "asctime": "15:24:18"}
+{"ts": "2026-07-03T15:24:24", "level": "INFO", "logger": "assistant.__main__", "msg": "user.request", "text": "open pinterest", "asctime": "15:24:24"}
+{"ts": "2026-07-03T15:24:24", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "78ccd23a-a109-4def-a8d1-605d3da4a67d", "event": "task_started", "asctime": "15:24:24"}
+{"ts": "2026-07-03T15:24:33", "level": "ERROR", "logger": "assistant.src.orchestrator.orchestrator", "msg": "router.parse.failed", "exc": "Traceback (most recent call last):\n  File \"C:\\Users\\shiva\\AI_assistant\\src\\orchestrator\\orchestrator.py\", line 101, in _parse_tasks\n    return data.get(\"tasks\", [])\n           ^^^^^^^^\nAttributeError: 'list' object has no attribute 'get'", "asctime": "15:24:33"}
+{"ts": "2026-07-03T15:24:33", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "78ccd23a-a109-4def-a8d1-605d3da4a67d", "event": "tasks_created", "asctime": "15:24:33"}
+{"ts": "2026-07-03T15:24:33", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T15:24:33", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T15:24:33", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T15:24:33", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T15:24:33", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T15:24:33", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T15:24:33", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T15:24:33", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T15:24:33", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T15:24:40", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "15:24:40"}
+{"ts": "2026-07-03T15:24:40", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "15:24:40"}
+{"ts": "2026-07-03T15:24:40", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "15:24:40"}
+{"ts": "2026-07-03T15:24:40", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "15:24:40"}
+{"ts": "2026-07-03T15:24:40", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "15:24:40"}
+{"ts": "2026-07-03T15:24:55", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "15:24:55"}
+{"ts": "2026-07-03T15:24:55", "level": "INFO", "logger": "assistant.__main__", "msg": "app.start", "asctime": "15:24:55"}
+{"ts": "2026-07-03T15:24:55", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-03T15:24:55", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "15:24:55"}
+{"ts": "2026-07-03T15:24:55", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "15:24:55"}
+{"ts": "2026-07-03T15:24:56", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-03T15:24:56", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 12.1, "server": "playwright", "asctime": "15:24:56"}
+{"ts": "2026-07-03T15:24:57", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "search"}
+{"ts": "2026-07-03T15:24:57", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 8.6, "server": "search", "asctime": "15:24:57"}
+{"ts": "2026-07-03T15:24:57", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 2, "asctime": "15:24:57"}
+{"ts": "2026-07-03T15:24:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5:7b", "asctime": "15:24:58"}
+{"ts": "2026-07-03T15:24:58", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T15:24:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "15:24:58"}
+{"ts": "2026-07-03T15:24:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 20.5, "model_name": "qwen2.5:7b", "asctime": "15:24:58"}
+{"ts": "2026-07-03T15:24:58", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-03T15:24:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b-instruct", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "15:24:58"}
+{"ts": "2026-07-03T15:24:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 24.3, "model_name": "qwen2.5:7b-instruct", "asctime": "15:24:58"}
+{"ts": "2026-07-03T15:24:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.evict_active", "evicting": "qwen2.5:7b-instruct", "loading": "qwen2.5:7b", "asctime": "15:24:58"}
+{"ts": "2026-07-03T15:24:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b-instruct", "asctime": "15:24:58"}
+{"ts": "2026-07-03T15:24:58", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T15:24:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "15:24:58"}
+{"ts": "2026-07-03T15:24:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 26.6, "model_name": "qwen2.5:7b", "asctime": "15:24:58"}
+{"ts": "2026-07-03T15:24:58", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "model.cache_hit", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T15:24:58", "level": "INFO", "logger": "assistant.__main__", "msg": "system.initialized", "asctime": "15:24:58"}
+{"ts": "2026-07-03T15:25:04", "level": "INFO", "logger": "assistant.__main__", "msg": "user.request", "text": "open pinterest", "asctime": "15:25:04"}
+{"ts": "2026-07-03T15:25:04", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "6270ca52-b4e6-46fa-86ff-87dee481b7d9", "event": "task_started", "asctime": "15:25:04"}
+{"ts": "2026-07-03T15:25:12", "level": "ERROR", "logger": "assistant.src.orchestrator.orchestrator", "msg": "router.parse.failed", "exc": "Traceback (most recent call last):\n  File \"C:\\Users\\shiva\\AI_assistant\\src\\orchestrator\\orchestrator.py\", line 102, in _parse_tasks\n    return data.get(\"tasks\", [])\n           ^^^^^^^^\nAttributeError: 'list' object has no attribute 'get'", "asctime": "15:25:12"}
+{"ts": "2026-07-03T15:25:12", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "6270ca52-b4e6-46fa-86ff-87dee481b7d9", "event": "tasks_created", "asctime": "15:25:12"}
+{"ts": "2026-07-03T15:25:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T15:25:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T15:25:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T15:25:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T15:25:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T15:25:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T15:25:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T15:25:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T15:25:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T15:26:17", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "15:26:17"}
+{"ts": "2026-07-03T15:26:18", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "15:26:18"}
+{"ts": "2026-07-03T15:26:18", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "15:26:18"}
+{"ts": "2026-07-03T15:26:18", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "15:26:18"}
+{"ts": "2026-07-03T15:26:18", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "15:26:18"}
+{"ts": "2026-07-03T15:28:20", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "15:28:20"}
+{"ts": "2026-07-03T15:28:20", "level": "INFO", "logger": "assistant.__main__", "msg": "app.start", "asctime": "15:28:20"}
+{"ts": "2026-07-03T15:28:20", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-03T15:28:20", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "15:28:20"}
+{"ts": "2026-07-03T15:28:20", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "15:28:20"}
+{"ts": "2026-07-03T15:28:21", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-03T15:28:21", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 12.6, "server": "playwright", "asctime": "15:28:21"}
+{"ts": "2026-07-03T15:28:23", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "search"}
+{"ts": "2026-07-03T15:28:23", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 8.3, "server": "search", "asctime": "15:28:23"}
+{"ts": "2026-07-03T15:28:23", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 2, "asctime": "15:28:23"}
+{"ts": "2026-07-03T15:28:23", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5:7b", "asctime": "15:28:23"}
+{"ts": "2026-07-03T15:28:23", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T15:28:23", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "15:28:23"}
+{"ts": "2026-07-03T15:28:23", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 27.2, "model_name": "qwen2.5:7b", "asctime": "15:28:23"}
+{"ts": "2026-07-03T15:28:23", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-03T15:28:23", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b-instruct", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "15:28:23"}
+{"ts": "2026-07-03T15:28:23", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 24.1, "model_name": "qwen2.5:7b-instruct", "asctime": "15:28:23"}
+{"ts": "2026-07-03T15:28:23", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.evict_active", "evicting": "qwen2.5:7b-instruct", "loading": "qwen2.5:7b", "asctime": "15:28:23"}
+{"ts": "2026-07-03T15:28:23", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b-instruct", "asctime": "15:28:23"}
+{"ts": "2026-07-03T15:28:23", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T15:28:23", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "15:28:23"}
+{"ts": "2026-07-03T15:28:23", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 29.5, "model_name": "qwen2.5:7b", "asctime": "15:28:23"}
+{"ts": "2026-07-03T15:28:23", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "model.cache_hit", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T15:28:23", "level": "INFO", "logger": "assistant.__main__", "msg": "system.initialized", "asctime": "15:28:23"}
+{"ts": "2026-07-03T15:28:28", "level": "INFO", "logger": "assistant.__main__", "msg": "user.request", "text": "open pinterest", "asctime": "15:28:28"}
+{"ts": "2026-07-03T15:28:28", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "7142b25b-1fd0-49cf-b506-19307e39cb1a", "event": "task_started", "asctime": "15:28:28"}
+{"ts": "2026-07-03T15:28:37", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "7142b25b-1fd0-49cf-b506-19307e39cb1a", "event": "tasks_created", "asctime": "15:28:37"}
+{"ts": "2026-07-03T15:28:37", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "7142b25b-1fd0-49cf-b506-19307e39cb1a", "event": "agent_task_started", "asctime": "15:28:37"}
+{"ts": "2026-07-03T15:28:39", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "7142b25b-1fd0-49cf-b506-19307e39cb1a", "event": "agent_task_completed", "asctime": "15:28:39"}
+{"ts": "2026-07-03T15:28:39", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "7142b25b-1fd0-49cf-b506-19307e39cb1a", "event": "task_completed", "asctime": "15:28:39"}
+{"ts": "2026-07-03T15:28:39", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T15:28:39", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T15:28:39", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T15:28:39", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T15:28:39", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T15:28:39", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T15:28:39", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T15:28:39", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T15:28:39", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T15:28:51", "level": "INFO", "logger": "assistant.__main__", "msg": "user.request", "text": "open pinterest", "asctime": "15:28:51"}
+{"ts": "2026-07-03T15:28:51", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "29860b4a-9d07-481b-8b25-165b1b55a8ce", "event": "task_started", "asctime": "15:28:51"}
+{"ts": "2026-07-03T15:28:54", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "29860b4a-9d07-481b-8b25-165b1b55a8ce", "event": "tasks_created", "asctime": "15:28:54"}
+{"ts": "2026-07-03T15:28:54", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "29860b4a-9d07-481b-8b25-165b1b55a8ce", "event": "agent_task_started", "asctime": "15:28:54"}
+{"ts": "2026-07-03T15:28:57", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "29860b4a-9d07-481b-8b25-165b1b55a8ce", "event": "agent_task_completed", "asctime": "15:28:57"}
+{"ts": "2026-07-03T15:28:57", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "29860b4a-9d07-481b-8b25-165b1b55a8ce", "event": "task_completed", "asctime": "15:28:57"}
+{"ts": "2026-07-03T15:28:57", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T15:28:57", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T15:28:57", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T15:28:57", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T15:28:57", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T15:28:57", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T15:28:57", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T15:28:57", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T15:28:57", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T15:29:01", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "15:29:01"}
+{"ts": "2026-07-03T15:29:01", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "15:29:01"}
+{"ts": "2026-07-03T15:29:01", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "15:29:01"}
+{"ts": "2026-07-03T15:29:01", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "15:29:01"}
+{"ts": "2026-07-03T15:29:01", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "15:29:01"}
+{"ts": "2026-07-03T15:31:33", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "15:31:33"}
+{"ts": "2026-07-03T15:31:33", "level": "INFO", "logger": "assistant.__main__", "msg": "app.start", "asctime": "15:31:33"}
+{"ts": "2026-07-03T15:31:33", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-03T15:31:33", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "15:31:33"}
+{"ts": "2026-07-03T15:31:33", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "15:31:33"}
+{"ts": "2026-07-03T15:31:35", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-03T15:31:35", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 11.1, "server": "playwright", "asctime": "15:31:35"}
+{"ts": "2026-07-03T15:31:36", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "search"}
+{"ts": "2026-07-03T15:31:36", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 7.4, "server": "search", "asctime": "15:31:36"}
+{"ts": "2026-07-03T15:31:36", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 2, "asctime": "15:31:36"}
+{"ts": "2026-07-03T15:31:37", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5:7b", "asctime": "15:31:37"}
+{"ts": "2026-07-03T15:31:37", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T15:31:37", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "15:31:37"}
+{"ts": "2026-07-03T15:31:37", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 22.0, "model_name": "qwen2.5:7b", "asctime": "15:31:37"}
+{"ts": "2026-07-03T15:31:37", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-03T15:31:37", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b-instruct", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "15:31:37"}
+{"ts": "2026-07-03T15:31:37", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 24.6, "model_name": "qwen2.5:7b-instruct", "asctime": "15:31:37"}
+{"ts": "2026-07-03T15:31:37", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.evict_active", "evicting": "qwen2.5:7b-instruct", "loading": "qwen2.5:7b", "asctime": "15:31:37"}
+{"ts": "2026-07-03T15:31:37", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b-instruct", "asctime": "15:31:37"}
+{"ts": "2026-07-03T15:31:37", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T15:31:37", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "15:31:37"}
+{"ts": "2026-07-03T15:31:37", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 27.1, "model_name": "qwen2.5:7b", "asctime": "15:31:37"}
+{"ts": "2026-07-03T15:31:37", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "model.cache_hit", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T15:31:37", "level": "INFO", "logger": "assistant.__main__", "msg": "system.initialized", "asctime": "15:31:37"}
+{"ts": "2026-07-03T15:31:41", "level": "INFO", "logger": "assistant.__main__", "msg": "user.request", "text": "open pinterest", "asctime": "15:31:41"}
+{"ts": "2026-07-03T15:31:41", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "817f5225-a6e9-4c9d-a099-f82d5959d52f", "event": "task_started", "asctime": "15:31:41"}
+{"ts": "2026-07-03T15:31:50", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "817f5225-a6e9-4c9d-a099-f82d5959d52f", "event": "tasks_created", "asctime": "15:31:50"}
+{"ts": "2026-07-03T15:31:50", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "817f5225-a6e9-4c9d-a099-f82d5959d52f", "event": "agent_task_started", "asctime": "15:31:50"}
+{"ts": "2026-07-03T15:32:12", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "817f5225-a6e9-4c9d-a099-f82d5959d52f", "event": "agent_task_completed", "asctime": "15:32:12"}
+{"ts": "2026-07-03T15:32:12", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "817f5225-a6e9-4c9d-a099-f82d5959d52f", "event": "task_completed", "asctime": "15:32:12"}
+{"ts": "2026-07-03T15:32:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T15:32:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T15:32:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T15:32:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T15:32:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T15:32:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T15:32:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T15:32:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T15:32:12", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T15:32:26", "level": "INFO", "logger": "assistant.__main__", "msg": "user.request", "text": "login", "asctime": "15:32:26"}
+{"ts": "2026-07-03T15:32:26", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d7886db4-9bf3-48f5-b920-290ff6882041", "event": "task_started", "asctime": "15:32:26"}
+{"ts": "2026-07-03T15:32:30", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d7886db4-9bf3-48f5-b920-290ff6882041", "event": "tasks_created", "asctime": "15:32:30"}
+{"ts": "2026-07-03T15:32:30", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d7886db4-9bf3-48f5-b920-290ff6882041", "event": "agent_task_started", "asctime": "15:32:30"}
+{"ts": "2026-07-03T15:32:49", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "15:32:49"}
+{"ts": "2026-07-03T15:32:50", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d7886db4-9bf3-48f5-b920-290ff6882041", "event": "agent_task_completed", "asctime": "15:32:50"}
+{"ts": "2026-07-03T15:32:50", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d7886db4-9bf3-48f5-b920-290ff6882041", "event": "task_completed", "asctime": "15:32:50"}
+{"ts": "2026-07-03T15:32:50", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "15:32:50"}
+{"ts": "2026-07-03T15:32:50", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "15:32:50"}
+{"ts": "2026-07-03T15:32:50", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "15:32:50"}
+{"ts": "2026-07-03T15:32:50", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "15:32:50"}
+{"ts": "2026-07-03T16:00:54", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "16:00:54"}
+{"ts": "2026-07-03T16:00:54", "level": "INFO", "logger": "assistant.__main__", "msg": "app.start", "asctime": "16:00:54"}
+{"ts": "2026-07-03T16:00:54", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-03T16:00:54", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "16:00:54"}
+{"ts": "2026-07-03T16:00:54", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "16:00:54"}
+{"ts": "2026-07-03T16:00:56", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-03T16:00:56", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 10.7, "server": "playwright", "asctime": "16:00:56"}
+{"ts": "2026-07-03T16:00:57", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "search"}
+{"ts": "2026-07-03T16:00:57", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 9.8, "server": "search", "asctime": "16:00:57"}
+{"ts": "2026-07-03T16:00:57", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 2, "asctime": "16:00:57"}
+{"ts": "2026-07-03T16:00:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5:7b", "asctime": "16:00:58"}
+{"ts": "2026-07-03T16:00:58", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T16:00:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "16:00:58"}
+{"ts": "2026-07-03T16:00:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 18.1, "model_name": "qwen2.5:7b", "asctime": "16:00:58"}
+{"ts": "2026-07-03T16:00:58", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-03T16:00:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b-instruct", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "16:00:58"}
+{"ts": "2026-07-03T16:00:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 24.6, "model_name": "qwen2.5:7b-instruct", "asctime": "16:00:58"}
+{"ts": "2026-07-03T16:00:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.evict_active", "evicting": "qwen2.5:7b-instruct", "loading": "qwen2.5:7b", "asctime": "16:00:58"}
+{"ts": "2026-07-03T16:00:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b-instruct", "asctime": "16:00:58"}
+{"ts": "2026-07-03T16:00:58", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T16:00:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "16:00:58"}
+{"ts": "2026-07-03T16:00:58", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 20.9, "model_name": "qwen2.5:7b", "asctime": "16:00:58"}
+{"ts": "2026-07-03T16:00:58", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "model.cache_hit", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T16:00:58", "level": "INFO", "logger": "assistant.__main__", "msg": "system.initialized", "asctime": "16:00:58"}
+{"ts": "2026-07-03T16:01:03", "level": "INFO", "logger": "assistant.__main__", "msg": "user.request", "text": "open pinterest", "asctime": "16:01:03"}
+{"ts": "2026-07-03T16:01:03", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "37134838-ca84-44f8-a3aa-33f28536d85e", "event": "task_started", "asctime": "16:01:03"}
+{"ts": "2026-07-03T16:01:12", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "37134838-ca84-44f8-a3aa-33f28536d85e", "event": "tasks_created", "asctime": "16:01:12"}
+{"ts": "2026-07-03T16:01:12", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "37134838-ca84-44f8-a3aa-33f28536d85e", "event": "agent_task_started", "asctime": "16:01:12"}
+{"ts": "2026-07-03T16:01:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T16:01:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T16:01:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T16:01:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T16:01:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T16:01:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T16:01:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T16:01:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T16:01:25", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T16:01:37", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "37134838-ca84-44f8-a3aa-33f28536d85e", "event": "agent_task_completed", "asctime": "16:01:37"}
+{"ts": "2026-07-03T16:01:37", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "37134838-ca84-44f8-a3aa-33f28536d85e", "event": "error", "asctime": "16:01:37"}
+{"ts": "2026-07-03T16:01:37", "level": "ERROR", "logger": "assistant.src.orchestrator.orchestrator", "msg": "orchestrator.error", "exc": "Traceback (most recent call last):\n  File \"C:\\Users\\shiva\\AI_assistant\\src\\orchestrator\\orchestrator.py\", line 235, in invoke\n    result = future.result(timeout=timeout)\n  File \"C:\\Users\\shiva\\miniconda3\\Lib\\concurrent\\futures\\_base.py\", line 456, in result\n    return self.__get_result()\n           ~~~~~~~~~~~~~~~~~^^\n  File \"C:\\Users\\shiva\\miniconda3\\Lib\\concurrent\\futures\\_base.py\", line 401, in __get_result\n    raise self._exception\n  File \"C:\\Users\\shiva\\AI_assistant\\src\\orchestrator\\orchestrator.py\", line 152, in _run_graph_agent\n    content=f\"Task: {task.query}\\nResult: {final}\",\n                     ^^^^\nNameError: name 'task' is not defined", "asctime": "16:01:37"}
+{"ts": "2026-07-03T16:01:51", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "16:01:51"}
+{"ts": "2026-07-03T16:01:52", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "16:01:52"}
+{"ts": "2026-07-03T16:01:52", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "16:01:52"}
+{"ts": "2026-07-03T16:01:52", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "16:01:52"}
+{"ts": "2026-07-03T16:01:52", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "16:01:52"}
+{"ts": "2026-07-03T16:05:33", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "16:05:33"}
+{"ts": "2026-07-03T16:05:33", "level": "INFO", "logger": "assistant.__main__", "msg": "app.start", "asctime": "16:05:33"}
+{"ts": "2026-07-03T16:05:33", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-03T16:05:33", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "16:05:33"}
+{"ts": "2026-07-03T16:05:33", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "16:05:33"}
+{"ts": "2026-07-03T16:05:35", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-03T16:05:35", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 11.6, "server": "playwright", "asctime": "16:05:35"}
+{"ts": "2026-07-03T16:05:36", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "search"}
+{"ts": "2026-07-03T16:05:36", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 8.0, "server": "search", "asctime": "16:05:36"}
+{"ts": "2026-07-03T16:05:36", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 2, "asctime": "16:05:36"}
+{"ts": "2026-07-03T16:05:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5:7b", "asctime": "16:05:36"}
+{"ts": "2026-07-03T16:05:36", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T16:05:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "16:05:36"}
+{"ts": "2026-07-03T16:05:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 19.8, "model_name": "qwen2.5:7b", "asctime": "16:05:36"}
+{"ts": "2026-07-03T16:05:36", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-03T16:05:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b-instruct", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "16:05:36"}
+{"ts": "2026-07-03T16:05:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 22.1, "model_name": "qwen2.5:7b-instruct", "asctime": "16:05:36"}
+{"ts": "2026-07-03T16:05:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.evict_active", "evicting": "qwen2.5:7b-instruct", "loading": "qwen2.5:7b", "asctime": "16:05:36"}
+{"ts": "2026-07-03T16:05:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b-instruct", "asctime": "16:05:36"}
+{"ts": "2026-07-03T16:05:36", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T16:05:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_family": "ollama", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "16:05:36"}
+{"ts": "2026-07-03T16:05:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 23.2, "model_name": "qwen2.5:7b", "asctime": "16:05:36"}
+{"ts": "2026-07-03T16:05:36", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "model.cache_hit", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-03T16:05:36", "level": "INFO", "logger": "assistant.__main__", "msg": "system.initialized", "asctime": "16:05:36"}
+{"ts": "2026-07-03T16:05:48", "level": "INFO", "logger": "assistant.__main__", "msg": "user.request", "text": "open pinterest", "asctime": "16:05:48"}
+{"ts": "2026-07-03T16:05:48", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "c6a5fdf1-9b66-4734-98a4-2b06a52f83af", "event": "task_started", "asctime": "16:05:48"}
+{"ts": "2026-07-03T16:05:57", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "c6a5fdf1-9b66-4734-98a4-2b06a52f83af", "event": "tasks_created", "asctime": "16:05:57"}
+{"ts": "2026-07-03T16:05:58", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "c6a5fdf1-9b66-4734-98a4-2b06a52f83af", "event": "agent_task_started", "asctime": "16:05:58"}
+{"ts": "2026-07-03T16:06:20", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "c6a5fdf1-9b66-4734-98a4-2b06a52f83af", "event": "agent_task_completed", "asctime": "16:06:20"}
+{"ts": "2026-07-03T16:06:20", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "c6a5fdf1-9b66-4734-98a4-2b06a52f83af", "event": "task_completed", "asctime": "16:06:20"}
+{"ts": "2026-07-03T16:06:20", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T16:06:20", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T16:06:20", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T16:06:20", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T16:06:20", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T16:06:20", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T16:06:20", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T16:06:20", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T16:06:20", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T16:06:23", "level": "INFO", "logger": "assistant.__main__", "msg": "user.request", "text": "login", "asctime": "16:06:23"}
+{"ts": "2026-07-03T16:06:23", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d6d7d9df-890a-4298-9d4d-76f577d33927", "event": "task_started", "asctime": "16:06:23"}
+{"ts": "2026-07-03T16:06:27", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d6d7d9df-890a-4298-9d4d-76f577d33927", "event": "tasks_created", "asctime": "16:06:27"}
+{"ts": "2026-07-03T16:06:28", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d6d7d9df-890a-4298-9d4d-76f577d33927", "event": "agent_task_started", "asctime": "16:06:28"}
+{"ts": "2026-07-03T16:06:44", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d6d7d9df-890a-4298-9d4d-76f577d33927", "event": "agent_task_completed", "asctime": "16:06:44"}
+{"ts": "2026-07-03T16:06:44", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "d6d7d9df-890a-4298-9d4d-76f577d33927", "event": "task_completed", "asctime": "16:06:44"}
+{"ts": "2026-07-03T16:06:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-03T16:06:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-03T16:06:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-03T16:06:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-03T16:06:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-03T16:06:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-03T16:06:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-03T16:06:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-03T16:06:44", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-03T16:07:18", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "16:07:18"}
+{"ts": "2026-07-03T16:07:19", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "16:07:19"}
+{"ts": "2026-07-03T16:07:19", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "16:07:19"}
+{"ts": "2026-07-03T16:07:19", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "16:07:19"}
+{"ts": "2026-07-03T16:07:19", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "16:07:19"}

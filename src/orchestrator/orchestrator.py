@@ -1,17 +1,21 @@
 import asyncio
-import concurrent.futures
 import uuid
+import concurrent.futures
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Optional
 
-from langchain_core.messages import AIMessage, ToolMessage, SystemMessage
+from langchain_core.messages import AIMessage
+from langgraph.errors import GraphRecursionError
 
-from src.utils.logger import get_logger, TimedBlock
+from src.utils.logger import get_logger
 from src.utils.timeout import TIMEOUTS
 from src.core.mcp_manager import mcp_manager
-from src.memory_store import build_memory_context
+import json
+from json_repair import repair_json
+from src.memory_store import add_memory, build_memory_context
 
 log = get_logger(__name__)
+
 
 # =========================================================
 # TASK STATE
@@ -21,7 +25,6 @@ log = get_logger(__name__)
 class TaskState:
     task_id: str
     query: str
-    agent_type: str = ""
     status: str = "created"
     events: List[Dict[str, Any]] = field(default_factory=list)
     result: Optional[str] = None
@@ -35,139 +38,126 @@ class TaskState:
 
 
 # =========================================================
-# ORCHESTRATOR
+# ROUTER-ONLY ORCHESTRATOR (MODULAR VERSION)
 # =========================================================
 
-class SimpleRouterOrchestrator:
+class GraphOrchestrator:
 
-    BROWSER_KEYWORDS = [
-        "http", "www", "open site", "browser",
-        "navigate", "url", "login", "website"
-    ]
 
-    MEMORY_TRIGGER_WORDS = [
-        "continue", "resume", "remember",
-        "previous", "before", "last time", "again"
-    ]
 
-    def __init__(self, general_agent, browser_agent):
-        self.general_agent = general_agent
-        self.browser_agent = browser_agent
-
-    # -----------------------------------------------------
-    # ROUTING
-    # -----------------------------------------------------
-
-    def _select_agent(self, query: str):
-        q = query.lower()
-
-        is_browser = any(k in q for k in self.BROWSER_KEYWORDS)
-
-        return (
-            self.browser_agent if is_browser else self.general_agent,
-            "BROWSER" if is_browser else "GENERAL"
-        )
-
-    # -----------------------------------------------------
-    # HISTORY
-    # -----------------------------------------------------
-
-    def _build_messages(self, history: list, query: str):
-        messages = []
-
-        for msg in history:
-            role = msg.get("role", "user")
-            content = msg.get("content", "")
-
-            messages.append((
-                "human" if role == "user" else "ai",
-                content
-            ))
-
-        messages.append(("human", query))
-        return messages
-
-    # -----------------------------------------------------
-    # MEMORY GATING (CRITICAL FIX)
-    # -----------------------------------------------------
-
-    def _should_use_memory(self, query: str) -> bool:
-        q = query.lower()
-
-        return any(
-            w in q for w in self.MEMORY_TRIGGER_WORDS
-        )
-
-    def _get_memory_context(self, query: str) -> str:
-        if not self._should_use_memory(query):
-            return ""
-
-        return build_memory_context(query)
-
-    # -----------------------------------------------------
-    # STREAMING
-    # -----------------------------------------------------
-
-    async def _stream_agent(
+    def __init__(
         self,
-        agent,
-        messages,
-        config,
-        task: TaskState,
-        on_step: Optional[Callable[[dict], None]] = None
+        router_agent,
+        agent_registry: Dict[str, Dict[str, Any]],
     ):
+        """
+        agent_registry format:
 
-        seen = 0
+        {
+            "browser": {
+                "graph": browser_graph,
+                "description": "...",
+                "use_cases": [...]
+            },
+            "general": {...}
+        }
+        """
+        self.router_agent = router_agent
+        self.agent_registry = agent_registry
+
+    # =========================================================
+    # DYNAMIC PROMPT BUILDER (KEY FIX)
+    # =========================================================
+
+    def _build_router_messages(self, query: str):
+
+        registry_block = "\n\nAVAILABLE AGENTS:\n\n"
+
+        for name, meta in self.agent_registry.items():
+            registry_block += f"""
+                [AGENT: {name}]
+                Description:
+                {meta.get("description", "")}
+
+                Use cases:
+                """
+            for uc in meta.get("use_cases", []):
+                registry_block += f"- {uc}\n"
+
+            registry_block += "\n---\n"
+
+        system =  registry_block
+
+        memory = build_memory_context(query)
+        return [
+            ("system", f"Relevent context from prvious conversations:\n{memory}"),
+            ("system", system),
+            ("human", f"User request:\n{query}")
+        ]
+
+    # =========================================================
+    # PARSER
+    # =========================================================
+
+    def _parse_tasks(self, text: str) -> List[Dict[str, str]]:
+        try:
+            data = json.loads(repair_json(text))
+            print(data)
+            return data.get("tasks", [])
+        except Exception:
+            log.exception("router.parse.failed")
+            return []
+
+    # =========================================================
+    # AGENT EXECUTION
+    # =========================================================
+
+    async def _run_graph_agent(
+        self,
+        agent_graph,
+        task_text: str,
+        task_state: TaskState,
+        on_step: Optional[Callable] = None
+    ):
+        task_state.emit("agent_task_started", {"task": task_text})
+
         final_messages = []
-        tool_calls = 0
 
-        def emit(event_type: str, data: dict = None):
-            task.emit(event_type, data or {})
+        async for chunk in agent_graph.astream(
+            {"messages": [("human", task_text)]},
+            config={
+                "recursion_limit": 30,
+                "metadata": {"task_id": task_state.task_id}
+            },
+            stream_mode="values"
+        ):
+            msgs = chunk.get("messages", [])
+            final_messages = msgs
+
             if on_step:
                 try:
-                    on_step({"type": event_type, **(data or {})})
+                    on_step({"messages": msgs})
                 except Exception:
                     pass
 
-        async for chunk in agent.astream(
-            {"messages": messages},
-            config=config,
-            stream_mode="values"
-        ):
-            msgs = chunk.get("messages", []) if isinstance(chunk, dict) else []
-            final_messages = msgs
+        final = final_messages[-1].content if final_messages else ""
 
-            for msg in msgs[seen:]:
+        task_state.emit("agent_task_completed", {
+            "task": task_text,
+            "result": final
+        })
 
-                if isinstance(msg, AIMessage) and getattr(msg, "tool_calls", None):
-                    tool_calls += len(msg.tool_calls)
+        add_memory(
+            role="assistant",
+            content=f"Task: {task_text}\nResult: {final}",
+            category="task_summary",
+            source="orchestrator"
+        )
+        return final
 
-                    for tc in msg.tool_calls:
-                        emit("step_started", {
-                            "tool": tc.get("name"),
-                            "args": tc.get("args", {})
-                        })
-
-                elif isinstance(msg, ToolMessage):
-                    emit("step_result", {
-                        "tool": getattr(msg, "name", "tool"),
-                        "result": str(msg.content)[:200]
-                    })
-
-                elif isinstance(msg, AIMessage):
-                    if not getattr(msg, "tool_calls", None):
-                        emit("finalizing")
-
-            seen = len(msgs)
-
-        return {
-            "messages": final_messages,
-            "tool_calls": tool_calls
-        }
-
-    # -----------------------------------------------------
+    # =========================================================
     # MAIN ENTRY
-    # -----------------------------------------------------
+    # =========================================================
 
     def invoke(self, state: dict, on_step=None):
 
@@ -176,113 +166,132 @@ class SimpleRouterOrchestrator:
             query=state.get("user_goal", "")
         )
 
-        history = state.get("conversation_history", [])
-
         task.emit("task_started", {"query": task.query})
 
-        agent, agent_type = self._select_agent(task.query)
-        task.agent_type = agent_type
-        task.status = "running"
+        # -----------------------------
+        # ROUTER PHASE
+        # -----------------------------
 
-        task.emit("agent_selected", {"agent": agent_type})
+        router_messages = self._build_router_messages(task.query)
 
-        messages = self._build_messages(history, task.query)
+        router_result = self.router_agent.invoke({"messages": router_messages})
 
-        # -------------------------------
-        # MEMORY ONLY FOR GENERAL AGENT
-        # -------------------------------
-        memory_context = ""
+        if isinstance(router_result, dict):
+            msgs = router_result.get("messages", [])
+            router_text = msgs[-1].content if msgs else ""
+        elif isinstance(router_result, AIMessage):
+            router_text = router_result.content
+        else:
+            router_text = str(router_result)
 
-        if agent_type == "GENERAL":
-            memory_context = self._get_memory_context(task.query)
+        tasks = self._parse_tasks(router_text)
 
-        if memory_context:
-            messages.insert(
-                0,
-                ("system", f"Relevant context:\n{memory_context}")
-            )
-
-        timeout = (
-            TIMEOUTS.MCP_TOOL
-            if agent_type == "BROWSER"
-            else TIMEOUTS.LLM_INFERENCE
+        task.emit("tasks_created", {"tasks": tasks})
+        add_memory(
+            role="system",
+            content=f"Decomposed task: {task.query} → {tasks}",
+            category="routing_decision"
         )
-
-        try:
-            future = asyncio.run_coroutine_threadsafe(
-                self._stream_agent(
-                    agent=agent,
-                    messages=messages,
-                    config={
-                        "recursion_limit": 8,
-                        "metadata": {"task_id": task.task_id}
-                    },
-                    task=task,
-                    on_step=on_step
-                ),
-                mcp_manager.loop
-            )
-
-            task.emit("agent_started")
-
-            result = future.result(timeout=timeout)
-
-            msgs = result["messages"]
-            tool_calls = result["tool_calls"]
-
-            final = msgs[-1].content if msgs else ""
-
-            # -------------------------------
-            # HARD GROUNDING CHECK
-            # -------------------------------
-            if tool_calls == 0 and (
-                "done" in final.lower()
-                or "completed" in final.lower()
-                or "opened" in final.lower()
-            ):
-                final = (
-                    "I cannot confirm that action was completed because no tool was executed "
-                    "during this run. Please retry or clarify the task."
-                )
-
-                task.emit("ungrounded_block")
-
-            task.status = "done"
-            task.result = final
-
-            task.emit("task_completed", {"result": final})
-
+        if not tasks:
+            task.status = "failed"
+            task.result = "Router failed to produce tasks."
             return {
                 "task_id": task.task_id,
-                "response": final,
-                "events": task.events,
-                "tool_calls_made": tool_calls
+                "response": task.result,
+                "events": task.events
             }
 
-        # -------------------------------
-        # TIMEOUT HANDLING
-        # -------------------------------
+        # -----------------------------
+        # EXECUTION PHASE
+        # -----------------------------
+
+        results = []
+        timeout = TIMEOUTS.LLM_INFERENCE
+
+        try:
+            for t in tasks:
+
+                agent_name = t.get("agent")
+                task_text = t.get("task")
+
+                agent_meta = self.agent_registry.get(agent_name)
+
+                if not agent_meta:
+                    task.emit("missing_agent", {"agent": agent_name})
+                    continue
+
+                agent_graph = agent_meta["graph"]
+
+                future = asyncio.run_coroutine_threadsafe(
+                    self._run_graph_agent(
+                        agent_graph=agent_graph,
+                        task_text=task_text,
+                        task_state=task,
+                        on_step=on_step
+                    ),
+                    mcp_manager.loop
+                )
+
+                result = future.result(timeout=timeout)
+
+                results.append({
+                    "task": task_text,
+                    "agent": agent_name,
+                    "result": result
+                })
+
+        # -----------------------------
+        # ERROR HANDLING
+        # -----------------------------
 
         except concurrent.futures.TimeoutError:
-
             task.status = "failed"
             task.emit("timeout")
-
             return {
                 "task_id": task.task_id,
-                "response": "Agent timed out.",
+                "response": "Execution timed out.",
+                "events": task.events
+            }
+
+        except GraphRecursionError:
+            task.status = "failed"
+            task.emit("recursion_error")
+            return {
+                "task_id": task.task_id,
+                "response": "Task exceeded execution limits.",
                 "events": task.events
             }
 
         except Exception as e:
-
             task.status = "failed"
             task.emit("error", {"message": str(e)})
-
             log.exception("orchestrator.error")
-
+            record_failed_attempt(
+                    content=f"Task failed: {task.query} | Error: {str(e)}"
+                )
             return {
                 "task_id": task.task_id,
                 "response": "Internal error.",
                 "events": task.events
             }
+
+        # -----------------------------
+        # FINAL OUTPUT
+        # -----------------------------
+
+        task.status = "done"
+
+        final_response = "\n\n".join(
+            r["result"] for r in results if r.get("result")
+        )
+
+        task.result = final_response
+
+        task.emit("task_completed", {"results": results})
+
+        return {
+            "task_id": task.task_id,
+            "response": final_response,
+            "events": task.events,
+            "task_breakdown": tasks
+        }
