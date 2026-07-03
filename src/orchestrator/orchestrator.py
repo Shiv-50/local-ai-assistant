@@ -1,261 +1,175 @@
 import asyncio
 import concurrent.futures
-import json
-import re
 import uuid
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, List, Optional
 
-from langchain_core.messages import AIMessage, ToolMessage
-from langgraph.errors import GraphRecursionError
+from langchain_core.messages import AIMessage, ToolMessage, SystemMessage
 
 from src.utils.logger import get_logger, TimedBlock
 from src.utils.timeout import TIMEOUTS
 from src.core.mcp_manager import mcp_manager
-from src.memory_store import search_memory
+from src.memory_store import build_memory_context
 
 log = get_logger(__name__)
 
-
-# ─────────────────────────────────────────────────────────────
-# GROUNDING CHECK
-# ─────────────────────────────────────────────────────────────
-#
-# The step feed only ever reports a step for a tool call that
-# actually happened — which also means it's the source of truth for
-# whether the agent did anything at all. If the model's final text
-# either (a) asserts a completed action in prose ("Pinterest has
-# been successfully opened...") or (b) leaks what looks like a raw,
-# unparsed tool invocation ('launch_application {"app_name": ...}')
-# — the model attempting tool-call syntax as plain text instead of
-# a real structured tool call — but the run made zero real tool
-# calls, that response must never reach the user as-is. This is a
-# deterministic, code-level backstop — prompt instructions alone
-# are not reliable enough to stop a local model from doing either
-# of these.
-
-_ACTION_CLAIM_PATTERNS = [
-    re.compile(r"\bsuccessfully\s+\w+ed\b", re.IGNORECASE),
-    re.compile(r"\bhas\s+been\s+\w+ed\b", re.IGNORECASE),
-    re.compile(r"\bhave\s+been\s+\w+ed\b", re.IGNORECASE),
-    re.compile(r"\bi(?:'ve| have)\s+(opened|launched|closed|clicked|typed|installed|"
-               r"created|deleted|removed|sent|saved|downloaded|navigated|searched|"
-               r"completed|finished|updated|moved|renamed|copied)\b", re.IGNORECASE),
-    re.compile(r"\b(opened|launched|installed|closed)\s+(on|in)\s+your\s+(desktop|screen|browser|computer)\b",
-               re.IGNORECASE),
-    re.compile(r"\btask\s+(is\s+)?complete[d]?\b", re.IGNORECASE),
-]
-
-# Matches a whole message that is essentially "tool_name(...)" or
-# 'tool_name {"key": "value"}' — i.e. the model wrote out what a
-# tool call looks like instead of actually making one. This is what
-# happened in practice: qwen2.5:7b returned the literal text
-# `launch_application {"app_name": "Pinterest"}` as its answer, with
-# no structured tool_calls on the message at all.
-_RAW_TOOL_CALL_PATTERN = re.compile(
-    r"^\s*[a-zA-Z_][a-zA-Z0-9_]*\s*[\(\{].*[\)\}]\s*$", re.DOTALL
-)
-
-
-def _claims_completed_action(text: str) -> bool:
-    if not text:
-        return False
-    return any(p.search(text) for p in _ACTION_CLAIM_PATTERNS)
-
-
-def _looks_like_unparsed_tool_call(text: str) -> bool:
-    if not text:
-        return False
-    return bool(_RAW_TOOL_CALL_PATTERN.match(text.strip()))
-
-
-# ─────────────────────────────────────────────────────────────
-# STEP FORMATTING
-# ─────────────────────────────────────────────────────────────
-#
-# A "step" event is only ever emitted for something that is
-# guaranteed to actually happen: a tool call the model has just
-# made (already decided, already in the graph state — the tools
-# node is about to execute it), or the observation that tool call
-# produced. We never emit a step from free-text narration alone,
-# because free text can claim things the model doesn't follow
-# through on. This keeps the live step feed honest by construction:
-# whatever the user sees as "the next step" is a step that is either
-# already running or already ran.
-
-def _format_tool_args(args: dict, limit: int = 120) -> str:
-    try:
-        text = json.dumps(args, ensure_ascii=False, default=str)
-    except Exception:
-        text = str(args)
-    if len(text) > limit:
-        text = text[: limit - 1] + "…"
-    return text
-
-
-def _format_observation(content, limit: int = 200) -> str:
-    text = content if isinstance(content, str) else str(content)
-    text = " ".join(text.split())
-    if len(text) > limit:
-        text = text[: limit - 1] + "…"
-    return text
-
-
-# ─────────────────────────────────────────────────────────────
-# TASK STATE (NEW - CRITICAL)
-# ─────────────────────────────────────────────────────────────
+# =========================================================
+# TASK STATE
+# =========================================================
 
 @dataclass
 class TaskState:
     task_id: str
     query: str
     agent_type: str = ""
-    status: str = "created"   # created → running → done → failed
+    status: str = "created"
     events: List[Dict[str, Any]] = field(default_factory=list)
     result: Optional[str] = None
 
     def emit(self, event_type: str, data: dict = None):
-        event = {
+        self.events.append({
             "type": event_type,
             "data": data or {}
-        }
-        self.events.append(event)
-        log.info("task.event", task_id=self.task_id, event=event)
+        })
+        log.info("task.event", task_id=self.task_id, event=event_type)
 
 
-# ─────────────────────────────────────────────────────────────
+# =========================================================
 # ORCHESTRATOR
-# ─────────────────────────────────────────────────────────────
+# =========================================================
 
 class SimpleRouterOrchestrator:
 
     BROWSER_KEYWORDS = [
-        "website", "browser", "url", "http", "www",
-        "open page", "navigate", "login", "github.com",
+        "http", "www", "open site", "browser",
+        "navigate", "url", "login", "website"
+    ]
+
+    MEMORY_TRIGGER_WORDS = [
+        "continue", "resume", "remember",
+        "previous", "before", "last time", "again"
     ]
 
     def __init__(self, general_agent, browser_agent):
         self.general_agent = general_agent
         self.browser_agent = browser_agent
 
-    # ─────────────────────────────────────────────
-    # ROUTING (IMPROVED HOOKED)
-    # ─────────────────────────────────────────────
+    # -----------------------------------------------------
+    # ROUTING
+    # -----------------------------------------------------
 
     def _select_agent(self, query: str):
-        is_browser = any(kw in query.lower() for kw in self.BROWSER_KEYWORDS)
+        q = query.lower()
+
+        is_browser = any(k in q for k in self.BROWSER_KEYWORDS)
+
         return (
             self.browser_agent if is_browser else self.general_agent,
             "BROWSER" if is_browser else "GENERAL"
         )
 
-    # ─────────────────────────────────────────────
+    # -----------------------------------------------------
     # HISTORY
-    # ─────────────────────────────────────────────
+    # -----------------------------------------------------
 
-    @staticmethod
-    def _build_messages(history: list, query: str):
+    def _build_messages(self, history: list, query: str):
         messages = []
 
         for msg in history:
             role = msg.get("role", "user")
             content = msg.get("content", "")
-            messages.append(("human" if role == "user" else "ai", content))
 
-        if not messages or messages[-1][0] != "human":
-            messages.append(("human", query))
+            messages.append((
+                "human" if role == "user" else "ai",
+                content
+            ))
 
+        messages.append(("human", query))
         return messages
-    def _build_memory_context(self, query: str) -> str:
-        memories = search_memory(
-            query=query,
-            top_k=5,
-            categories=["user_preference", "failed_attempt", "feedback"],
+
+    # -----------------------------------------------------
+    # MEMORY GATING (CRITICAL FIX)
+    # -----------------------------------------------------
+
+    def _should_use_memory(self, query: str) -> bool:
+        q = query.lower()
+
+        return any(
+            w in q for w in self.MEMORY_TRIGGER_WORDS
         )
 
-        if not memories:
+    def _get_memory_context(self, query: str) -> str:
+        if not self._should_use_memory(query):
             return ""
 
-        lines = [
-            "[CONTEXT FROM PREVIOUS INTERACTIONS]",
-            "These are relevant user preferences and prior actions for this request:",
-        ]
+        return build_memory_context(query)
 
-        for memory in memories:
-            category = memory.get("category", "generic")
-            content = memory.get("content", "").strip()
-            if content:
-                lines.append(f"  • [{category}] {content}")
+    # -----------------------------------------------------
+    # STREAMING
+    # -----------------------------------------------------
 
-        lines.append(
-            "\nUse this context to: (1) avoid repeating recent actions, (2) provide personalized responses, (3) understand what's already been done."
-        )
-        lines.append("[/CONTEXT]")
-        lines.append("")
+    async def _stream_agent(
+        self,
+        agent,
+        messages,
+        config,
+        task: TaskState,
+        on_step: Optional[Callable[[dict], None]] = None
+    ):
 
-        return "\n".join(lines)
-
-    # ─────────────────────────────────────────────
-    # STREAMING: emit one event per ACTUAL step
-    # ─────────────────────────────────────────────
-    #
-    # Walks the agent's message list after every graph node runs
-    # (stream_mode="values" gives us the full running state each
-    # time). Anything beyond `seen` is new since the last chunk.
-    # We turn each new AIMessage tool_call into a "step_started"
-    # event (the step is already decided and about to execute —
-    # never a step that's merely been talked about) and each new
-    # ToolMessage into a "step_result" event with its outcome.
-
-    async def _stream_agent(self, agent, messages, config, task: TaskState,
-                             on_step: Optional[Callable[[dict], None]]):
         seen = 0
-        final_messages: list = []
-        tool_calls_made = 0
+        final_messages = []
+        tool_calls = 0
 
-        def _emit(event_type: str, data: dict):
-            task.emit(event_type, data)
+        def emit(event_type: str, data: dict = None):
+            task.emit(event_type, data or {})
             if on_step:
                 try:
-                    on_step({"type": event_type, **data})
+                    on_step({"type": event_type, **(data or {})})
                 except Exception:
-                    log.exception("orchestrator.on_step_callback_failed")
+                    pass
 
         async for chunk in agent.astream(
-            {"messages": messages}, config=config, stream_mode="values"
+            {"messages": messages},
+            config=config,
+            stream_mode="values"
         ):
-            chunk_messages = chunk.get("messages", []) if isinstance(chunk, dict) else []
-            final_messages = chunk_messages
+            msgs = chunk.get("messages", []) if isinstance(chunk, dict) else []
+            final_messages = msgs
 
-            for msg in chunk_messages[seen:]:
+            for msg in msgs[seen:]:
+
                 if isinstance(msg, AIMessage) and getattr(msg, "tool_calls", None):
-                    thought = msg.content if isinstance(msg.content, str) else ""
-                    thought = thought.strip()
+                    tool_calls += len(msg.tool_calls)
+
                     for tc in msg.tool_calls:
-                        tool_calls_made += 1
-                        _emit("step_started", {
-                            "tool": tc.get("name", "unknown_tool"),
-                            "args": _format_tool_args(tc.get("args", {})),
-                            "thought": thought,
+                        emit("step_started", {
+                            "tool": tc.get("name"),
+                            "args": tc.get("args", {})
                         })
+
                 elif isinstance(msg, ToolMessage):
-                    _emit("step_result", {
-                        "tool": getattr(msg, "name", None) or "tool",
-                        "result": _format_observation(msg.content),
+                    emit("step_result", {
+                        "tool": getattr(msg, "name", "tool"),
+                        "result": str(msg.content)[:200]
                     })
-                elif isinstance(msg, AIMessage) and not getattr(msg, "tool_calls", None):
-                    # Final answer turn — nothing further will run.
-                    _emit("finalizing", {})
 
-            seen = len(chunk_messages)
+                elif isinstance(msg, AIMessage):
+                    if not getattr(msg, "tool_calls", None):
+                        emit("finalizing")
 
-        return {"messages": final_messages, "tool_calls_made": tool_calls_made}
+            seen = len(msgs)
 
-    # ─────────────────────────────────────────────
+        return {
+            "messages": final_messages,
+            "tool_calls": tool_calls
+        }
+
+    # -----------------------------------------------------
     # MAIN ENTRY
-    # ─────────────────────────────────────────────
+    # -----------------------------------------------------
 
-    def invoke(self, state: dict, on_step: Optional[Callable[[dict], None]] = None) -> dict:
+    def invoke(self, state: dict, on_step=None):
 
         task = TaskState(
             task_id=str(uuid.uuid4()),
@@ -265,7 +179,6 @@ class SimpleRouterOrchestrator:
         history = state.get("conversation_history", [])
 
         task.emit("task_started", {"query": task.query})
-        log.info("orchestrator.invoke.start", task_id=task.task_id)
 
         agent, agent_type = self._select_agent(task.query)
         task.agent_type = agent_type
@@ -273,127 +186,103 @@ class SimpleRouterOrchestrator:
 
         task.emit("agent_selected", {"agent": agent_type})
 
-        memory_context = self._build_memory_context(task.query)
         messages = self._build_messages(history, task.query)
 
+        # -------------------------------
+        # MEMORY ONLY FOR GENERAL AGENT
+        # -------------------------------
+        memory_context = ""
+
+        if agent_type == "GENERAL":
+            memory_context = self._get_memory_context(task.query)
+
         if memory_context:
-            messages.insert(0, ("human", memory_context))
+            messages.insert(
+                0,
+                ("system", f"Relevant context:\n{memory_context}")
+            )
 
         timeout = (
-            TIMEOUTS.MCP_TOOL if agent_type == "BROWSER"
+            TIMEOUTS.MCP_TOOL
+            if agent_type == "BROWSER"
             else TIMEOUTS.LLM_INFERENCE
         )
 
         try:
-            with TimedBlock(log, "agent.astream", agent_type=agent_type):
+            future = asyncio.run_coroutine_threadsafe(
+                self._stream_agent(
+                    agent=agent,
+                    messages=messages,
+                    config={
+                        "recursion_limit": 8,
+                        "metadata": {"task_id": task.task_id}
+                    },
+                    task=task,
+                    on_step=on_step
+                ),
+                mcp_manager.loop
+            )
 
-                future = asyncio.run_coroutine_threadsafe(
-                    self._stream_agent(
-                        agent,
-                        messages,
-                        config={
-                            "recursion_limit": 10,
-                            "metadata": {"task_id": task.task_id}
-                        },
-                        task=task,
-                        on_step=on_step,
-                    ),
-                    mcp_manager.loop,
-                )
+            task.emit("agent_started")
 
-                task.emit("agent_started")
+            result = future.result(timeout=timeout)
 
-                result_state = future.result(timeout=timeout)
+            msgs = result["messages"]
+            tool_calls = result["tool_calls"]
 
-            messages = result_state.get("messages", []) if isinstance(result_state, dict) else []
-            tool_calls_made = result_state.get("tool_calls_made", 0) if isinstance(result_state, dict) else 0
+            final = msgs[-1].content if msgs else ""
 
-            if not messages:
-                raise ValueError("Agent returned no messages")
-
-            final_message = messages[-1].content
-
-            grounded = True
-            if tool_calls_made == 0 and (
-                _claims_completed_action(final_message)
-                or _looks_like_unparsed_tool_call(final_message)
+            # -------------------------------
+            # HARD GROUNDING CHECK
+            # -------------------------------
+            if tool_calls == 0 and (
+                "done" in final.lower()
+                or "completed" in final.lower()
+                or "opened" in final.lower()
             ):
-                grounded = False
-                task.emit("ungrounded_claim_blocked", {
-                    "original_response": final_message,
-                    "agent": agent_type,
-                })
-                log.warning(
-                    "orchestrator.ungrounded_claim_blocked",
-                    task_id=task.task_id,
-                    agent_type=agent_type,
-                    original_response=final_message[:300],
+                final = (
+                    "I cannot confirm that action was completed because no tool was executed "
+                    "during this run. Please retry or clarify the task."
                 )
-                final_message = (
-                    "I didn't actually do that — no tool ran during this turn, so my draft "
-                    "response claiming it was done would have been false. Either the request "
-                    "needs a tool I didn't call, or I need clearer instructions. Can you "
-                    "rephrase, or tell me exactly what you'd like me to try?"
-                )
+
+                task.emit("ungrounded_block")
 
             task.status = "done"
-            task.result = final_message
+            task.result = final
 
-            task.emit("task_completed", {"result": final_message})
-
-            log.info("orchestrator.invoke.done",
-                     task_id=task.task_id,
-                     agent_type=agent_type,
-                     response_len=len(final_message),
-                     grounded=grounded,
-                     tool_calls_made=tool_calls_made)
+            task.emit("task_completed", {"result": final})
 
             return {
                 "task_id": task.task_id,
-                "response": final_message,
+                "response": final,
                 "events": task.events,
-                "grounded": grounded,
-                "tool_calls_made": tool_calls_made,
+                "tool_calls_made": tool_calls
             }
 
-        # ─────────────────────────────────────────────
-        # ERROR HANDLING (IMPROVED)
-        # ─────────────────────────────────────────────
+        # -------------------------------
+        # TIMEOUT HANDLING
+        # -------------------------------
 
         except concurrent.futures.TimeoutError:
+
             task.status = "failed"
-            task.emit("timeout", {"timeout": timeout})
-
-            future.cancel()
-
-            log.error("orchestrator.timeout",
-                      task_id=task.task_id,
-                      agent_type=agent_type)
+            task.emit("timeout")
 
             return {
                 "task_id": task.task_id,
-                "response": f"The {agent_type.lower()} agent timed out.",
-                "events": task.events
-            }
-
-        except GraphRecursionError:
-            task.status = "failed"
-            task.emit("recursion_error")
-
-            return {
-                "task_id": task.task_id,
-                "response": "Agent exceeded recursion limit.",
+                "response": "Agent timed out.",
                 "events": task.events
             }
 
         except Exception as e:
+
             task.status = "failed"
             task.emit("error", {"message": str(e)})
 
-            log.exception("orchestrator.error", task_id=task.task_id)
+            log.exception("orchestrator.error")
 
             return {
                 "task_id": task.task_id,
-                "response": "Internal error occurred.",
+                "response": "Internal error.",
                 "events": task.events
             }
