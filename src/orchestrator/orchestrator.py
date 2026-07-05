@@ -99,7 +99,7 @@ class GraphOrchestrator:
             history_block = "\n".join(lines)
 
         return [
-            ("system", f"Relevent context from prvious conversations:\n{memory}"),
+            ("system", f"Relevent context from previous conversations:\n{memory}"),
             ("system", f"Recent conversation (most recent last) — use this to resolve follow-ups like 'do it on the browser' or pronouns like 'that site':\n{history_block}"),
             ("system", system),
             ("human", f"User request:\n{query}")
@@ -132,7 +132,6 @@ class GraphOrchestrator:
 
         final_messages = []
 
-        # src/orchestrator/orchestrator.py — inside _run_graph_agent, add logging as messages stream in:
 
         async for chunk in agent_graph.astream(
             {"messages": [("human", task_text)]},

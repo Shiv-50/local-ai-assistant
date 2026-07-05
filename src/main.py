@@ -28,6 +28,7 @@ from src.prompts.vision_agent import system_prompt as vision_prompt
 
 from src.tools.system_tools import execute_shell_command
 from src.tools.vision_tools import analyze_screen_with_vision
+from src.tools.browser.browser_tool import BrowserTool, get_tools
 
 from src.llm.llm_manager import llm_manager
 from src.core.mcp_manager import mcp_manager
@@ -77,7 +78,7 @@ def build_system():
 
     browser_agent = create_browser_agent(
         llm=models["browser"],
-        mcp_tools=mcp_manager.tools,
+        mcp_tools=get_tools(BrowserTool()),
         system_prompt=browser_prompt,
     )
 

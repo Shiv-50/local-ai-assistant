@@ -218,8 +218,9 @@ __marimo__/
 .streamlit/secrets.toml
 
 .playwright-mcp/
+.playwright-cli/
 browser_data/
-
+memory/
 #image screenshots
 .png
 .jpg
