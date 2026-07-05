@@ -8,11 +8,11 @@ from langchain_core.messages import AIMessage
 from langgraph.errors import GraphRecursionError
 
 from src.utils.logger import get_logger
-from src.utils.timeout import TIMEOUTS
+from src.utils.timeout import TIMEOUTS, run_with_timeout
 from src.core.mcp_manager import mcp_manager
 import json
 from json_repair import repair_json
-from src.memory_store import add_memory, build_memory_context
+from src.memory_store import add_memory, build_memory_context, record_failed_attempt
 
 log = get_logger(__name__)
 
@@ -69,7 +69,9 @@ class GraphOrchestrator:
     # DYNAMIC PROMPT BUILDER (KEY FIX)
     # =========================================================
 
-    def _build_router_messages(self, query: str):
+    # src/orchestrator/orchestrator.py
+
+    def _build_router_messages(self, query: str, conversation_history: list | None = None):
 
         registry_block = "\n\nAVAILABLE AGENTS:\n\n"
 
@@ -86,15 +88,22 @@ class GraphOrchestrator:
 
             registry_block += "\n---\n"
 
-        system =  registry_block
+        system = registry_block
 
         memory = build_memory_context(query)
+
+        history_block = ""
+        if conversation_history:
+            recent = conversation_history[-6:]
+            lines = [f"{turn.get('role', '?')}: {turn.get('content', '')}" for turn in recent]
+            history_block = "\n".join(lines)
+
         return [
             ("system", f"Relevent context from prvious conversations:\n{memory}"),
+            ("system", f"Recent conversation (most recent last) — use this to resolve follow-ups like 'do it on the browser' or pronouns like 'that site':\n{history_block}"),
             ("system", system),
             ("human", f"User request:\n{query}")
         ]
-
     # =========================================================
     # PARSER
     # =========================================================
@@ -123,6 +132,8 @@ class GraphOrchestrator:
 
         final_messages = []
 
+        # src/orchestrator/orchestrator.py — inside _run_graph_agent, add logging as messages stream in:
+
         async for chunk in agent_graph.astream(
             {"messages": [("human", task_text)]},
             config={
@@ -134,13 +145,40 @@ class GraphOrchestrator:
             msgs = chunk.get("messages", [])
             final_messages = msgs
 
+            last = msgs[-1] if msgs else None
+            if last is not None:
+                tool_calls = getattr(last, "tool_calls", None)
+                if tool_calls:
+                    log.info("agent.tool_call",
+                             task_id=task_state.task_id,
+                             tools=[tc.get("name") for tc in tool_calls])
+                else:
+                    content = getattr(last, "content", "")
+                    log.info("agent.message",
+                             task_id=task_state.task_id,
+                             type=type(last).__name__,
+                             preview=str(content)[:200])
+
             if on_step:
                 try:
                     on_step({"messages": msgs})
                 except Exception:
                     pass
 
-        final = final_messages[-1].content if final_messages else ""
+        final = ""
+        for msg in reversed(final_messages):
+            content = getattr(msg, "content", "")
+            if isinstance(content, str) and content.strip():
+                final = content.strip()
+                break
+
+        if not final:
+            final = (
+                "The agent stopped without producing a final answer. "
+                "This usually means it ran out of steps or a tool call "
+                "didn't return usable output — check assistant.log for the "
+                "tool calls/results from this task."
+            )
 
         task_state.emit("agent_task_completed", {
             "task": task_text,
@@ -159,6 +197,7 @@ class GraphOrchestrator:
     # MAIN ENTRY
     # =========================================================
 
+
     def invoke(self, state: dict, on_step=None):
 
         task = TaskState(
@@ -168,13 +207,40 @@ class GraphOrchestrator:
 
         task.emit("task_started", {"query": task.query})
 
-        # -----------------------------
-        # ROUTER PHASE
-        # -----------------------------
+        router_messages = self._build_router_messages(
+            task.query,
+            conversation_history=state.get("conversation_history", []),
+        )
 
-        router_messages = self._build_router_messages(task.query)
+        task.emit("router_invoke_started")
 
-        router_result = self.router_agent.invoke({"messages": router_messages})
+        try:
+            router_result = run_with_timeout(
+                self.router_agent.invoke,
+                {"messages": router_messages},
+                timeout=TIMEOUTS.LLM_INFERENCE,
+                operation="router.invoke",
+            )
+        except TimeoutError:
+            task.status = "failed"
+            task.emit("router_timeout")
+            log.error("orchestrator.router_timeout")
+            return {
+                "task_id": task.task_id,
+                "response": "The planning step timed out. Check that the router model is pulled and Ollama is responding.",
+                "events": task.events,
+            }
+        except Exception as e:
+            task.status = "failed"
+            task.emit("router_error", {"message": str(e)})
+            log.exception("orchestrator.router_error")
+            return {
+                "task_id": task.task_id,
+                "response": "The planning step failed. See logs for details.",
+                "events": task.events,
+            }
+
+        task.emit("router_invoke_done")
 
         if isinstance(router_result, dict):
             msgs = router_result.get("messages", [])
@@ -205,8 +271,11 @@ class GraphOrchestrator:
         # EXECUTION PHASE
         # -----------------------------
 
+        # src/orchestrator/orchestrator.py — in invoke(), inside the EXECUTION PHASE loop:
+
         results = []
         timeout = TIMEOUTS.LLM_INFERENCE
+        agent_context: Dict[str, str] = {}   # agent_name -> running log of what it's done so far this request
 
         try:
             for t in tasks:
@@ -222,10 +291,19 @@ class GraphOrchestrator:
 
                 agent_graph = agent_meta["graph"]
 
+                prior_context = agent_context.get(agent_name, "")
+                if prior_context:
+                    contextual_task_text = (
+                        f"Context — steps already completed by you in this session:\n{prior_context}\n\n"
+                        f"Next step to do now:\n{task_text}"
+                    )
+                else:
+                    contextual_task_text = task_text
+
                 future = asyncio.run_coroutine_threadsafe(
                     self._run_graph_agent(
                         agent_graph=agent_graph,
-                        task_text=task_text,
+                        task_text=contextual_task_text,
                         task_state=task,
                         on_step=on_step
                     ),
@@ -234,16 +312,17 @@ class GraphOrchestrator:
 
                 result = future.result(timeout=timeout)
 
+                agent_context[agent_name] = (
+                    agent_context.get(agent_name, "")
+                    + f"\n- Task: {task_text}\n  Result: {result}"
+                )
+
                 results.append({
                     "task": task_text,
                     "agent": agent_name,
                     "result": result
                 })
-
-        # -----------------------------
-        # ERROR HANDLING
-        # -----------------------------
-
+                
         except concurrent.futures.TimeoutError:
             task.status = "failed"
             task.emit("timeout")
@@ -267,8 +346,8 @@ class GraphOrchestrator:
             task.emit("error", {"message": str(e)})
             log.exception("orchestrator.error")
             record_failed_attempt(
-                    content=f"Task failed: {task.query} | Error: {str(e)}"
-                )
+                content=f"Task failed: {task.query} | Error: {str(e)}"
+            )
             return {
                 "task_id": task.task_id,
                 "response": "Internal error.",

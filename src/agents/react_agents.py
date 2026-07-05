@@ -199,9 +199,38 @@ def create_domain_agent(llm, tools, system_prompt: str):
 
         return {"messages": [AIMessage(content=content)]}
 
-    tool_node = ToolNode(tools)
+    def route_after_agent(state: AgentState):
+        messages = state.get("messages", [])
+        last = messages[-1] if messages else None
+
+        if isinstance(last, AIMessage) and getattr(last, "tool_calls", None):
+            return "tools"
+
+        # Empty-content stop with no tool call: nudge once instead of
+        # silently ending the run with nothing to show for it.
+        if isinstance(last, AIMessage) and not (last.content or "").strip():
+            already_nudged = state.get("_empty_nudge_sent", False)
+            if not already_nudged:
+                return "nudge_empty"
+
+        return END
+
+    def nudge_empty_node(state: AgentState):
+        return {
+            "messages": [("human",
+                "Your last response was empty. Either call a tool to continue, "
+                "or write a short explanation of what happened and why you are stopping."
+            )],
+            "_empty_nudge_sent": True,
+        }
+
+
+    
+    tool_node = ToolNode(tools, handle_tool_errors=True)
 
     graph_builder = StateGraph(AgentState)
+    graph_builder.add_node("nudge_empty", nudge_empty_node)
+    graph_builder.add_edge("nudge_empty", "agent")
     graph_builder.add_node("agent", agent_node)
     graph_builder.add_node("tools", tool_node)
     graph_builder.add_node("failure_check", failure_check_node)
@@ -214,6 +243,10 @@ def create_domain_agent(llm, tools, system_prompt: str):
     graph_builder.add_edge("give_up", END)
 
     return graph_builder.compile()
+
+# src/agents/react_agents.py — inside create_domain_agent, modify route_after_agent:
+
+
 
 
 # =========================================================
@@ -250,4 +283,6 @@ def create_router_agent(llm, system_prompt: str):
         tools=[],
         system_prompt=system_prompt
     )
+
+
 

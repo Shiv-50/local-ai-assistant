@@ -1,3 +1,5 @@
+# src/main.py
+
 import sys
 import logging
 import asyncio
@@ -10,11 +12,22 @@ from src.ui.overlay import create_app
 
 from src.orchestrator.orchestrator import GraphOrchestrator
 
-from src.agents.react_agents import create_router_agent, create_general_agent, create_browser_agent
+from src.agents.react_agents import (
+    create_router_agent,
+    create_general_agent,
+    create_browser_agent,
+    create_domain_agent,
+)
 
 from src.prompts.desktop_agent import system_prompt as general_prompt
 from src.prompts.browser_agent import system_prompt as browser_prompt
 from src.prompts.router_agent import system_prompt as router_prompt
+from src.prompts.web_agent import system_prompt as web_prompt
+from src.prompts.shell_agent import system_prompt as shell_prompt
+from src.prompts.vision_agent import system_prompt as vision_prompt
+
+from src.tools.system_tools import execute_shell_command
+from src.tools.vision_tools import analyze_screen_with_vision
 
 from src.llm.llm_manager import llm_manager
 from src.core.mcp_manager import mcp_manager
@@ -27,12 +40,10 @@ setup_logging(level="INFO", log_file="assistant.log")
 log = get_logger(__name__)
 
 
-# =========================================================
-# MODEL BOOTSTRAP
-# =========================================================
-
 def build_models():
-    llm_manager.preload_router("qwen2.5:7b")
+    # NOTE: preload target must match what's actually requested below,
+    # or you silently double-load two 7B models.
+    llm_manager.preload_router("qwen2.5:7b-instruct")
 
     return {
         "router": llm_manager.get_model(
@@ -53,31 +64,16 @@ def build_models():
     }
 
 
-# =========================================================
-# AGENT SYSTEM BUILDER
-# =========================================================
-
 def build_system():
     models = build_models()
 
-    # -----------------------------
-    # Router (NO tools)
-    # -----------------------------
     router_agent = create_router_agent(models["router"], system_prompt=router_prompt)
 
-    # -----------------------------
-    # General Graph Agent
-    # -----------------------------
     general_agent = create_general_agent(
         llm=models["general"],
         system_prompt=general_prompt,
-        search_tools=mcp_manager.search_tools,
+        search_tools=[],  # search now lives in the dedicated web_agent below
     )
-
-    # -----------------------------
-    # Browser Graph Agent
-    # -----------------------------
-
 
     browser_agent = create_browser_agent(
         llm=models["browser"],
@@ -85,32 +81,67 @@ def build_system():
         system_prompt=browser_prompt,
     )
 
-    # -----------------------------
-    # Orchestrator
-    # -----------------------------
+    web_agent = create_domain_agent(
+        llm=models["general"],
+        tools=list(mcp_manager.search_tools),
+        system_prompt=web_prompt,
+    )
+
+    shell_agent = create_domain_agent(
+        llm=models["general"],
+        tools=[execute_shell_command],
+        system_prompt=shell_prompt,
+    )
+
+    vision_agent = create_domain_agent(
+        llm=models["general"],
+        tools=[analyze_screen_with_vision],
+        system_prompt=vision_prompt,
+    )
+
     orchestrator = GraphOrchestrator(
         router_agent=router_agent,
         agent_registry={
             "general": {
                 "graph": general_agent,
-                "description": "Use this agent for general reasoning, desktop tasks and coding.",
+                "description": "General reasoning, coding, writing, and desktop UI actions (launch apps, click, type) that don't need search, shell, or screen analysis.",
                 "use_cases": [
-                    "reasoning",
-                    "coding",
-                    "writing",
-                    "summarization",
-                    "analysis"
+                    "reasoning", "coding", "writing", "summarization",
+                    "analysis", "launching/focusing apps", "typing/clicking",
                 ],
             },
             "browser": {
                 "graph": browser_agent,
-                "description": "Use this agent for browser related tasks/navigation",
+                "description": "Full browser automation via Playwright MCP.",
                 "use_cases": [
-                    "web navigation",
-                    "clicking UI elements",
-                    "login flows",
-                    "form filling",
-                    "scraping UI"
+                    "web navigation", "clicking UI elements",
+                    "login flows", "form filling", "scraping a live page",
+                ],
+            },
+            "web": {
+                "graph": web_agent,
+                "description": "Web search for facts/information via the DuckDuckGo MCP server.",
+                "use_cases": [
+                    "answer a factual question from the web",
+                    "look up current information",
+                    "find a URL or source",
+                ],
+            },
+            "shell": {
+                "graph": shell_agent,
+                "description": "Run Windows shell/PowerShell commands.",
+                "use_cases": [
+                    "run a CLI/PowerShell command",
+                    "query system state via shell",
+                ],
+            },
+            "vision": {
+                "graph": vision_agent,
+                "description": "Analyze the current screen visually to locate UI elements or describe what's shown.",
+                "use_cases": [
+                    "what's on screen right now",
+                    "find coordinates of a button/element",
+                    "verify a UI state visually",
                 ],
             },
         },
@@ -120,6 +151,8 @@ def build_system():
 
     return orchestrator
 
+
+# AppController class and main() stay unchanged.
 
 # =========================================================
 # CONTROLLER (UI INTEGRATION LAYER)
@@ -164,6 +197,8 @@ class AppController:
     # CORE EXECUTION
     # -----------------------------------------------------
 
+# src/main.py — wire the overlay's step indicator into the run, in AppController._run:
+
     def _run(self, text: str):
 
         log.info("user.request", text=text)
@@ -178,7 +213,21 @@ class AppController:
             "conversation_history": self.conversation_history[-10:]
         }
 
-        result = self.orchestrator.invoke(state)
+        def _on_step(chunk):
+            msgs = chunk.get("messages", [])
+            if not msgs:
+                return
+            last = msgs[-1]
+            tool_calls = getattr(last, "tool_calls", None)
+            if tool_calls:
+                names = ", ".join(tc.get("name", "?") for tc in tool_calls)
+                self.overlay.update_step(f"Calling: {names}")
+            else:
+                content = getattr(last, "content", "")
+                if isinstance(content, str) and content.strip():
+                    self.overlay.update_step(content.strip()[:120])
+
+        result = self.orchestrator.invoke(state, on_step=_on_step)
 
         response = result.get("response", "")
 

@@ -6,36 +6,22 @@ from typing import List, Dict, Any, Optional
 
 import numpy as np
 import faiss
+import requests
 from dotenv import load_dotenv
-from google import genai
-
 
 load_dotenv()
-
-# =========================================================
-# CONFIG
-# =========================================================
 
 INDEX_PATH = "memory/faiss.index"
 META_PATH = "memory/meta.pkl"
 
-EMBED_MODEL = "gemini-embedding-001"
-EMBED_DIM = 3072
+OLLAMA_BASE = os.getenv("OLLAMA_BASE", "http://127.0.0.1:11434")
+EMBED_MODEL = os.getenv("EMBED_MODEL", "nomic-embed-text")
+EMBED_DIM = 768  # nomic-embed-text output size
 
 TOP_K_DEFAULT = 3
 SIMILARITY_THRESHOLD = 0.82
 
 os.makedirs("memory", exist_ok=True)
-
-# =========================================================
-# GEMINI CLIENT
-# =========================================================
-
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-
-# =========================================================
-# LOAD INDEX
-# =========================================================
 
 if os.path.exists(INDEX_PATH):
     index = faiss.read_index(INDEX_PATH)
@@ -47,17 +33,15 @@ else:
 
 lock = threading.Lock()
 
-# =========================================================
-# EMBEDDING
-# =========================================================
 
 def embed(text: str) -> np.ndarray:
-    res = client.models.embed_content(
-        model=EMBED_MODEL,
-        contents=text
+    res = requests.post(
+        f"{OLLAMA_BASE}/api/embeddings",
+        json={"model": EMBED_MODEL, "prompt": text},
+        timeout=15,
     )
-
-    vec = np.array(res.embeddings[0].values, dtype="float32").reshape(1, -1)
+    res.raise_for_status()
+    vec = np.array(res.json()["embedding"], dtype="float32").reshape(1, -1)
     faiss.normalize_L2(vec)
     return vec
 
