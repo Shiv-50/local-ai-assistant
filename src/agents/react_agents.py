@@ -54,7 +54,7 @@ class AgentState(TypedDict, total=False):
     last_action_signature: Any
     repeat_count: int
     consecutive_hard_errors: int
-
+    empty_count: int
 
 def _is_hard_error(content: Any) -> bool:
     return isinstance(content, str) and content.startswith(_HARD_ERROR_PREFIX)
@@ -131,13 +131,6 @@ def create_domain_agent(llm, tools, system_prompt: str):
         # reducer is designed for.
         return {"messages": [response]}
 
-    def route_after_agent(state: AgentState):
-        messages = state.get("messages", [])
-        last = messages[-1] if messages else None
-
-        if isinstance(last, AIMessage) and getattr(last, "tool_calls", None):
-            return "tools"
-        return END
 
     def failure_check_node(state: AgentState):
         """
@@ -216,6 +209,15 @@ def create_domain_agent(llm, tools, system_prompt: str):
         return END
 
     def nudge_empty_node(state: AgentState):
+        empty_count = state.get("empty_count", 0) + 1
+
+        if empty_count >= 2:
+            return {
+                "messages": [
+                    AIMessage(content="Agent stopped: repeated empty responses.")
+                ],
+                "empty_count": empty_count,
+            }
         return {
             "messages": [("human",
                 "Your last response was empty. Either call a tool to continue, "
