@@ -31,6 +31,7 @@ class BrowserTool:
 
         snap = self.cli.snapshot()
         self.state.update_from_snapshot(snap.output)
+        return self._format(res, snap)
 
     def snapshot(self):
         res = self.cli.snapshot()
@@ -88,8 +89,24 @@ class BrowserTool:
                 "last_action": self.state.last_action,
                 "completed_steps": self.state.completed_steps[-10:],
             },
-            "snapshot": snapshot.output[:2000] if snapshot else None,
+            "snapshot": snapshot.output[:10000] if snapshot else None,
         }
+    
+    def describe_state(self) -> str:
+        s = self.state
+        if not s.url:
+            return "CURRENT BROWSER STATE: No page is currently open in this session."
+        steps = "; ".join(s.completed_steps[-5:]) or "none"
+        return (
+            "CURRENT BROWSER STATE:\n"
+        f"- URL: {s.url}\n"
+        f"- Last action: {s.last_action}\n"
+        f"- Recent steps this session: {steps}\n"
+        "If the page above already satisfies what's being asked (e.g. the target "
+        "site is already open), do NOT call open() or close() again. Call "
+        "snapshot() to see the current page and proceed directly with the "
+        "requested action (e.g. click a login button)."
+    )
     
 
 

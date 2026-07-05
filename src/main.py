@@ -58,7 +58,7 @@ def build_models():
             num_predict=1024,
         ),
         "browser": llm_manager.get_model(
-            model_name="qwen2.5:7b",
+            model_name="qwen2.5:7b-instruct",
             temperature=0.2,
             num_predict=1024,
         ),
@@ -76,10 +76,13 @@ def build_system():
         search_tools=[],  # search now lives in the dedicated web_agent below
     )
 
+    browser_tool = BrowserTool()
+
     browser_agent = create_browser_agent(
         llm=models["browser"],
-        mcp_tools=get_tools(BrowserTool()),
+        mcp_tools=get_tools(browser_tool),
         system_prompt=browser_prompt,
+        state_provider=browser_tool.describe_state,
     )
 
     web_agent = create_domain_agent(

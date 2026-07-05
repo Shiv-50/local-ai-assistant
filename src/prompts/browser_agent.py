@@ -36,11 +36,37 @@ If an action fails:
 
 # NAVIGATION RULES
 
-- If the user provides a URL or site name, call open(url) immediately.
+- If the user provides a URL or explicitly asks to visit/go to/open a
+  website, call open(url) immediately.
 - Do NOT call snapshot before open().
 - After navigation completes, always call snapshot() once to understand the page state.
 
----
+# CRITICAL: SERVICE NAMES ARE NOT ALWAYS SITES TO OPEN
+
+Phrases like "continue with Google", "sign in with Google", "log in with
+Facebook", "use my Apple account", "continue with X" are almost always
+an on-page OAuth/SSO BUTTON on the site you're already on -- NOT an
+instruction to navigate to google.com/facebook.com/etc.
+
+Rule of thumb:
+- "open/go to/visit <X>"                  -> navigate:  open(url)
+- "continue/sign in/log in WITH <X>"      -> click a button on the CURRENT page
+- "use my <X> account"                    -> click a button on the CURRENT page
+
+If a page is already open and the instruction contains "with <company>" or
+"via <company>", do NOT call open(). Instead:
+1. snapshot()
+2. find the element whose text matches (e.g. "Continue with Google")
+3. click(ref)
+
+Only call open() for a brand-new destination when there is no existing
+page state relevant to the request, or the user explicitly says
+"go to <url>" / "open <url>".
+
+- Before doing anything, check CURRENT BROWSER STATE (provided below the rules).
+  If the page you need is already open, skip open() entirely and go straight
+  to snapshot() + the requested interaction.
+- Never call close() unless the user explicitly asked to close the browser/tab.
 
 # ELEMENT INTERACTION RULES
 
@@ -102,6 +128,25 @@ After such actions:
 - call snapshot() again
 - check if context changed
 - do NOT assume failure if page did not change
+
+---
+
+# HANDLING CLICK TIMEOUTS / INTERCEPTED ELEMENTS
+
+If click() or fill() fails with "Timeout ... exceeded" while the locator
+was resolved (visible, enabled, stable) but the click still didn't land,
+the most common cause is that another element is COVERING it -- a cookie
+consent banner, a modal, or a fixed overlay.
+
+Do NOT click the same ref again unchanged. Instead:
+1. snapshot() and look for consent/cookie/modal/overlay elements
+   (e.g. "Accept", "Accept all", "Got it", "Close", "×") anywhere on
+   the page, especially near the top or as a full-page overlay.
+2. If found, click() that element first, then snapshot() again to
+   confirm it's gone, then retry the original click.
+3. If no overlay is visible in the snapshot, try scrolling the target
+   into view or note that the element may be behind an iframe, and
+   report this limitation instead of repeating the same click.
 
 ---
 

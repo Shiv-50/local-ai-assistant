@@ -114,24 +114,25 @@ def _summarize_failure(tool_msgs: list[ToolMessage]) -> str:
 # CORE AGENT BUILDER
 # =========================================================
 
-def create_domain_agent(llm, tools, system_prompt: str):
+# src/agents/react_agents.py
+
+def create_domain_agent(llm, tools, system_prompt: str, state_provider=None):
 
     model_with_tools = llm.bind_tools(tools)
 
     def agent_node(state: AgentState):
         messages = state.get("messages", [])
-        system_msg = SystemMessage(content=system_prompt)
+        prompt = system_prompt
+        if state_provider:
+            try:
+                prompt = f"{system_prompt}\n\n{state_provider()}"
+            except Exception:
+                log.exception("state_provider failed")
+        system_msg = SystemMessage(content=prompt)
 
         response = model_with_tools.invoke([system_msg] + list(messages))
-
-        # Only the new message is returned -- the `add_messages` reducer
-        # on AgentState.messages appends it to history for us. Returning
-        # the full accumulated list here (like before) would also work,
-        # but returning just the delta is cheaper and is the pattern the
-        # reducer is designed for.
         return {"messages": [response]}
-
-
+    
     def failure_check_node(state: AgentState):
         """
         Runs after every tool round. Detects two loop patterns:
@@ -270,12 +271,13 @@ def create_general_agent(llm, system_prompt: str, search_tools: list | None = No
 # BROWSER AGENT
 # =========================================================
 
-def create_browser_agent(llm, mcp_tools, system_prompt: str):
+def create_browser_agent(llm, mcp_tools, system_prompt: str, state_provider=None):
 
     return create_domain_agent(
         llm=llm,
         tools=mcp_tools,
-        system_prompt=system_prompt
+        system_prompt=system_prompt,
+        state_provider=state_provider
     )
 
 def create_router_agent(llm, system_prompt: str):

@@ -36,6 +36,7 @@ Return ONLY valid JSON:
 - If uncertain, choose the most general agent.
 - The tasks should be as verbose as possible since the sub agents do not have context.
 - Provide all necessary context as well.
+- Always assume user requests mmay be connected to previous ones. Evaluate previous conversations and create tasks accordingly
 
 - CRITICAL: Never compress a task down to a generic verb and lose the
   specific subject the user named. The task string must always retain

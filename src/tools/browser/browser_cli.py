@@ -33,12 +33,9 @@ class PlaywrightCLI:
         self.binary = binary
         self.timeout = timeout
 
-    def run(self, args: str) -> CLIResult:
-        """
-        Execute a playwright CLI command.
-        Example args: "open https://google.com --headed"
-        """
+   # src/tools/browser/browser_cli.py
 
+    def run(self, args: str) -> CLIResult:
         cmd = ["npx", "playwright-cli"] + shlex.split(args)
 
         try:
@@ -48,12 +45,14 @@ class PlaywrightCLI:
                 cmd,
                 capture_output=True,
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 shell=True,
                 timeout=self.timeout / 1000,
             )
 
-            output = process.stdout.strip()
-            error = process.stderr.strip()
+            output = (process.stdout or "").strip()
+            error = (process.stderr or "").strip()
 
             return CLIResult(
                 success=process.returncode == 0,
@@ -67,6 +66,14 @@ class PlaywrightCLI:
                 success=False,
                 output="",
                 error="Timeout expired",
+                return_code=-1,
+            )
+        except Exception as e:
+            logger.exception("[PlaywrightCLI] run failed")
+            return CLIResult(
+                success=False,
+                output="",
+                error=str(e),
                 return_code=-1,
             )
 
