@@ -17602,3 +17602,167 @@ Assistant: [Web Search Summary] Here's a summary of the key points from the vari
 {"ts": "2026-07-05T19:47:32", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b-instruct", "asctime": "19:47:32"}
 {"ts": "2026-07-05T19:47:32", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b", "asctime": "19:47:32"}
 {"ts": "2026-07-05T19:47:32", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "19:47:32"}
+{"ts": "2026-07-06T20:14:21", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "20:14:21"}
+{"ts": "2026-07-06T20:14:21", "level": "INFO", "logger": "assistant.__main__", "msg": "app.start", "asctime": "20:14:21"}
+{"ts": "2026-07-06T20:14:21", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-06T20:14:21", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "20:14:21"}
+{"ts": "2026-07-06T20:14:21", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "20:14:21"}
+{"ts": "2026-07-06T20:14:24", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-06T20:14:24", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 10.9, "server": "playwright", "asctime": "20:14:24"}
+{"ts": "2026-07-06T20:14:35", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "search"}
+{"ts": "2026-07-06T20:14:35", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 14.4, "server": "search", "asctime": "20:14:35"}
+{"ts": "2026-07-06T20:14:35", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 2, "asctime": "20:14:35"}
+{"ts": "2026-07-06T20:14:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5:7b-instruct", "asctime": "20:14:36"}
+{"ts": "2026-07-06T20:14:36", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-06T20:14:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_name": "qwen2.5:7b-instruct", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "20:14:36"}
+{"ts": "2026-07-06T20:14:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 40.1, "model_name": "qwen2.5:7b-instruct", "asctime": "20:14:36"}
+{"ts": "2026-07-06T20:14:36", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-06T20:14:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_name": "qwen2.5:7b-instruct", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "20:14:36"}
+{"ts": "2026-07-06T20:14:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 55.5, "model_name": "qwen2.5:7b-instruct", "asctime": "20:14:36"}
+{"ts": "2026-07-06T20:14:36", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-06T20:14:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "20:14:36"}
+{"ts": "2026-07-06T20:14:36", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 38.6, "model_name": "qwen2.5:7b", "asctime": "20:14:36"}
+{"ts": "2026-07-06T20:14:36", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "model.cache_hit", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-06T20:14:36", "level": "INFO", "logger": "assistant.__main__", "msg": "system.initialized", "asctime": "20:14:36"}
+{"ts": "2026-07-06T20:14:53", "level": "INFO", "logger": "assistant.__main__", "msg": "user.request", "text": "Play iris the sone'", "asctime": "20:14:53"}
+{"ts": "2026-07-06T20:14:53", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "0f2fd2a7-1f19-42ca-970c-e7285f451678", "event": "task_started", "asctime": "20:14:53"}
+{"ts": "2026-07-06T20:19:11", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "20:19:11"}
+{"ts": "2026-07-06T20:19:12", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "20:19:12"}
+{"ts": "2026-07-06T20:19:12", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "20:19:12"}
+{"ts": "2026-07-06T20:19:12", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "20:19:12"}
+{"ts": "2026-07-06T20:19:12", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b", "asctime": "20:19:12"}
+{"ts": "2026-07-06T20:19:12", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b-instruct", "asctime": "20:19:12"}
+{"ts": "2026-07-06T20:19:12", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "20:19:12"}
+{"ts": "2026-07-06T20:19:18", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "20:19:18"}
+{"ts": "2026-07-06T20:19:18", "level": "INFO", "logger": "assistant.__main__", "msg": "app.start", "asctime": "20:19:18"}
+{"ts": "2026-07-06T20:19:18", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-06T20:19:18", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "20:19:18"}
+{"ts": "2026-07-06T20:19:18", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "20:19:18"}
+{"ts": "2026-07-06T20:19:19", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-06T20:19:19", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 16.3, "server": "playwright", "asctime": "20:19:19"}
+{"ts": "2026-07-06T20:19:21", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "search"}
+{"ts": "2026-07-06T20:19:21", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 7.3, "server": "search", "asctime": "20:19:21"}
+{"ts": "2026-07-06T20:19:21", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 2, "asctime": "20:19:21"}
+{"ts": "2026-07-06T20:19:21", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5:7b-instruct", "asctime": "20:19:21"}
+{"ts": "2026-07-06T20:19:21", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-06T20:19:21", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_name": "qwen2.5:7b-instruct", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "20:19:21"}
+{"ts": "2026-07-06T20:19:21", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 21.5, "model_name": "qwen2.5:7b-instruct", "asctime": "20:19:21"}
+{"ts": "2026-07-06T20:19:21", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-06T20:19:21", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_name": "qwen2.5:7b-instruct", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "20:19:21"}
+{"ts": "2026-07-06T20:19:21", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 24.5, "model_name": "qwen2.5:7b-instruct", "asctime": "20:19:21"}
+{"ts": "2026-07-06T20:19:21", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-06T20:19:21", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "20:19:21"}
+{"ts": "2026-07-06T20:19:21", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 20.6, "model_name": "qwen2.5:7b", "asctime": "20:19:21"}
+{"ts": "2026-07-06T20:19:21", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "model.cache_hit", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-06T20:19:22", "level": "INFO", "logger": "assistant.__main__", "msg": "system.initialized", "asctime": "20:19:22"}
+{"ts": "2026-07-06T20:19:26", "level": "INFO", "logger": "assistant.__main__", "msg": "user.request", "text": "play iris", "asctime": "20:19:26"}
+{"ts": "2026-07-06T20:19:26", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "172b3905-2570-422b-ae24-73c2152bb699", "event": "task_started", "asctime": "20:19:26"}
+{"ts": "2026-07-06T20:20:29", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "20:20:29"}
+{"ts": "2026-07-06T20:20:29", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "20:20:29"}
+{"ts": "2026-07-06T20:20:29", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "20:20:29"}
+{"ts": "2026-07-06T20:20:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "20:20:29"}
+{"ts": "2026-07-06T20:20:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b", "asctime": "20:20:29"}
+{"ts": "2026-07-06T20:20:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b-instruct", "asctime": "20:20:29"}
+{"ts": "2026-07-06T20:20:29", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "20:20:29"}
+{"ts": "2026-07-06T20:20:38", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "20:20:38"}
+{"ts": "2026-07-06T20:20:38", "level": "INFO", "logger": "assistant.__main__", "msg": "app.start", "asctime": "20:20:38"}
+{"ts": "2026-07-06T20:20:38", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-06T20:20:38", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "20:20:38"}
+{"ts": "2026-07-06T20:20:38", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "20:20:38"}
+{"ts": "2026-07-06T20:20:40", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-06T20:20:40", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 16.9, "server": "playwright", "asctime": "20:20:40"}
+{"ts": "2026-07-06T20:20:41", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "search"}
+{"ts": "2026-07-06T20:20:41", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 7.4, "server": "search", "asctime": "20:20:41"}
+{"ts": "2026-07-06T20:20:41", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 2, "asctime": "20:20:41"}
+{"ts": "2026-07-06T20:20:41", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5:7b-instruct", "asctime": "20:20:41"}
+{"ts": "2026-07-06T20:20:41", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-06T20:20:41", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_name": "qwen2.5:7b-instruct", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "20:20:41"}
+{"ts": "2026-07-06T20:20:41", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 19.7, "model_name": "qwen2.5:7b-instruct", "asctime": "20:20:41"}
+{"ts": "2026-07-06T20:20:41", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-06T20:20:41", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_name": "qwen2.5:7b-instruct", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "20:20:41"}
+{"ts": "2026-07-06T20:20:41", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 21.2, "model_name": "qwen2.5:7b-instruct", "asctime": "20:20:41"}
+{"ts": "2026-07-06T20:20:41", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-06T20:20:41", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "20:20:41"}
+{"ts": "2026-07-06T20:20:41", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 21.8, "model_name": "qwen2.5:7b", "asctime": "20:20:41"}
+{"ts": "2026-07-06T20:20:41", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "model.cache_hit", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-06T20:20:42", "level": "INFO", "logger": "assistant.__main__", "msg": "system.initialized", "asctime": "20:20:42"}
+{"ts": "2026-07-06T20:23:32", "level": "INFO", "logger": "assistant.__main__", "msg": "user.request", "text": "open pinterest", "asctime": "20:23:32"}
+{"ts": "2026-07-06T20:23:32", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "85e61ab3-df6b-43d5-9bb8-54383fe492ae", "event": "task_started", "asctime": "20:23:32"}
+{"ts": "2026-07-06T20:23:47", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "85e61ab3-df6b-43d5-9bb8-54383fe492ae", "event": "router_invoke_started", "asctime": "20:23:47"}
+{"ts": "2026-07-06T20:24:27", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "20:24:27"}
+{"ts": "2026-07-06T20:24:27", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "20:24:27"}
+{"ts": "2026-07-06T20:24:27", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "20:24:27"}
+{"ts": "2026-07-06T20:24:27", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "20:24:27"}
+{"ts": "2026-07-06T20:24:27", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b", "asctime": "20:24:27"}
+{"ts": "2026-07-06T20:24:27", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b-instruct", "asctime": "20:24:27"}
+{"ts": "2026-07-06T20:24:27", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "20:24:27"}
+{"ts": "2026-07-06T20:24:55", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "85e61ab3-df6b-43d5-9bb8-54383fe492ae", "event": "router_invoke_done", "asctime": "20:24:55"}
+{"ts": "2026-07-06T20:24:55", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "85e61ab3-df6b-43d5-9bb8-54383fe492ae", "event": "tasks_created", "asctime": "20:24:55"}
+{"ts": "2026-07-06T20:25:23", "level": "INFO", "logger": "assistant", "msg": "Logging initialised | level=INFO | log_file=assistant.log", "asctime": "20:25:23"}
+{"ts": "2026-07-06T20:25:23", "level": "INFO", "logger": "assistant.__main__", "msg": "app.start", "asctime": "20:25:23"}
+{"ts": "2026-07-06T20:25:23", "level": "DEBUG", "logger": "asyncio", "msg": "Using proactor: IocpProactor"}
+{"ts": "2026-07-06T20:25:23", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.loop_started", "asctime": "20:25:23"}
+{"ts": "2026-07-06T20:25:23", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.start", "asctime": "20:25:23"}
+{"ts": "2026-07-06T20:25:25", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "playwright"}
+{"ts": "2026-07-06T20:25:25", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 22.2, "server": "playwright", "asctime": "20:25:25"}
+{"ts": "2026-07-06T20:25:26", "level": "DEBUG", "logger": "assistant.src.core.mcp_manager", "msg": "start", "operation": "mcp.load_tools", "server": "search"}
+{"ts": "2026-07-06T20:25:26", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "done", "operation": "mcp.load_tools", "elapsed_ms": 9.1, "server": "search", "asctime": "20:25:26"}
+{"ts": "2026-07-06T20:25:26", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.initialize.done", "browser_tools": 23, "search_tools": 2, "asctime": "20:25:26"}
+{"ts": "2026-07-06T20:25:27", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.preload_router", "model_name": "qwen2.5:7b-instruct", "asctime": "20:25:27"}
+{"ts": "2026-07-06T20:25:27", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-06T20:25:27", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_name": "qwen2.5:7b-instruct", "temperature": 0.0, "timeout": 120, "num_predict": 64, "asctime": "20:25:27"}
+{"ts": "2026-07-06T20:25:27", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 26.2, "model_name": "qwen2.5:7b-instruct", "asctime": "20:25:27"}
+{"ts": "2026-07-06T20:25:27", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-06T20:25:27", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_name": "qwen2.5:7b-instruct", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "20:25:27"}
+{"ts": "2026-07-06T20:25:27", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 26.8, "model_name": "qwen2.5:7b-instruct", "asctime": "20:25:27"}
+{"ts": "2026-07-06T20:25:27", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "start", "operation": "model.load", "model_name": "qwen2.5:7b"}
+{"ts": "2026-07-06T20:25:27", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.create", "model_name": "qwen2.5:7b", "temperature": 0.2, "timeout": 120, "num_predict": 1024, "asctime": "20:25:27"}
+{"ts": "2026-07-06T20:25:27", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "done", "operation": "model.load", "elapsed_ms": 26.6, "model_name": "qwen2.5:7b", "asctime": "20:25:27"}
+{"ts": "2026-07-06T20:25:27", "level": "DEBUG", "logger": "assistant.src.llm.llm_manager", "msg": "model.cache_hit", "model_name": "qwen2.5:7b-instruct"}
+{"ts": "2026-07-06T20:25:27", "level": "INFO", "logger": "assistant.__main__", "msg": "system.initialized", "asctime": "20:25:27"}
+{"ts": "2026-07-06T20:25:41", "level": "INFO", "logger": "assistant.__main__", "msg": "user.request", "text": "open hoyolabs", "asctime": "20:25:41"}
+{"ts": "2026-07-06T20:25:41", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "event": "task_started", "asctime": "20:25:41"}
+{"ts": "2026-07-06T20:25:43", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "event": "router_invoke_started", "asctime": "20:25:43"}
+{"ts": "2026-07-06T20:25:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "event": "router_invoke_done", "asctime": "20:25:52"}
+{"ts": "2026-07-06T20:25:52", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "event": "tasks_created", "asctime": "20:25:52"}
+{"ts": "2026-07-06T20:25:53", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "event": "agent_task_started", "asctime": "20:25:53"}
+{"ts": "2026-07-06T20:25:53", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "agent.message", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "type": "HumanMessage", "preview": "Open the Hoyolabs website in a web browser", "asctime": "20:25:53"}
+{"ts": "2026-07-06T20:25:56", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "agent.tool_call", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "tools": ["open"], "asctime": "20:25:56"}
+{"ts": "2026-07-06T20:25:56", "level": "INFO", "logger": "root", "msg": "[TOOL START] open", "asctime": "20:25:56"}
+{"ts": "2026-07-06T20:25:56", "level": "INFO", "logger": "src.tools.browser.browser_cli", "msg": "[PlaywrightCLI] Running: npx playwright-cli -s agent open https://www.hoyolab.com --headed", "asctime": "20:25:56"}
+{"ts": "2026-07-06T20:26:02", "level": "INFO", "logger": "src.tools.browser.browser_cli", "msg": "[PlaywrightCLI] Running: npx playwright-cli -s agent snapshot", "asctime": "20:26:02"}
+{"ts": "2026-07-06T20:26:04", "level": "INFO", "logger": "root", "msg": "[TOOL RESULT TYPE] <class 'dict'>", "asctime": "20:26:04"}
+{"ts": "2026-07-06T20:26:04", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "agent.message", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "type": "ToolMessage", "preview": "{\"success\": true, \"output\": \"### Browser `agent` opened with pid 22112.\\n### Ran Playwright code\\n```js\\nawait page.goto('https://www.hoyolab.com');\\n```\\n### Page\\n- Page URL: https://www.hoyolab.com", "asctime": "20:26:04"}
+{"ts": "2026-07-06T20:26:04", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "agent.message", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "type": "ToolMessage", "preview": "{\"success\": true, \"output\": \"### Browser `agent` opened with pid 22112.\\n### Ran Playwright code\\n```js\\nawait page.goto('https://www.hoyolab.com');\\n```\\n### Page\\n- Page URL: https://www.hoyolab.com", "asctime": "20:26:04"}
+{"ts": "2026-07-06T20:26:06", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "agent.tool_call", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "tools": ["snapshot"], "asctime": "20:26:06"}
+{"ts": "2026-07-06T20:26:06", "level": "INFO", "logger": "root", "msg": "[TOOL START] snapshot", "asctime": "20:26:06"}
+{"ts": "2026-07-06T20:26:06", "level": "INFO", "logger": "src.tools.browser.browser_cli", "msg": "[PlaywrightCLI] Running: npx playwright-cli -s agent snapshot", "asctime": "20:26:06"}
+{"ts": "2026-07-06T20:26:07", "level": "INFO", "logger": "root", "msg": "[TOOL RESULT TYPE] <class 'dict'>", "asctime": "20:26:07"}
+{"ts": "2026-07-06T20:26:07", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "agent.message", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "type": "ToolMessage", "preview": "{\"success\": true, \"output\": \"### Page\\n- Page URL: https://www.hoyolab.com/circles/2/27/official?page_type=27&page_sort=hot\\n- Page Title: HoYoLAB - Player Community\\n- Console: 0 errors, 6 warnings\\n", "asctime": "20:26:07"}
+{"ts": "2026-07-06T20:26:07", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "agent.message", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "type": "ToolMessage", "preview": "{\"success\": true, \"output\": \"### Page\\n- Page URL: https://www.hoyolab.com/circles/2/27/official?page_type=27&page_sort=hot\\n- Page Title: HoYoLAB - Player Community\\n- Console: 0 errors, 6 warnings\\n", "asctime": "20:26:07"}
+{"ts": "2026-07-06T20:26:09", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "agent.tool_call", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "tools": ["click"], "asctime": "20:26:09"}
+{"ts": "2026-07-06T20:26:09", "level": "INFO", "logger": "root", "msg": "[TOOL START] click", "asctime": "20:26:09"}
+{"ts": "2026-07-06T20:26:09", "level": "INFO", "logger": "src.tools.browser.browser_cli", "msg": "[PlaywrightCLI] Running: npx playwright-cli -s agent click e42", "asctime": "20:26:09"}
+{"ts": "2026-07-06T20:26:16", "level": "INFO", "logger": "src.tools.browser.browser_cli", "msg": "[PlaywrightCLI] Running: npx playwright-cli -s agent snapshot", "asctime": "20:26:16"}
+{"ts": "2026-07-06T20:26:18", "level": "INFO", "logger": "root", "msg": "[TOOL RESULT TYPE] <class 'dict'>", "asctime": "20:26:18"}
+{"ts": "2026-07-06T20:26:18", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "agent.message", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "type": "ToolMessage", "preview": "{\"success\": true, \"output\": \"### Error\\nTimeoutError: Timeout 5000ms exceeded.\\nCall log:\\n\\u001b[2m  - waiting for locator('aria-ref=e42')\\u001b[22m\\n\\u001b[2m    - locator resolved to <i role=\\\"butt", "asctime": "20:26:18"}
+{"ts": "2026-07-06T20:26:18", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "agent.message", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "type": "ToolMessage", "preview": "{\"success\": true, \"output\": \"### Error\\nTimeoutError: Timeout 5000ms exceeded.\\nCall log:\\n\\u001b[2m  - waiting for locator('aria-ref=e42')\\u001b[22m\\n\\u001b[2m    - locator resolved to <i role=\\\"butt", "asctime": "20:26:18"}
+{"ts": "2026-07-06T20:26:49", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "agent.message", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "type": "AIMessage", "preview": "It appears that the provided response is a structured HTML-like format, likely representing a web page or part of one. The content seems to be related to an event in a game, possibly Genshin Impact, a", "asctime": "20:26:49"}
+{"ts": "2026-07-06T20:26:49", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "event": "agent_task_completed", "asctime": "20:26:49"}
+{"ts": "2026-07-06T20:26:49", "level": "INFO", "logger": "assistant.src.orchestrator.orchestrator", "msg": "task.event", "task_id": "287a7a2f-6867-484b-ba40-543c27e7e3f1", "event": "task_completed", "asctime": "20:26:49"}
+{"ts": "2026-07-06T20:26:49", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.fenced_code.FencedCodeExtension\"."}
+{"ts": "2026-07-06T20:26:49", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.footnotes.FootnoteExtension\"."}
+{"ts": "2026-07-06T20:26:49", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.attr_list.AttrListExtension\"."}
+{"ts": "2026-07-06T20:26:49", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.def_list.DefListExtension\"."}
+{"ts": "2026-07-06T20:26:49", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.tables.TableExtension\"."}
+{"ts": "2026-07-06T20:26:49", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.abbr.AbbrExtension\"."}
+{"ts": "2026-07-06T20:26:49", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.md_in_html.MarkdownInHtmlExtension\"."}
+{"ts": "2026-07-06T20:26:49", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.extra.ExtraExtension\"."}
+{"ts": "2026-07-06T20:26:49", "level": "DEBUG", "logger": "MARKDOWN", "msg": "Successfully loaded extension \"markdown.extensions.nl2br.Nl2BrExtension\"."}
+{"ts": "2026-07-06T20:27:05", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.start", "asctime": "20:27:05"}
+{"ts": "2026-07-06T20:27:05", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.session_manager.stopped", "asctime": "20:27:05"}
+{"ts": "2026-07-06T20:27:05", "level": "INFO", "logger": "assistant.src.core.mcp_manager", "msg": "mcp.shutdown.done", "asctime": "20:27:05"}
+{"ts": "2026-07-06T20:27:05", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.start", "asctime": "20:27:05"}
+{"ts": "2026-07-06T20:27:05", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b", "asctime": "20:27:05"}
+{"ts": "2026-07-06T20:27:06", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unloaded", "model_name": "qwen2.5:7b-instruct", "asctime": "20:27:06"}
+{"ts": "2026-07-06T20:27:06", "level": "INFO", "logger": "assistant.src.llm.llm_manager", "msg": "model.unload_all.done", "asctime": "20:27:06"}
