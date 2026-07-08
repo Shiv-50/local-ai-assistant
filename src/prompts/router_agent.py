@@ -140,6 +140,36 @@ Output:
 
 ---
 
+Input:
+{"query": "Check my Slack unreads"}
+
+Output:
+{
+  "tasks": [
+    {
+      "task": "Launch and connect to the Slack Electron app, then check for and report any unread channels or messages",
+      "agent": "desktop_app"
+    }
+  ]
+}
+
+---
+
+Input:
+{"query": "In VS Code open the file main.py"}
+
+Output:
+{
+  "tasks": [
+    {
+      "task": "Launch and connect to the VS Code Electron app, then open the file main.py using the command palette or file explorer",
+      "agent": "desktop_app"
+    }
+  ]
+}
+
+---
+
 # AGENT SELECTION RULE
 
 You will be given a registry of available agents.
@@ -153,4 +183,10 @@ Each agent includes:
 - capabilities
 
 Match tasks to the best-fit agent based on capability match.
+
+Note: "desktop_app" is ONLY for Electron-based apps (Slack, VS Code,
+Discord, Figma, Notion, Spotify, and similar Chromium-shell apps). For
+any other native Windows app (Notepad, Calculator, Settings, unknown
+apps), use "general" for launching/typing/clicking or "vision" for
+visually locating elements -- never route those to "desktop_app".
 """

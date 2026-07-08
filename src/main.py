@@ -25,10 +25,15 @@ from src.prompts.router_agent import system_prompt as router_prompt
 from src.prompts.web_agent import system_prompt as web_prompt
 from src.prompts.shell_agent import system_prompt as shell_prompt
 from src.prompts.vision_agent import system_prompt as vision_prompt
+from src.prompts.desktop_browser_agent import system_prompt as desktop_browser_prompt
 
 from src.tools.system_tools import execute_shell_command
 from src.tools.vision_tools import analyze_screen_with_vision
-from src.tools.browser.browser_tool import BrowserTool, get_tools
+from src.tools.browser.browser_tool import BrowserTool, get_tools as get_browser_tools
+from src.tools.desktop.desktop_browser_tool import (
+    DesktopAppTool,
+    get_tools as get_desktop_browser_tools,
+)
 
 from src.llm.llm_manager import llm_manager
 from src.core.mcp_manager import mcp_manager
@@ -53,7 +58,7 @@ def build_models():
             num_predict=1024,
         ),
         "general": llm_manager.get_model(
-            model_name="qwen2.5:7b-instruct",
+            model_name="qwen2.5:7b",
             temperature=0.2,
             num_predict=1024,
         ),
@@ -80,9 +85,18 @@ def build_system():
 
     browser_agent = create_browser_agent(
         llm=models["browser"],
-        mcp_tools=get_tools(browser_tool),
+        mcp_tools=get_browser_tools(browser_tool),
         system_prompt=browser_prompt,
         state_provider=browser_tool.describe_state,
+    )
+
+    desktop_app_tool = DesktopAppTool()
+
+    desktop_browser_agent = create_browser_agent(
+        llm=models["browser"],
+        mcp_tools=get_desktop_browser_tools(desktop_app_tool),
+        system_prompt=desktop_browser_prompt,
+        state_provider=desktop_app_tool.describe_state,
     )
 
     web_agent = create_domain_agent(
@@ -120,6 +134,22 @@ def build_system():
                 "use_cases": [
                     "web navigation", "clicking UI elements",
                     "login flows", "form filling", "scraping a live page",
+                ],
+            },
+            "desktop_app": {
+                "graph": desktop_browser_agent,
+                "description": (
+                    "Automates Electron-based desktop apps (Slack, VS Code, "
+                    "Discord, Figma, Notion, Spotify, and similar Chromium-shell "
+                    "apps) via agent-browser over the Chrome DevTools Protocol. "
+                    "Use ONLY for Electron apps -- for any other native Windows "
+                    "app, use 'general' (launch/click/type) or 'vision' instead."
+                ),
+                "use_cases": [
+                    "check Slack unreads or send a Slack message",
+                    "click/type inside VS Code, Discord, Figma, Notion, or Spotify",
+                    "navigate within an Electron desktop app",
+                    "read structured UI state from an Electron app",
                 ],
             },
             "web": {
