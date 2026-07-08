@@ -49,7 +49,7 @@ class LLMManager:
             timeout=timeout,
             num_predict=num_predict,
             format=format,
-            num_ctx=4096,
+            num_ctx=8192,
             num_thread=8,
             keep_alive="20m",
         )

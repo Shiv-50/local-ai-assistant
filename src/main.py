@@ -53,7 +53,7 @@ def build_models():
             num_predict=1024,
         ),
         "general": llm_manager.get_model(
-            model_name="qwen2.5:7b",
+            model_name="qwen2.5:7b-instruct",
             temperature=0.2,
             num_predict=1024,
         ),
