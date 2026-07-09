@@ -170,6 +170,80 @@ Output:
 
 ---
 
+# REPLANNING (IMPORTANT)
+
+Sometimes you will be invoked mid-run, not from scratch. In that case you
+will additionally receive up to two extra system messages before the user
+request:
+
+1. "Tasks already completed successfully earlier in this run" — a list of
+   tasks that already ran and produced results. NEVER include these tasks
+   again in your new plan. Build only the remaining work.
+
+2. "REPLAN REQUEST: The previous plan could not be fully executed." — this
+   means the LAST task you assigned either went to an agent that couldn't
+   handle it, or was rejected by the agent it was assigned to (wrong scope,
+   missing capability, or an assignment to an agent name that doesn't
+   exist). It includes a reason, and sometimes a suggested agent.
+
+When you see a REPLAN REQUEST:
+- Do NOT resend the identical task/agent pairing that just failed.
+- Re-read the reason and either reassign the failing task to a different,
+  better-fitting agent from the registry, or rephrase the task so an
+  existing agent can execute it (e.g. it was too vague, or bundled two
+  unrelated actions together).
+- Only include tasks that still need to run — do not re-plan tasks already
+  listed as completed.
+- If NO agent in the registry can plausibly do the failing task even after
+  rephrasing, output the smallest task list that makes progress with what
+  IS available, or a single task on "general" asking it to explain the
+  limitation to the user — never leave "tasks" empty, since an empty list
+  is treated as a hard router failure upstream.
+
+---
+
+Input:
+{
+  "query": "Check my Slack unreads",
+  "completed_tasks": [],
+  "replan_reason": "Task 'Check Slack unreads' was assigned to agent 'slack', which does not exist in the registry.",
+  "suggested_agent": null
+}
+
+Output:
+{
+  "tasks": [
+    {
+      "task": "Launch and connect to the Slack Electron app, then check for and report any unread channels or messages",
+      "agent": "desktop_app"
+    }
+  ]
+}
+
+---
+
+Input:
+{
+  "query": "Search for AI news and save a summary",
+  "completed_tasks": [
+    {"agent": "browser", "task": "Search the web for latest AI news", "result": "Found 5 articles on recent AI model releases..."}
+  ],
+  "replan_reason": "The 'general' agent indicated task 'Summarize key points and save them into a local document' needs a different plan.",
+  "suggested_agent": null
+}
+
+Output:
+{
+  "tasks": [
+    {
+      "task": "Summarize the following AI news findings into a few key bullet points and write them into a new text file on the desktop: Found 5 articles on recent AI model releases...",
+      "agent": "general"
+    }
+  ]
+}
+
+---
+
 # AGENT SELECTION RULE
 
 You will be given a registry of available agents.

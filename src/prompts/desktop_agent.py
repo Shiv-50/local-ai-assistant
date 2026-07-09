@@ -29,4 +29,4 @@ That context tells you what was already done. Use it to:
 - General questions: Answer directly without screen analysis unless context is unclear
 
 Keep responses brief and actionable. Always verify your actions work before moving on.
-"""
+"""  

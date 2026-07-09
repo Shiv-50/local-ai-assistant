@@ -48,6 +48,63 @@ SAME_ACTION_REPEAT_LIMIT = 2
 # round hard-errored (crashed), even if the calls themselves varied.
 CONSECUTIVE_HARD_ERROR_LIMIT = 3
 
+# =========================================================
+# STRUCTURED OUTCOME DETECTION (for the outer orchestrator)
+# =========================================================
+#
+# The outer orchestrator (src/orchestrator/orchestrator.py) is now a
+# state machine that branches on what happened to a task: did it
+# succeed, does it need a different plan/agent (replan), or did it
+# fail outright. Previously the only signal available was a free-text
+# final message, which the orchestrator would have had to string-sniff
+# to make routing decisions -- fragile and impossible to reason about.
+#
+# Every domain agent built with create_domain_agent() now ends its run
+# through `finalize_node` (normal completion) or `give_up_node` (circuit
+# breaker tripped), both of which set state["status"] to one of:
+#   "success" - task was completed (or at least attempted normally)
+#   "replan"  - the agent believes this task doesn't belong to it / is
+#               not executable as specified, and a different plan or
+#               agent assignment is needed
+#   "failed"  - the agent got stuck (repeated identical failures, or
+#               repeated hard crashes) and gave up
+#
+# Replan detection here is a cheap heuristic on purpose (see the
+# orchestrator docstring for why): if the agent never called a single
+# tool AND its final message reads like a "this isn't something I can
+# do" refusal, treat it as a replan signal rather than a hard failure.
+# A missed detection just falls through to "success" and the
+# orchestrator treats the (possibly unhelpful) text as the answer --
+# safe default, not a crash.
+
+REPLAN_SIGNAL_PATTERNS = (
+    "not something i can do",
+    "not something i'm able to do",
+    "outside my scope",
+    "outside of my scope",
+    "cannot perform this",
+    "can't perform this",
+    "not able to complete this",
+    "isn't something i can do",
+    "wrong agent",
+    "not the right agent",
+    "i don't have the tools",
+    "i do not have the tools",
+    "not equipped to",
+    "this isn't a task for me",
+    "not a task i can handle",
+    "not within my capabilities",
+)
+
+
+def _looks_like_replan(content: str) -> bool:
+    text = (content or "").lower()
+    return any(pattern in text for pattern in REPLAN_SIGNAL_PATTERNS)
+
+
+def _has_any_tool_message(messages: list[BaseMessage]) -> bool:
+    return any(isinstance(m, ToolMessage) for m in messages)
+
 
 class AgentState(TypedDict, total=False):
     messages: Annotated[list[BaseMessage], add_messages]
@@ -55,6 +112,8 @@ class AgentState(TypedDict, total=False):
     repeat_count: int
     consecutive_hard_errors: int
     empty_count: int
+    status: str            # "success" | "replan" | "failed"
+    status_reason: str
 
 def _is_hard_error(content: Any) -> bool:
     return isinstance(content, str) and content.startswith(_HARD_ERROR_PREFIX)
@@ -174,6 +233,10 @@ def create_domain_agent(llm, tools, system_prompt: str, state_provider=None):
         never allowed to claim success it didn't earn -- this node holds
         the orchestrator to the same standard when *it* is the one
         stopping the run.
+
+        Sets status="failed" so the outer orchestrator's state machine
+        can route this task to its own give-up handling rather than
+        treating the explanation text as a successful result.
         """
         messages = state.get("messages", [])
         _, tool_msgs = _trailing_tool_round(messages)
@@ -191,7 +254,11 @@ def create_domain_agent(llm, tools, system_prompt: str, state_provider=None):
 
         log.warning("agent.give_up why=%s reason=%s", why, reason)
 
-        return {"messages": [AIMessage(content=content)]}
+        return {
+            "messages": [AIMessage(content=content)],
+            "status": "failed",
+            "status_reason": f"{why}. Last result: {reason}",
+        }
 
     def route_after_agent(state: AgentState):
         messages = state.get("messages", [])
@@ -207,7 +274,7 @@ def create_domain_agent(llm, tools, system_prompt: str, state_provider=None):
             if not already_nudged:
                 return "nudge_empty"
 
-        return END
+        return "finalize"
 
     def nudge_empty_node(state: AgentState):
         empty_count = state.get("empty_count", 0) + 1
@@ -227,8 +294,34 @@ def create_domain_agent(llm, tools, system_prompt: str, state_provider=None):
             "_empty_nudge_sent": True,
         }
 
+    def finalize_node(state: AgentState):
+        """
+        Runs on normal (non-circuit-breaker) completion. Classifies the
+        outcome as "success" or "replan":
 
-    
+        - "replan": the agent never called a single tool AND its final
+          message reads like a refusal/scope mismatch (see
+          REPLAN_SIGNAL_PATTERNS). Signals to the outer orchestrator
+          that this task needs a different plan or agent, not that it
+          crashed.
+        - "success": everything else -- normal completion, including
+          cases where tools were used. This is the safe default: a
+          missed replan detection just means the text is passed through
+          as the answer, exactly as before this change.
+        """
+        messages = state.get("messages", [])
+        last = messages[-1] if messages else None
+        content = getattr(last, "content", "") if last is not None else ""
+
+        if not _has_any_tool_message(messages) and _looks_like_replan(content):
+            log.info("agent.finalize.replan_detected preview=%s", str(content)[:200])
+            return {
+                "status": "replan",
+                "status_reason": (content or "").strip()[:300],
+            }
+
+        return {"status": "success", "status_reason": ""}
+
     tool_node = ToolNode(tools, handle_tool_errors=True)
 
     graph_builder = StateGraph(AgentState)
@@ -238,12 +331,14 @@ def create_domain_agent(llm, tools, system_prompt: str, state_provider=None):
     graph_builder.add_node("tools", tool_node)
     graph_builder.add_node("failure_check", failure_check_node)
     graph_builder.add_node("give_up", give_up_node)
+    graph_builder.add_node("finalize", finalize_node)
 
     graph_builder.add_edge(START, "agent")
     graph_builder.add_conditional_edges("agent", route_after_agent)
     graph_builder.add_edge("tools", "failure_check")
     graph_builder.add_conditional_edges("failure_check", route_after_failure_check)
     graph_builder.add_edge("give_up", END)
+    graph_builder.add_edge("finalize", END)
 
     return graph_builder.compile()
 
@@ -287,6 +382,3 @@ def create_router_agent(llm, system_prompt: str):
         tools=[],
         system_prompt=system_prompt
     )
-
-
-

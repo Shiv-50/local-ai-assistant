@@ -26,11 +26,12 @@ from src.prompts.web_agent import system_prompt as web_prompt
 from src.prompts.shell_agent import system_prompt as shell_prompt
 from src.prompts.vision_agent import system_prompt as vision_prompt
 from src.prompts.desktop_browser_agent import system_prompt as desktop_browser_prompt
+from src.prompts.desktop_agent import system_prompt as desktop_prompt
 
 from src.tools.system_tools import execute_shell_command
 from src.tools.vision_tools import analyze_screen_with_vision
 from src.tools.browser.browser_tool import BrowserTool, get_tools as get_browser_tools
-from src.tools.desktop.desktop_browser_tool import (
+from src.tools.desktop_browser.desktop_browser_tool import (
     DesktopAppTool,
     get_tools as get_desktop_browser_tools,
 )
