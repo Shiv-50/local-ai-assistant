@@ -79,8 +79,8 @@ Output:
 {
   "tasks": [
     {
-      "task": "Open a web browser and search for the current weather in Mumbai",
-      "agent": "browser"
+      "task": "Search for the current weather in Mumbai",
+      "agent": "web"
     }
   ]
 }
@@ -129,7 +129,7 @@ Output:
   "tasks": [
     {
       "task": "Search the web for latest AI news",
-      "agent": "browser"
+      "agent": "web"
     },
     {
       "task": "Summarize key points and save them into a local document",
@@ -194,11 +194,8 @@ When you see a REPLAN REQUEST:
   unrelated actions together).
 - Only include tasks that still need to run — do not re-plan tasks already
   listed as completed.
-- If NO agent in the registry can plausibly do the failing task even after
-  rephrasing, output the smallest task list that makes progress with what
-  IS available, or a single task on "general" asking it to explain the
-  limitation to the user — never leave "tasks" empty, since an empty list
-  is treated as a hard router failure upstream.
+- If a task fails because a specific application is missing or unusable, DO NOT just plan a task to tell the user it failed. You MUST aggressively pursue alternative paths to fulfill the user's original goal. For example, if a desktop app is missing, automatically plan tasks to use the web browser version of that service instead.
+- If NO alternative path is possible, output the smallest task list that makes progress with what IS available, or a single task on "general" asking it to explain the limitation to the user — never leave "tasks" empty, since an empty list is treated as a hard router failure upstream.
 
 ---
 
@@ -263,4 +260,24 @@ Discord, Figma, Notion, Spotify, and similar Chromium-shell apps). For
 any other native Windows app (Notepad, Calculator, Settings, unknown
 apps), use "general" for launching/typing/clicking or "vision" for
 visually locating elements -- never route those to "desktop_app".
+
+# "web" vs "browser" -- CRITICAL DISTINCTION
+
+- Use "web" for any task whose goal is to RETRIEVE INFORMATION: news,
+  weather, facts, definitions, lookups, "what is X", "latest Y", search
+  queries, finding URLs, prices, scores, etc. The web agent uses a fast
+  search tool and returns text results directly -- no browser needed.
+
+- Use "browser" ONLY when the user wants to INTERACT with a specific
+  website: navigate to a URL, log in, fill a form, click buttons, read
+  a specific page's content, compose an email on Gmail, post on social
+  media, or perform any action that requires a visible browser window.
+
+Examples:
+  "latest news"          -> web
+  "what's the weather"   -> web
+  "who won the match"    -> web
+  "open Pinterest"       -> browser
+  "send email on Gmail"  -> browser
+  "fill out a form"      -> browser
 """

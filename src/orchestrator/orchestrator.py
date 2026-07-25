@@ -335,7 +335,7 @@ class GraphOrchestrator:
         async for chunk in agent_graph.astream(
             {"messages": [("human", task_text)]},
             config={
-                "recursion_limit": 30,
+                "recursion_limit": 50,
                 "metadata": {"task_id": task_id}
             },
             stream_mode="values"
@@ -621,7 +621,7 @@ class GraphOrchestrator:
             "task": task_text,
             "agent": agent_name,
             "result": result.get("text", ""),
-            "status": result.get("status", "success"),
+            "status": result.get("task_status", "success"),
         }
 
         updates: dict = {
@@ -644,8 +644,9 @@ class GraphOrchestrator:
             updates["failed_attempts"] = [{"agent": agent_name, "task": task_text, "reason": reason}]
         elif result.get("status") == "failed":
             reason = result.get("status_reason") or "the agent gave up on this task"
-            updates["replan_reason"] = None
+            updates["replan_reason"] = reason
             updates["suggested_agent"] = None
+            updates["replan_count"] = state.get("replan_count", 0) + 1
             updates["failed_attempts"] = [{"agent": agent_name, "task": task_text, "reason": reason}]
         else:
             updates["replan_reason"] = None
@@ -662,13 +663,10 @@ class GraphOrchestrator:
         last_result = state.get("last_result", {}) or {}
         result_status = last_result.get("status", "success")
 
-        if result_status == "replan":
+        if result_status in ("replan", "failed"):
             if state.get("replan_count", 0) >= MAX_REPLANS:
                 return "give_up"
             return "router"
-
-        if result_status == "failed":
-            return "give_up"
 
         # success
         if state.get("pending_tasks"):
@@ -746,7 +744,7 @@ class GraphOrchestrator:
         try:
             final_state = self.graph.invoke(
                 initial_state,
-                config={"recursion_limit": 50, "metadata": {"task_id": task_id}},
+                config={"recursion_limit": 100, "metadata": {"task_id": task_id}},
             )
         except GraphRecursionError:
             log.exception("orchestrator.recursion_error")

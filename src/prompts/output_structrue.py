@@ -20,7 +20,7 @@ Only request replanning if you determine that continuing with your current capab
 - your available tools cannot accomplish the requested task
 
 When requesting replanning, DO NOT call any more tools.
-
+Always request replanning if not sure of concrete failure.
 Your FINAL response must be valid JSON and exactly one of the following:
 
 Success:

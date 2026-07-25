@@ -1,6 +1,7 @@
 import json
 import logging
 from typing import Annotated, Any, Optional, TypedDict
+from json_repair import repair_json
 
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
@@ -75,12 +76,35 @@ REPLAN_SIGNAL_PATTERNS = (
     "this isn't a task for me",
     "not a task i can handle",
     "not within my capabilities",
+    "unable to",
+    "i am unable to",
+    "i cannot",
+    "i can't",
+    "please provide"
 )
 
 
 def _looks_like_replan(content: str) -> bool:
     text = (content or "").lower()
-    return any(pattern in text for pattern in REPLAN_SIGNAL_PATTERNS)
+    
+    # Direct refusal / scope mismatch
+    if any(pattern in text for pattern in REPLAN_SIGNAL_PATTERNS):
+        return True
+        
+    # Conversational follow-ups (agent is asking for instructions instead of doing the task)
+    if "?" in text and any(phrase in text for phrase in [
+        "would you like",
+        "do you want",
+        "should i",
+        "is there another",
+        "what would you like",
+        "how would you like",
+        "can i help with",
+        "do you have another"
+    ]):
+        return True
+        
+    return False
 
 
 def _has_any_tool_message(messages: list[BaseMessage]) -> bool:
@@ -349,23 +373,30 @@ def create_domain_agent(llm, tools, system_prompt: str, state_provider=None):
     def finalize_node(state: AgentState):
         """
         Runs on normal (non-circuit-breaker) completion. Classifies the
-        outcome as "success" or "replan":
-
-        - "replan": the agent never called a single tool AND its final
-          message reads like a refusal/scope mismatch (see
-          REPLAN_SIGNAL_PATTERNS). Signals to the outer orchestrator
-          that this task needs a different plan or agent, not that it
-          crashed.
-        - "success": everything else -- normal completion, including
-          cases where tools were used. This is the safe default: a
-          missed replan detection just means the text is passed through
-          as the answer, exactly as before this change.
+        outcome as "success", "replan", or "failed".
         """
         messages = state.get("messages", [])
         last = messages[-1] if messages else None
         content = getattr(last, "content", "") if last is not None else ""
+        
+        # Parse the structured JSON output requested in output_prompt.py
+        try:
+            parsed = json.loads(repair_json(content))
+            if isinstance(parsed, dict):
+                status = parsed.get("status") or parsed.get("task_status")
+                if status in ("success", "replan", "failed", "failure"):
+                    if status == "failure":
+                        status = "failed"
+                    reason = parsed.get("reason") or parsed.get("response") or parsed.get("context") or ""
+                    return {
+                        "status": status,
+                        "status_reason": reason,
+                        "suggested_agent": parsed.get("suggested_agent")
+                    }
+        except Exception:
+            pass
 
-        if not _has_any_tool_message(messages) and _looks_like_replan(content):
+        if _looks_like_replan(content):
             log.info("agent.finalize.replan_detected preview=%s", str(content)[:200])
             return {
                 "status": "replan",
