@@ -72,6 +72,46 @@ def _append(left: Optional[list], right: Optional[list]) -> list:
     return (left or []) + (right or [])
 
 
+def _merge_dict(left: Optional[dict], right: Optional[dict]) -> dict:
+    """Reducer for dict-valued state channels: merge, don't overwrite.
+    Used for agent_task_attempts so each execute_node call can bump a
+    single key without clobbering counts other nodes already wrote."""
+    merged = dict(left or {})
+    merged.update(right or {})
+    return merged
+
+
+# =========================================================
+# LOOP ENGINEERING
+# =========================================================
+#
+# replan_count used to be the ONLY signal governing how long the
+# router/execute loop was allowed to keep going -- a flat counter capped
+# at MAX_REPLANS, with no memory of *what specifically* had already been
+# tried. Two consequences:
+#
+#   1. The router could (and in practice does) propose the exact same
+#      (agent, task) pairing that just failed, because nothing told it
+#      not to. That burns a full execute round -- a real LLM/tool
+#      invocation -- on a retry that is already known to be doomed.
+#   2. Even when the router did diversify, it had no记录 of *why* earlier
+#      attempts failed, so it couldn't reliably avoid re-treading the
+#      same ground with slightly reworded tasks (no record of *why*).
+#
+# agent_task_attempts (below) closes gap 1: execute_node checks it
+# BEFORE dispatching, so an exact repeat of a failed (agent, task) pair
+# is caught and fails fast -- no wasted execution, no waiting for
+# MAX_REPLANS to grind down.
+#
+# failed_attempts closes gap 2: every replan-worthy failure is recorded
+# with its agent, task, and reason, and the full list is fed back into
+# the router's prompt on every subsequent planning call, not just the
+# most recent one.
+
+def _attempt_key(agent_name: str, task_text: str) -> str:
+    return f"{agent_name}::{task_text}"
+
+
 class OrchestrationState(TypedDict, total=False):
     task_id: str
     user_goal: str
@@ -85,6 +125,10 @@ class OrchestrationState(TypedDict, total=False):
     replan_reason: Optional[str]
     suggested_agent: Optional[str]
     replan_count: int
+
+    # Loop-engineering additions -- see block above.
+    agent_task_attempts: Annotated[Dict[str, int], _merge_dict]
+    failed_attempts: Annotated[List[dict], _append]
 
     status: str            # "running" | "done" | "failed"
     response: str
@@ -171,6 +215,7 @@ class GraphOrchestrator:
         completed_tasks: Optional[list] = None,
         replan_reason: Optional[str] = None,
         suggested_agent: Optional[str] = None,
+        failed_attempts: Optional[list] = None,
     ):
         registry_block = "\n\nAVAILABLE AGENTS:\n\n"
 
@@ -212,6 +257,20 @@ class GraphOrchestrator:
                 "system",
                 "Tasks already completed successfully earlier in this run "
                 f"(do not repeat these):\n{completed_block}",
+            ))
+
+        if failed_attempts:
+            failed_block = "\n".join(
+                f"- agent '{f.get('agent')}' FAILED this task: {f.get('task')} "
+                f"(reason: {str(f.get('reason', ''))[:200]})"
+                for f in failed_attempts
+            )
+            messages.append((
+                "system",
+                "Agent assignments already tried and FAILED earlier in this run "
+                "(do not reassign the identical agent to an equivalent task "
+                "unless you materially change the task description to address "
+                "the failure reason):\n" + failed_block,
             ))
 
         if replan_reason:
@@ -356,6 +415,7 @@ class GraphOrchestrator:
             completed_tasks=state.get("completed_tasks", []),
             replan_reason=state.get("replan_reason"),
             suggested_agent=state.get("suggested_agent"),
+            failed_attempts=state.get("failed_attempts", []),
         )
 
         try:
@@ -443,16 +503,52 @@ class GraphOrchestrator:
 
         if not agent_meta:
             events.append({"type": "missing_agent", "data": {"agent": agent_name}})
+            reason = f"Task '{task_text}' was assigned to agent '{agent_name}', which does not exist in the registry."
             return {
                 "pending_tasks": pending,
                 "current_task": task,
-                "last_result": {"status": "replan", "reason": f"Unknown agent '{agent_name}'"},
-                "replan_reason": (
-                    f"Task '{task_text}' was assigned to agent '{agent_name}', "
-                    "which does not exist in the registry."
-                ),
+                "last_result": {"status": "replan", "reason": reason},
+                "replan_reason": reason,
                 "suggested_agent": None,
                 "replan_count": state.get("replan_count", 0) + 1,
+                "failed_attempts": [{"agent": agent_name, "task": task_text, "reason": reason}],
+                "events": events,
+            }
+
+       
+        attempts = dict(state.get("agent_task_attempts", {}))
+        key = _attempt_key(agent_name, task_text)
+        prior_attempts = attempts.get(key, 0)
+
+        if prior_attempts >= 1:
+            events.append({
+                "type": "cycle_detected",
+                "data": {"agent": agent_name, "task": task_text, "prior_attempts": prior_attempts},
+            })
+            log.warning(
+                "orchestrator.cycle_detected",
+                agent=agent_name,
+                task=task_text[:160],
+                prior_attempts=prior_attempts,
+            )
+            return {
+                "pending_tasks": pending,
+                "current_task": task,
+                "agent_task_attempts": {key: prior_attempts + 1},
+                "last_result": {
+                    "status": "failed",
+                    "reason": (
+                        f"Cycle detected: agent '{agent_name}' was already assigned "
+                        "this exact task earlier in this run and it did not succeed. "
+                        "Retrying it unchanged would not help."
+                    ),
+                },
+                "status": "failed",
+                "response": (
+                    "I couldn't complete this request: the plan kept reassigning the "
+                    f"same task to '{agent_name}' after it already failed once, so I'm "
+                    "stopping instead of repeating a step that isn't working."
+                ),
                 "events": events,
             }
 
@@ -478,12 +574,13 @@ class GraphOrchestrator:
                 mcp_manager.loop
             )
             result = future.result(timeout=TIMEOUTS.LLM_INFERENCE)
-
+            log.debug(f"agent_name: {agent_name}\n response: {result}")
         except concurrent.futures.TimeoutError:
             events.append({"type": "timeout", "data": {"task": task_text}})
             return {
                 "pending_tasks": pending,
                 "current_task": task,
+                "agent_task_attempts": {key: prior_attempts + 1},
                 "last_result": {"status": "failed", "reason": "timed out"},
                 "status": "failed",
                 "response": "Execution timed out.",
@@ -495,6 +592,7 @@ class GraphOrchestrator:
             return {
                 "pending_tasks": pending,
                 "current_task": task,
+                "agent_task_attempts": {key: prior_attempts + 1},
                 "last_result": {"status": "failed", "reason": "recursion limit exceeded"},
                 "status": "failed",
                 "response": "Task exceeded execution limits.",
@@ -510,6 +608,7 @@ class GraphOrchestrator:
             return {
                 "pending_tasks": pending,
                 "current_task": task,
+                "agent_task_attempts": {key: prior_attempts + 1},
                 "last_result": {"status": "failed", "reason": str(e)},
                 "status": "failed",
                 "response": "Internal error.",
@@ -529,17 +628,25 @@ class GraphOrchestrator:
             "pending_tasks": pending,
             "current_task": task,
             "completed_tasks": [completed_entry],
+            "agent_task_attempts": {key: prior_attempts + 1},
             "last_result": result,
             "events": events,
         }
 
         if result.get("status") == "replan":
-            updates["replan_reason"] = (
+            reason = (
                 result.get("status_reason")
                 or f"The '{agent_name}' agent indicated task '{task_text}' needs a different plan."
             )
+            updates["replan_reason"] = reason
             updates["suggested_agent"] = result.get("suggested_agent")
             updates["replan_count"] = state.get("replan_count", 0) + 1
+            updates["failed_attempts"] = [{"agent": agent_name, "task": task_text, "reason": reason}]
+        elif result.get("status") == "failed":
+            reason = result.get("status_reason") or "the agent gave up on this task"
+            updates["replan_reason"] = None
+            updates["suggested_agent"] = None
+            updates["failed_attempts"] = [{"agent": agent_name, "task": task_text, "reason": reason}]
         else:
             updates["replan_reason"] = None
             updates["suggested_agent"] = None
@@ -627,6 +734,8 @@ class GraphOrchestrator:
             "replan_reason": None,
             "suggested_agent": None,
             "replan_count": 0,
+            "agent_task_attempts": {},
+            "failed_attempts": [],
             "status": "running",
             "response": "",
             "events": [{"type": "task_started", "data": {"query": state.get("user_goal", "")}}],

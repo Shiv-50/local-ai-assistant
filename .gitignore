@@ -221,6 +221,8 @@ __marimo__/
 .playwright-cli/
 browser_data/
 memory/
+assistant.log 
+
 #image screenshots
 .png
 .jpg

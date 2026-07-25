@@ -31,7 +31,11 @@ from src.tools.mouse_tools import (
     get_screen_size,
 )
 from src.tools.vision_tools import analyze_screen_with_vision
-
+from src.tools.desktop_snapshot import (
+    desktop_snapshot,
+    click_element_by_ref,
+    type_into_element_by_ref,
+)
 # IMPORTANT: memory tool removed from agent space (intentional fix)
 
 
@@ -109,15 +113,15 @@ open_url_in_browser = _enhance_tool(
 type_text = _enhance_tool(
     type_text,
     "Type text into the currently focused input field.",
-    "Only after user explicitly needs text entry in UI.",
-    "Do NOT use without ensuring correct focus window is active.",
+    "Only after user explicitly needs text entry in UI, and only when no desktop_snapshot ref is available for the target field.",
+    "Do NOT use without ensuring correct focus window is active. Prefer type_into_element_by_ref if a recent desktop_snapshot ref exists — it guarantees text lands in the intended field instead of wherever OS focus happens to be.",
 )
 
 press_hotkey = _enhance_tool(
     press_hotkey,
     "Press keyboard shortcut combinations.",
-    "For known shortcuts like Ctrl+C, Ctrl+V, Alt+Tab.",
-    "Do NOT use for free-form typing.",
+    "For known shortcuts like Ctrl+C, Ctrl+V, Alt+Tab. Format: lowercase, plus-separated, e.g. 'ctrl+f', 'ctrl+shift+p', 'alt+tab'.",
+    "Do NOT use for free-form typing. Do NOT use curly-brace syntax like '{CTRL}{F}' — that belongs to type_into_element_by_ref, not this tool.",
 )
 
 press_key = _enhance_tool(
@@ -149,9 +153,8 @@ mouse_click = _enhance_tool(
     mouse_click,
     "Click at a specific screen coordinate.",
     "Only after visual confirmation of UI element position.",
-    "Do NOT guess coordinates without vision tool confirmation.",
+    "Do NOT guess coordinates without vision tool confirmation. Prefer click_element_by_ref if a recent desktop_snapshot ref exists for the target element.",
 )
-
 mouse_move = _enhance_tool(
     mouse_move,
     "Move mouse cursor to coordinates.",
@@ -183,11 +186,34 @@ analyze_screen_with_vision = _enhance_tool(
     "ONLY when you need to identify UI elements, confirm state, or locate buttons.",
     "Do NOT use if task can be completed via known actions or already structured data.",
 )
+# =========================================================
+# DESKTOP SNAPSHOT TOOLS (UI ELEMENT TARGETING)
+# =========================================================
+
+desktop_snapshot = _enhance_tool(
+    desktop_snapshot,
+    "Scan the active window's UI elements and return refs (e1, e2, ...) with names, types, and coordinates.",
+    "ALWAYS call this before clicking or typing into anything you have not just interacted with. Also use after any click/type/navigation, since refs go stale.",
+    "Do NOT reuse refs from a previous snapshot after the screen has changed — take a fresh snapshot instead.",
+)
+
+click_element_by_ref = _enhance_tool(
+    click_element_by_ref,
+    "Click a specific UI element using a ref returned by desktop_snapshot.",
+    "You have a ref from a recent desktop_snapshot call and need to click that exact element.",
+    "Do NOT use without a valid, fresh ref. Do NOT guess a ref that wasn't returned by the most recent desktop_snapshot.",
+)
+
+type_into_element_by_ref = _enhance_tool(
+    type_into_element_by_ref,
+    "Type text into a specific UI element using a ref returned by desktop_snapshot.",
+    "You have a ref for the exact input field (search box, message box, etc.) you want to type into.",
+    "Do NOT use without a valid, fresh ref from desktop_snapshot. Prefer this over the generic type_text tool whenever a ref is available.",
+)
 
 # =========================================================
 # TOOL GROUPING
 # =========================================================
-
 STATIC_TOOLS = [
     launch_application,
     search_installed_apps,
@@ -205,6 +231,9 @@ STATIC_TOOLS = [
     get_mouse_position,
     get_screen_size,
     analyze_screen_with_vision,
+    desktop_snapshot,
+    click_element_by_ref,
+    type_into_element_by_ref,
 ]
 
 def build_general_tools(search_tools=None):

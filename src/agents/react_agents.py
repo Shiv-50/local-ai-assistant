@@ -8,45 +8,26 @@ from langgraph.prebuilt import ToolNode
 from langchain_core.messages import AIMessage, BaseMessage, SystemMessage, ToolMessage
 
 from src.tools.all_tools import build_general_tools
+from src.prompts.replan_prompt import replan_prompt
+from src.prompts.output_prompt import output_prompt
 
 log = logging.getLogger(__name__)
 
-# =========================================================
-# FAILURE-LOOP CIRCUIT BREAKER
-# =========================================================
-#
-# Root cause this fixes: the graph state used to be a plain `dict`, so
-# when ToolNode returned {"messages": [<new tool messages>]}, LangGraph
-# REPLACED the whole "messages" list instead of appending to it (plain
-# dict channels are last-write-wins, they don't know how to merge lists).
-# That silently wiped the conversation history after every single tool
-# call: the next agent turn only saw a bare ToolMessage with no matching
-# AIMessage.tool_calls before it, and no memory of the original request.
-#
-# Depending on the model backend, that either raised a message-ordering
-# error, or just confused the model into re-issuing the same (or a
-# similar) tool call turn after turn, since it no longer remembered
-# having tried it -- a "task failure loop" that only ever ended when the
-# graph's recursion_limit was exhausted and a GraphRecursionError blew up
-# the whole run with no useful explanation.
-#
-# Fix: use a real reducer (`add_messages`) for the messages channel so
-# state is merged/appended correctly, and add an explicit circuit
-# breaker that watches for repeated failures *inside* the graph so a
-# stuck agent stops itself early with an honest explanation instead of
-# quietly grinding through retries until it crashes.
 
-# Guaranteed prefix on any tool call that raised an unhandled exception
-# (see src/tools/base.py: safe_tool()).
 _HARD_ERROR_PREFIX = "Error executing tool"
 
-# Stop after the agent issues the exact same tool call (name + args) this
-# many times back-to-back without the outcome changing.
+
 SAME_ACTION_REPEAT_LIMIT = 2
 
 # Stop after this many consecutive rounds where every tool call in the
 # round hard-errored (crashed), even if the calls themselves varied.
 CONSECUTIVE_HARD_ERROR_LIMIT = 3
+
+# How many rounds of action signatures to keep for cycle detection.
+ACTION_HISTORY_WINDOW = 4
+
+# Stop after this many detected A, B, A, B, ... alternations.
+CYCLE_REPEAT_LIMIT = 2
 
 # =========================================================
 # STRUCTURED OUTCOME DETECTION (for the outer orchestrator)
@@ -111,6 +92,8 @@ class AgentState(TypedDict, total=False):
     last_action_signature: Any
     repeat_count: int
     consecutive_hard_errors: int
+    action_history: list
+    cycle_repeat_count: int
     empty_count: int
     status: str            # "success" | "replan" | "failed"
     status_reason: str
@@ -181,22 +164,23 @@ def create_domain_agent(llm, tools, system_prompt: str, state_provider=None):
 
     def agent_node(state: AgentState):
         messages = state.get("messages", [])
-        prompt = system_prompt
+        prompt = system_prompt + "\n\n" + replan_prompt + "\n\n" + output_prompt
         if state_provider:
             try:
-                prompt = f"{system_prompt}\n\n{state_provider()}"
+                prompt = f"{prompt}\n\n{state_provider()}"
             except Exception:
                 log.exception("state_provider failed")
         system_msg = SystemMessage(content=prompt)
-
         response = model_with_tools.invoke([system_msg] + list(messages))
         return {"messages": [response]}
-    
+
     def failure_check_node(state: AgentState):
         """
-        Runs after every tool round. Detects two loop patterns:
-        1. The exact same tool call repeated back-to-back.
+        Runs after every tool round. Detects three loop patterns:
+        1. The exact same tool call repeated back-to-back (A, A).
         2. Tool calls that keep hard-crashing, round after round.
+        3. A short alternating cycle (A, B, A, B, ...) that never shows
+           up as an immediate repeat but is just as stuck.
         """
         messages = state.get("messages", [])
         triggering_ai, tool_msgs = _trailing_tool_round(messages)
@@ -210,13 +194,30 @@ def create_domain_agent(llm, tools, system_prompt: str, state_provider=None):
         prev_signature = state.get("last_action_signature")
         prev_repeat = state.get("repeat_count", 0)
         prev_hard_errors = state.get("consecutive_hard_errors", 0)
+        prev_cycle_repeat = state.get("cycle_repeat_count", 0)
+        history = list(state.get("action_history", []))
 
         same_as_last_time = signature is not None and signature == prev_signature
+
+        # Period-2 cycle: two rounds back was this exact same action,
+        # but it's NOT an immediate repeat (that's already covered by
+        # same_as_last_time above) -- i.e. A, B, A.
+        cycle_detected = (
+            not same_as_last_time
+            and signature is not None
+            and len(history) >= 2
+            and history[-2] == signature
+        )
+
+        history.append(signature)
+        history = history[-ACTION_HISTORY_WINDOW:]
 
         return {
             "last_action_signature": signature,
             "repeat_count": prev_repeat + 1 if same_as_last_time else 0,
             "consecutive_hard_errors": prev_hard_errors + 1 if all_hard_errors else 0,
+            "cycle_repeat_count": prev_cycle_repeat + 1 if cycle_detected else 0,
+            "action_history": history,
         }
 
     def route_after_failure_check(state: AgentState):
@@ -224,7 +225,56 @@ def create_domain_agent(llm, tools, system_prompt: str, state_provider=None):
             return "give_up"
         if state.get("consecutive_hard_errors", 0) >= CONSECUTIVE_HARD_ERROR_LIMIT:
             return "give_up"
+        if state.get("cycle_repeat_count", 0) >= CYCLE_REPEAT_LIMIT:
+            return "give_up"
+
+        # One corrective nudge per streak, right before it would trip the
+        # limit above. repeat_count/cycle_repeat_count only ever equal 1
+        # on the single round right after the pattern first emerges, so
+        # this fires exactly once per streak -- not on every round.
+        if state.get("repeat_count", 0) == 1:
+            return "retry_nudge"
+        if state.get("cycle_repeat_count", 0) == 1:
+            return "retry_nudge"
+
         return "agent"
+
+    def retry_nudge_node(state: AgentState):
+        """
+        Gives the model one chance to self-correct before the circuit
+        breaker gives up: names exactly what failed (or what pattern
+        it's stuck in) and asks for a different action, instead of
+        either silently retrying it again or killing the run outright.
+        """
+        messages = state.get("messages", [])
+        _, tool_msgs = _trailing_tool_round(messages)
+        reason = _summarize_failure(tool_msgs)
+
+        if state.get("cycle_repeat_count", 0) == 1:
+            nudge_text = (
+                "You appear to be alternating between the same actions "
+                f"without making progress (last result: {reason}). Stop "
+                "repeating this pattern -- either try a genuinely "
+                "different action, verify the current state first, or "
+                "explain why you cannot proceed."
+            )
+        else:
+            nudge_text = (
+                f"That exact action just failed or made no progress "
+                f"(last result: {reason}). Do not repeat it unchanged -- "
+                "try a different action, verify the current state first, "
+                "or explain why you cannot proceed if nothing else will "
+                "work."
+            )
+
+        log.info(
+            "agent.retry_nudge repeat_count=%s cycle_repeat_count=%s reason=%s",
+            state.get("repeat_count", 0),
+            state.get("cycle_repeat_count", 0),
+            reason,
+        )
+
+        return {"messages": [("human", nudge_text)]}
 
     def give_up_node(state: AgentState):
         """
@@ -244,6 +294,8 @@ def create_domain_agent(llm, tools, system_prompt: str, state_provider=None):
 
         if state.get("repeat_count", 0) >= SAME_ACTION_REPEAT_LIMIT:
             why = "the same action failed repeatedly with no change in outcome"
+        elif state.get("cycle_repeat_count", 0) >= CYCLE_REPEAT_LIMIT:
+            why = "the agent kept alternating between the same actions without progress"
         else:
             why = "the tool kept crashing on consecutive attempts"
 
@@ -330,6 +382,7 @@ def create_domain_agent(llm, tools, system_prompt: str, state_provider=None):
     graph_builder.add_node("agent", agent_node)
     graph_builder.add_node("tools", tool_node)
     graph_builder.add_node("failure_check", failure_check_node)
+    graph_builder.add_node("retry_nudge", retry_nudge_node)
     graph_builder.add_node("give_up", give_up_node)
     graph_builder.add_node("finalize", finalize_node)
 
@@ -337,6 +390,7 @@ def create_domain_agent(llm, tools, system_prompt: str, state_provider=None):
     graph_builder.add_conditional_edges("agent", route_after_agent)
     graph_builder.add_edge("tools", "failure_check")
     graph_builder.add_conditional_edges("failure_check", route_after_failure_check)
+    graph_builder.add_edge("retry_nudge", "agent")
     graph_builder.add_edge("give_up", END)
     graph_builder.add_edge("finalize", END)
 
