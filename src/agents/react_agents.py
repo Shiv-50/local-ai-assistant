@@ -195,7 +195,28 @@ def create_domain_agent(llm, tools, system_prompt: str, state_provider=None):
             except Exception:
                 log.exception("state_provider failed")
         system_msg = SystemMessage(content=prompt)
-        response = model_with_tools.invoke([system_msg] + list(messages))
+
+        # Task reminder: re-inject the original task when the conversation
+        # gets long enough that it might scroll out of the context window.
+        # This prevents the model from losing track of what it's supposed
+        # to do (e.g. searching for "Rock music" instead of "Iris").
+        original_task = ""
+        for msg in messages:
+            if isinstance(msg, BaseMessage) and msg.type == "human":
+                original_task = msg.content
+                break
+
+        augmented_messages = list(messages)
+        if len(messages) > 6 and original_task:
+            reminder = SystemMessage(
+                content=(
+                    "TASK REMINDER — do not lose sight of this, it is your "
+                    f"primary objective:\n{original_task}"
+                )
+            )
+            augmented_messages.append(reminder)
+
+        response = model_with_tools.invoke([system_msg] + augmented_messages)
         return {"messages": [response]}
 
     def failure_check_node(state: AgentState):

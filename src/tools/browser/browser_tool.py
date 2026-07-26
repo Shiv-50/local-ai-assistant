@@ -89,7 +89,7 @@ class BrowserTool:
                 "last_action": self.state.last_action,
                 "completed_steps": self.state.completed_steps[-10:],
             },
-            "snapshot": snapshot.output[:10000] if snapshot else None,
+            "snapshot": snapshot.output if snapshot else None,
         }
     
     def describe_state(self) -> str:
